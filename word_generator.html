@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="styles\styles.css">
+<title>Typing Tips</title>
+</head>
+<body onload="setWordset();setLength();setExcludingLetters();setExcludingStrings();setIncludingLetters();setIncludingStrings();setLayout();setDoAlternate();setDoFingerSwitches();setDoRowSwitches();setHand()">
+<header>
+<h1>Word Generator</h1>
+</header>
+<form>
+    <label for="wordset">Choose the wordset here</label>
+    <select id="wordset" onchange="setWordset()">
+        <option value="Top 200">Top 200</option>
+        <option value="Top 1000">Top 1000</option>
+        <option value="Top 10k">Top 10k</option>
+    </select>
+    <br>
+    <label for="layout">Choose the layout here</label>
+    <select id="layout" onchange="setLayout()">
+        <option value="Qwerty">Qwerty</option>
+        <option value="Qwertz">Qwertz</option>
+        <option value="Colemak">Colemak</option>
+        <option value="Dvorak">Dvorak</option>
+    </select>
+    <br>
+    <label for="hand">Choose which hand/s</label>
+    <select id="hand" onchange="setHand()">
+        <option value="both">Both</option>
+        <option value="left">Left</option>
+        <option value="right">Right</option>
+    </select>
+    <br>
+    <label for="min">Min-Length</label>
+    <input type="number" id="min" value=1 onchange="setLength()" min=1>
+    <br>
+    <label for="max">Max-Length</label>
+    <input type="number" id="max" value=30 onchange="setLength()" min=1>
+    <br>
+    <label for="excluding_letters">Excluding Letters</label>
+    <input type="text" id="excluding_letters" onchange="setExcludingLetters()">
+    <br>
+    <label for="excluding_letters">Excluding Strings</label>
+    <input type="text" id="excluding_strings" onchange="setExcludingStrings()">
+    <br>
+    <label for="including_letters">Including Letters</label>
+    <input type="text" id="including_letters" onchange="setIncludingLetters()">
+    <br>
+    <label for="including_strings">Including Strings</label>
+    <input type="text" id="including_strings" onchange="setIncludingStrings()">
+    <br>
+    <label for="doAlternate">Alternate Hands</label>
+    <input type="checkbox" id="doAlternate" onchange="setDoAlternate()">
+    <br>
+    <label for="doAlternate">Alternate Fingers</label>
+    <input type="checkbox" id="doFingerSwitches" onchange="setDoFingerSwitches()">
+    <br>
+    <label for="doAlternate">Alternate Rows</label>
+    <input type="checkbox" id="doRowSwitches" onchange="setDoRowSwitches()">
+</form>
+<p><button onclick="filterTheWords()">Filter</button> <button id="copy" onclick="copy()">Copy</button></p>
+
+<textarea id="result">
+
+</textarea>
+
+
+<script src="js/words.js"></script>
+<script src="js/index.js"></script>
+<script src="js/layouts.js"></script>
+</body>
+</html>
