@@ -21,3 +21,30 @@ header {
 #copy {
 	visibility: hidden;
 }
+
+input {
+	margin: 3px;	
+}
+
+input:focus {
+	margin: 3px;
+	outline: none;	
+}
+
+button {
+	background-color: rgb(240, 65, 118);
+	color: white;
+	border: none;
+	border-radius: 20em;
+	font-size: 3em;
+	padding: 10px;
+	margin-left: 10px;
+}
+
+button:hover {
+	background-color: rgb(255, 0, 76);
+}
+
+button:focus {
+	outline: none;
+}

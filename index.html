@@ -4,13 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="styles\styles.css">
-<title>Typing Tips</title>
+<title>Words Filter</title>
 </head>
 <body onload="setWordset();setLength();setExcludingLetters();setExcludingStrings();setIncludingLetters();setIncludingStrings();setLayout();setDoAlternate();setDoFingerSwitches();setDoRowSwitches();setHand()">
 <header>
 <h1>Words Filter</h1>
 </header>
-<form>
+<div id="form">
+<form autocomplete="off">
     <label for="wordset">Choose the wordset here</label>
     <select id="wordset" onchange="setWordset()">
         <option value="Top 200">Top 200</option>
@@ -40,16 +41,16 @@
     <input type="number" id="max" value=30 onchange="setLength()" min=1>
     <br>
     <label for="excluding_letters">Excluding Letters</label>
-    <input type="text" id="excluding_letters" onchange="setExcludingLetters()">
+    <input type="text" id="excluding_letters" placeholder="xzq" onchange="setExcludingLetters()">
     <br>
-    <label for="excluding_letters">Excluding Strings</label>
-    <input type="text" id="excluding_strings" onchange="setExcludingStrings()">
+    <label for="excluding_letters">Excluding n-grams</label>
+    <input type="text" id="excluding_strings" placeholder="lo, ki, ed" onchange="setExcludingStrings()">
     <br>
     <label for="including_letters">Including Letters</label>
-    <input type="text" id="including_letters" onchange="setIncludingLetters()">
+    <input type="text" id="including_letters" placeholder="ta" onchange="setIncludingLetters()">
     <br>
-    <label for="including_strings">Including Strings</label>
-    <input type="text" id="including_strings" onchange="setIncludingStrings()">
+    <label for="including_strings">Including n-grams</label>
+    <input type="text" id="including_strings" placeholder="en, ste" onchange="setIncludingStrings()">
     <br>
     <label for="doAlternate">Alternate Hands</label>
     <input type="checkbox" id="doAlternate" onchange="setDoAlternate()">
@@ -60,8 +61,10 @@
     <label for="doAlternate">Alternate Rows</label>
     <input type="checkbox" id="doRowSwitches" onchange="setDoRowSwitches()">
 </form>
-<p><button onclick="filterTheWords()">Filter</button> <button id="copy" onclick="copy()">Copy</button></p>
-
+</div>
+<div id="buttons">
+<p></p><button onclick="filterTheWords()">Filter</button> <button id="copy" onclick="copy()">Copy</button></p>
+</div>
 <textarea id="result">
 
 </textarea>
