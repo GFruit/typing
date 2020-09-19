@@ -190,6 +190,7 @@ function excludeLetters () {
     var discardWord;
     var filtered = [];
     for (word of arguments[0]) {
+        word = word.toLowerCase();
         discardWord = false;
         for (letter of word) {
             if (discardWord == true) {
@@ -220,6 +221,7 @@ function excludeStrings (/*wordset*/) {
     var discardWord;
     var filtered = [];
     for (word of arguments[0]) {
+        word = word.toLowerCase();
         discardWord = false;
         for (excluded_string of excluded_strings) {
             if (discardWord == true) {
@@ -256,6 +258,7 @@ function includeLetters () {
     var validWord;
     var filtered = [];
     for (word of arguments[0]) {
+        word = word.toLowerCase();
         validWord = false;
         for (letter of word) {
             if (validWord == true) {
@@ -285,6 +288,7 @@ function includeStrings () {
     var validWord;
     var filtered = [];
     for (word of arguments[0]) {
+        word = word.toLowerCase();
         validWord = false;
         for (included_string of included_strings) {
             if (validWord == true) {
@@ -321,6 +325,7 @@ function alternate() {
     var previous;
     var filtered = [];
     for (word of arguments[0]) {
+        word = word.toLowerCase();
         validWord = true;
         previous = "";
         for (letter of word) {
@@ -361,6 +366,7 @@ function finger_switches() {
     var pinkyLetter;
     var filtered = [];
     for (word of arguments[0]) {
+        word = word.toLowerCase();
         previous = "";
         validWord = true;
         for (letter of word) {
@@ -405,6 +411,7 @@ function row_switches() {
     var bottomLetter;
     var filtered = [];
     for (word of arguments[0]) {
+        word = word.toLowerCase();
         previous = "";
         validWord = true;
         for (letter of word) {
@@ -442,6 +449,7 @@ function one_hand() {
     }
     if (hand == "left") {
         for (word of arguments[0]) {
+            word = word.toLowerCase();
             validWord = true;
             for (letter of word) {
                 if (validWord == false) {
