@@ -1,13 +1,18 @@
 * {
 	box-sizing: border-box;
+	font-family: monospace;
 }
 body {
 	background:rgb(36, 32, 32);
 	color: white;
 }
-header {
-	background-color: rgb(240, 65, 118);
+
+h1 {
+	color: rgb(240, 65, 118);
+	text-align: center;
+	font-size: 3em;
 }
+
 #result {
 	width: 100%;
 	height: 200vh;
@@ -22,13 +27,38 @@ header {
 	visibility: hidden;
 }
 
-input {
-	margin: 3px;	
+input, select {
+	margin: 3px;
+	border-radius: 5px;
+	border-color: rgb(240, 65, 118);
+	border-width: 3px;
 }
 
 input:focus {
 	margin: 3px;
 	outline: none;	
+}
+
+input[type="checkbox"] {
+	margin-left: 17px;
+	margin-right: 17px;
+	margin-bottom: 17px;
+}
+
+input[type="checkbox"]:hover {
+	color: rgb(240, 65, 118);
+}
+
+select:focus {
+	outline: none;
+}
+
+#min, #max {
+	max-width: 40px;
+}
+
+#buttons {
+	text-align: center;
 }
 
 button {
@@ -47,4 +77,16 @@ button:hover {
 
 button:focus {
 	outline: none;
+}
+
+form {
+	text-align: center;
+}
+
+#status {
+	text-align: center;
+}
+
+#result {
+	text-align: center;
 }

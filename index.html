@@ -12,14 +12,16 @@
 </header>
 <div id="form">
 <form autocomplete="off">
-    <label for="wordset">Choose the wordset here</label>
+    <label for="wordset">Wordset</label>
+    <br>
     <select id="wordset" onchange="setWordset()">
         <option value="Top 200">Top 200</option>
         <option value="Top 1000">Top 1000</option>
         <option value="Top 10k">Top 10k</option>
     </select>
     <br>
-    <label for="layout">Choose the layout here</label>
+    <label for="layout">Layout</label>
+    <br>
     <select id="layout" onchange="setLayout()">
         <option value="Qwerty">Qwerty</option>
         <option value="Qwertz">Qwertz</option>
@@ -27,43 +29,46 @@
         <option value="Dvorak">Dvorak</option>
     </select>
     <br>
-    <label for="hand">Choose which hand/s</label>
+    <label for="hand">Hand/s</label>
+    <br>
     <select id="hand" onchange="setHand()">
         <option value="both">Both</option>
         <option value="left">Left</option>
         <option value="right">Right</option>
     </select>
     <br>
-    <label for="min">Min-Length</label>
-    <input type="number" id="min" value=1 onchange="setLength()" min=1>
+    <label for="min">Min-Length</label> / <label for="max">Max-Length</label>
     <br>
-    <label for="max">Max-Length</label>
+    <input type="number" id="min" value=1 onchange="setLength()" min=1>
     <input type="number" id="max" value=30 onchange="setLength()" min=1>
     <br>
     <label for="excluding_letters">Excluding Letters</label>
+    <br>
     <input type="text" id="excluding_letters" placeholder="en, st" onchange="setExcludingLetters()">
     <br>
     <label for="excluding_letters">Excluding n-grams</label>
+    <br>
     <input type="text" id="excluding_strings" placeholder="lo, ki, ed" onchange="setExcludingStrings()">
     <br>
     <label for="including_letters">Including Letters</label>
+    <br>
     <input type="text" id="including_letters" placeholder="aa, pp" onchange="setIncludingLetters()">
     <br>
     <label for="including_strings">Including n-grams</label>
+    <br>
     <input type="text" id="including_strings" placeholder="en, ste" onchange="setIncludingStrings()">
     <br>
-    <label for="doAlternate">Alternate Hands</label>
+    Alternate...
+    <br>
+    <label for="doAlternate">Hands</label> / <label for="doFingerSwitches">Fingers</label> / <label for="doRowSwitches">Rows</label>
+    <br>
     <input type="checkbox" id="doAlternate" onchange="setDoAlternate()">
-    <br>
-    <label for="doFingerSwitches">Alternate Fingers</label>
     <input type="checkbox" id="doFingerSwitches" onchange="setDoFingerSwitches()">
-    <br>
-    <label for="doRowSwitches">Alternate Rows</label>
     <input type="checkbox" id="doRowSwitches" onchange="setDoRowSwitches()">
 </form>
 </div>
 <div id="buttons">
-<p></p><button onclick="filterTheWords()">Filter</button> <button id="copy" onclick="copy()">Copy</button><button id="reset" onclick="reset()">Reset</button></p>
+    <button id="copy" onclick="copy()">Copy</button><button onclick="filterTheWords()">Filter</button><button id="reset" onclick="reset()">Reset</button></p>
 </div>
 <div id="status"></div>
 <textarea id="result" spellcheck="false" ></textarea>
