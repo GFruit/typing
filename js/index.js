@@ -504,6 +504,7 @@ function copy() {
 function reset() {
     document.getElementById('wordset').value = "Top 200";
     document.getElementById('layout').value = "Qwerty";
+    document.getElementById('hand').value = "both";
     document.getElementById('min').value = 1;
     document.getElementById('max').value = 30;
     document.getElementById('excluding_letters').value = "";
@@ -517,6 +518,7 @@ function reset() {
     document.getElementById('status').innerHTML = "Successully Reset";
     wordset = "Top 200";
     layout = "Qwerty";
+    hand = "both";
     min = 1;
     max = 30;
     excluded_letters = "";
