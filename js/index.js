@@ -55,6 +55,17 @@ function setExcludingStrings() {
 
 function setIncludingLetters() {
     included_letters = document.getElementById("including_letters").value;
+    if (included_letters.length == 0) {
+        return;
+    } else {
+        included_letters = included_letters.split(",");
+        var trimmed = [];
+        for (string of included_letters) {
+            trimmed.push(string.trim());
+        }
+        included_letters = trimmed;
+        console.log(included_letters);
+    }
 }
 
 function setIncludingStrings() {
@@ -62,12 +73,12 @@ function setIncludingStrings() {
     if (included_strings.length == 0) {
         return;
     } else {
-    included_strings = included_strings.split(",");
-    var trimmed = [];
-    for (string of included_strings) {
-        trimmed.push(string.trim());
-    }
-    included_strings = trimmed;
+        included_strings = included_strings.split(",");
+        var trimmed = [];
+        for (string of included_strings) {
+            trimmed.push(string.trim());
+        }
+        included_strings = trimmed;
     }
 }
 
@@ -255,27 +266,48 @@ function includeLetters () {
     if (included_letters == "") {
         return arguments[0];
     }
-    var included_letter;
     var word;
     var letter;
-    var validWord;
     var filtered = [];
+    var string;
+    var string_letter;
+    var validStates;
+    var partialValid;
+    var value;
+    var checkNextString;
+    var tempWord;
     for (word of arguments[0]) {
         word = word.toLowerCase();
-        validWord = false;
-        for (letter of word) {
-            if (validWord == true) {
-                break;
+        for (string of included_letters) {
+            validStates = [];
+            tempWord = word;
+            for (string_letter of string) {
+                partialValid = false;
+                for (letter of tempWord) {
+                    if (partialValid == true) {
+                        break;
+                    }
+                    if (string_letter == letter) {
+                        partialValid = true
+                        validStates.push(partialValid);
+                        tempWord = tempWord.slice(0, tempWord.indexOf(letter)) + tempWord.slice(tempWord.indexOf(letter) + 1, tempWord.length);
+                        break;
+                    }
+                }
+                validStates.push(partialValid);
             }
-            for (included_letter of included_letters) {
-                if (letter == included_letter) {
-                    validWord = true;
-                    break;
+            checkNextString = false;
+            for (value of validStates) {
+                if (value == false) {
+                    checkNextString = true;
+                    break
                 }
             }
-        }
-        if (validWord == true) {
-            filtered.push(word);
+            if (checkNextString == false) {
+                filtered.push(word);
+                break;
+            }
+
         }
     }
     return filtered;
