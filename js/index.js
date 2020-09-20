@@ -590,7 +590,7 @@ function reset() {
     document.getElementById('doRowSwitches').checked = false;
     document.getElementById('result').value = " ";
     document.getElementById('status').innerHTML = "Successully Reset";
-    wordset = "Top 200";
+    wordlist = words.top200;
     layout = "Qwerty";
     hand = "both";
     min = 1;
