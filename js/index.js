@@ -158,21 +158,11 @@ function setHand() {
 }
 
 function displayText () {
-    var word;
-    var textarea = document.createElement('textarea');
-    textarea.setAttribute('id', 'result');
-    textarea.setAttribute('spellcheck', 'false');
-    document.body.appendChild(textarea);
-    for (word of filtered) {
-        var textnode = document.createTextNode(word + " ");
-        textarea.appendChild(textnode);
-
-    }
+    document.getElementById('result').value = filtered.join(' ');
 }
 
 function filterTheWords () {
     dstart = new Date();
-    document.getElementById('result').remove();
     document.getElementById('status').innerHTML = "";
     filtered = byLength();
     filtered = excludeLetters(filtered);
