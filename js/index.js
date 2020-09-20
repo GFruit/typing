@@ -162,6 +162,7 @@ function filterTheWords () {
     filtered = one_hand(filtered);
     displayText(filtered);
     document.getElementById('copy').style.visibility = "visible";
+    document.getElementById('reset').style.visibility = "visible";
     dend = new Date();
     var start = dstart.getTime();
     var end = dend.getTime();
@@ -496,4 +497,32 @@ function copy() {
     var text = document.getElementById('result'); //text is an HTML collection
     text.select();
     document.execCommand('copy');
+}
+
+function reset() {
+    document.getElementById('wordset').value = "Top 200";
+    document.getElementById('layout').value = "Qwerty";
+    document.getElementById('min').value = 1;
+    document.getElementById('max').value = 30;
+    document.getElementById('excluding_letters').value = "";
+    document.getElementById('including_letters').value = "";
+    document.getElementById('excluding_strings').value = "";
+    document.getElementById('including_strings').value = "";
+    document.getElementById('doAlternate').checked = false;
+    document.getElementById('doFingerSwitches').checked = false;
+    document.getElementById('doRowSwitches').checked = false;
+    document.getElementById('result').value = "";
+    wordset = "Top 200";
+    layout = "Qwerty";
+    min = 1;
+    max = 30;
+    excluded_letters = "";
+    included_letters = "";
+    excluded_strings = "";
+    included_strings = "";
+    doAlternate = false;
+    doFingerSwitches = false;
+    doRowSwitches = false;
+    
+
 }

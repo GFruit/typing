@@ -55,15 +55,15 @@
     <label for="doAlternate">Alternate Hands</label>
     <input type="checkbox" id="doAlternate" onchange="setDoAlternate()">
     <br>
-    <label for="doAlternate">Alternate Fingers</label>
+    <label for="doFingerSwitches">Alternate Fingers</label>
     <input type="checkbox" id="doFingerSwitches" onchange="setDoFingerSwitches()">
     <br>
-    <label for="doAlternate">Alternate Rows</label>
+    <label for="doRowSwitches">Alternate Rows</label>
     <input type="checkbox" id="doRowSwitches" onchange="setDoRowSwitches()">
 </form>
 </div>
 <div id="buttons">
-<p></p><button onclick="filterTheWords()">Filter</button> <button id="copy" onclick="copy()">Copy</button></p>
+<p></p><button onclick="filterTheWords()">Filter</button> <button id="copy" onclick="copy()">Copy</button><button id="reset" onclick="reset()">Reset</button></p>
 </div>
 <textarea id="result">
 
