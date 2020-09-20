@@ -37,6 +37,18 @@ function setLength() {
 
 function setExcludingLetters() {
     excluded_letters = document.getElementById("excluding_letters").value;
+    if (excluded_letters.length == 0) {
+        return;
+    } else {
+        excluded_letters = excluded_letters.split(",");
+        var trimmed = [];
+        for (string of excluded_letters) {
+            trimmed.push(string.trim());
+        }
+        excluded_letters = trimmed;
+        console.log("excluded letters " + excluded_letters)
+        console.log("type of " + typeof excluded_letters)
+    }
 }
 
 function setExcludingStrings() {
@@ -64,7 +76,6 @@ function setIncludingLetters() {
             trimmed.push(string.trim());
         }
         included_letters = trimmed;
-        console.log(included_letters);
     }
 }
 
@@ -199,28 +210,59 @@ function excludeLetters () {
         return arguments[0];
     }
     var letter;
-    var excluded_letter;
     var word;
-    var discardWord;
     var filtered = [];
+    var partialDiscard;
+    var discardStates;
+    var partialDiscard2;
+    var discardStates2;
+    var value;
+    var nextWord = false;
+    var tempWord;
     for (word of arguments[0]) {
         word = word.toLowerCase();
-        discardWord = false;
-        for (letter of word) {
-            if (discardWord == true) {
+        nextWord = false;
+        discardStates2 = [];
+        for (string of excluded_letters) {
+            if (nextWord == true) {
                 break;
             }
-            for (excluded_letter of excluded_letters) {
-                if (letter == excluded_letter) {
-                    discardWord = true;
+            tempWord = word;
+            discardStates = [];
+            for (string_letter of string) {
+                partialDiscard = false;
+                for (letter of tempWord) {
+                    if (letter == string_letter) {
+                        partialDiscard = true;
+                        tempWord = tempWord.slice(0, tempWord.indexOf(letter)) + tempWord.slice(tempWord.indexOf(letter) + 1, tempWord.length);
+                        break;
+                    }
+                }
+                discardStates.push(partialDiscard)
+            }
+            partialDiscard2 = true;
+            for (value of discardStates) {
+                if (value == false) {
+                    partialDiscard2 = false;
                     break;
                 }
             }
+            discardStates2.push(partialDiscard2);
+            if (partialDiscard2 == true) {
+                nextWord = true;
+                break;
+            }
         }
-        if (discardWord == true) {
-            continue;
+        nextWord = false;
+        for (value2 of discardStates2) {
+            if (value2 == true) {
+                nextWord = true;
+                break;
+            }
         }
-        filtered.push(word);
+        if (nextWord == false) {
+            filtered.push(word);
+        }
     }
     return filtered;
 }
