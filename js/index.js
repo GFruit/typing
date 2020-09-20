@@ -151,6 +151,7 @@ function displayText () {
 function filterTheWords () {
     dstart = new Date();
     document.getElementById('result').remove();
+    document.getElementById('status').innerHTML = "";
     filtered = byLength();
     filtered = excludeLetters(filtered);
     filtered = excludeStrings(filtered);
@@ -497,6 +498,7 @@ function copy() {
     var text = document.getElementById('result'); //text is an HTML collection
     text.select();
     document.execCommand('copy');
+    document.getElementById('status').innerHTML = "Copied to Clipboard";
 }
 
 function reset() {
@@ -511,7 +513,8 @@ function reset() {
     document.getElementById('doAlternate').checked = false;
     document.getElementById('doFingerSwitches').checked = false;
     document.getElementById('doRowSwitches').checked = false;
-    document.getElementById('result').value = "";
+    document.getElementById('result').value = " ";
+    document.getElementById('status').innerHTML = "Successully Reset";
     wordset = "Top 200";
     layout = "Qwerty";
     min = 1;
