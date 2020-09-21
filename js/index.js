@@ -56,13 +56,20 @@ function setExcludingStrings() {
     if (excluded_strings.length == 0) {
         excluded_strings = [];
         return;
-    }
-    excluded_strings = excluded_strings.split(",");
+    } else {
+        excluded_strings = excluded_strings.split(",");
     var trimmed = [];
     for (string of excluded_strings) {
         trimmed.push(string.trim());
     }
     excluded_strings = trimmed;
+    var nested_list = [];
+        for (string of excluded_strings) {
+            nested_list.push(string.split(' '));
+        }
+        excluded_strings = nested_list;
+        console.log(excluded_strings)
+    }
 }
 
 function setIncludingLetters() {
@@ -90,6 +97,11 @@ function setIncludingStrings() {
             trimmed.push(string.trim());
         }
         included_strings = trimmed;
+        var nested_list = [];
+        for (string of included_strings) {
+            nested_list.push(string.split(' '));
+        }
+        included_strings = nested_list;
     }
 }
 
@@ -261,35 +273,49 @@ function excludeStrings (/*wordset*/) {
     if (excluded_strings == "") {
         return arguments[0];
     }
-    var excluded_string;
     var i;
     var len;
-    var discardWord;
+    var invalidWord;
+    var partialinValid;
+    var invalidStates;
     var filtered = [];
+    var value;
     for (word of arguments[0]) {
         word = word.toLowerCase();
-        discardWord = false;
-        for (excluded_string of excluded_strings) {
-            if (discardWord == true) {
+        invalidWord = false;
+        for (sublist of excluded_strings) {
+            invalidStates = [];
+            if (invalidWord == true) {
                 break;
             }
-            if (excluded_string.length > word.length) {
-                break;
-            }
-            len = excluded_string.length;
-            i = 0;
-            while (i+len <= word.length) {
-                if (word.slice(i, i+len) == excluded_string) {
-                    discardWord = true;
+            for (string of sublist) {
+                partialinValid = false;
+                if (string.length > word.length) {
+                    invalidStates.push(partialinValid);
                     break;
                 }
-                i++;
+                len = string.length;
+                i = 0;
+                while (i+len <= word.length) {
+                    if (word.slice(i, i+len) == string) {
+                        partialinValid = true;
+                        break;
+                    }
+                    i++;
+                }
+                invalidStates.push(partialinValid);
+            }
+            invalidWord = true;
+            for (value of invalidStates) {
+                if (value == false) {
+                    invalidWord = false;
+                    break;
+                }
             }
         }
-        if (discardWord == true) {
-            continue;
+        if (invalidWord == false) {
+            filtered.push(word);
         }
-        filtered.push(word);
     }
     return filtered;
 }
@@ -349,29 +375,44 @@ function includeStrings () {
     if (included_strings == "") {
         return arguments[0];
     }
-    var included_string;
     var i;
     var len;
     var validWord;
+    var partialValid;
+    var validStates;
     var filtered = [];
+    var value;
     for (word of arguments[0]) {
         word = word.toLowerCase();
         validWord = false;
-        for (included_string of included_strings) {
+        for (sublist of included_strings) {
+            validStates = [];
             if (validWord == true) {
                 break;
             }
-            if (included_string.length > word.length) {
-                break;
-            }
-            len = included_string.length;
-            i = 0;
-            while (i+len <= word.length) {
-                if (word.slice(i, i+len) == included_string) {
-                    validWord = true;
+            for (string of sublist) {
+                partialValid = false;
+                if (string.length > word.length) {
+                    validStates.push(partialValid);
                     break;
                 }
-                i++;
+                len = string.length;
+                i = 0;
+                while (i+len <= word.length) {
+                    if (word.slice(i, i+len) == string) {
+                        partialValid = true;
+                        break;
+                    }
+                    i++;
+                }
+                validStates.push(partialValid);
+            }
+            validWord = true;
+            for (value of validStates) {
+                if (value == false) {
+                    validWord = false;
+                    break;
+                }
             }
         }
         if (validWord == true) {
