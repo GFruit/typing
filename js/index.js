@@ -27,6 +27,8 @@ function setWordset () {
         wordlist = words.top1000;
     } else if (wordset == "Top 10k") {
         wordlist = words.top10k;
+    } else if (wordset == "Top 370k") {
+        wordlist = words.top370k;
     }
 }
 
