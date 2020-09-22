@@ -10,6 +10,8 @@ const layouts = {
         home_row :      ["a", "s", "d", "f", "g", "h", "j", "k", "l"],
         bottom_row :    ["z", "x", "c", "v", "b", "n", "m"],
 
+        home_position:  ["a", "s", "d", "f", "j", "k", "l"],
+
         index : ["r", "t", "y", "u",
                  "f", "g", "h", "j",
                  "v", "b", "n", "m"],
@@ -34,6 +36,8 @@ const layouts = {
         top_row  :      ["q", "w", "e", "r", "t", "z", "u", "i", "o", "p"],
         home_row :      ["a", "s", "d", "f", "g", "h", "j", "k", "l"],
         bottom_row :    ["y", "x", "c", "v", "b", "n", "m"],
+
+        home_position:  ["a", "s", "d", "f", "j", "k", "l"],
 
         index : ["r", "t", "z", "u",
                  "f", "g", "h", "j",
@@ -60,6 +64,8 @@ const layouts = {
         home_row :      ["a", "r", "s", "t", "d", "h", "n", "e", "i", "o"],
         bottom_row :    ["z", "x", "c", "v", "b", "k", "m"],
 
+        home_position:  ["a", "r", "s", "t", "n", "e", "i", "o"],
+
         index : ["p", "g", "j", "l",
                  "t", "d", "h", "n",
                  "v", "b", "k", "m"],
@@ -84,6 +90,8 @@ const layouts = {
         top_row  :      ["p", "y", "f", "g", "c", "r", "l"],
         home_row :      ["a", "o", "e", "u", "i", "d", "h", "t", "n", "s"],
         bottom_row :    ["q", "j", "k", "x", "b", "m", "w", "v", "z"],
+
+        home_position:  ["a", "o", "e", "u", "h", "t", "n", "s"],
 
         index : ["p", "y", "f", "g",
                  "u", "i", "d", "h",

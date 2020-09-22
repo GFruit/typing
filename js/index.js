@@ -17,6 +17,8 @@ var doAlternate;
 var doFingerSwitches;
 var doRowSwitches;
 var hand;
+var setRowLetters;
+var home_position;
 
 function setWordset () {
     wordset = document.getElementById('wordset').value;
@@ -116,6 +118,7 @@ function setLayout () {
         top_row = layouts.qwerty.top_row;
         home_row = layouts.qwerty.home_row;
         bottom_row = layouts.qwerty.bottom_row;
+        home_position = layouts.qwerty.home_position;
         index = layouts.qwerty.index;
         middle = layouts.qwerty.middle;
         ring =  layouts.qwerty.ring;
@@ -126,6 +129,7 @@ function setLayout () {
         right_hand = layouts.qwertz.right_hand;
         top_row = layouts.qwertz.top_row;
         home_row = layouts.qwertz.home_row;
+        home_position = layouts.qwertz.home_position;
         bottom_row = layouts.qwertz.bottom_row;
         index = layouts.qwertz.index;
         middle = layouts.qwertz.middle;
@@ -137,6 +141,7 @@ function setLayout () {
         right_hand = layouts.colemak.right_hand;
         top_row = layouts.colemak.top_row;
         home_row = layouts.colemak.home_row;
+        home_position = layouts.colemak.home_position;
         bottom_row = layouts.colemak.bottom_row;
         index = layouts.colemak.index;
         middle = layouts.colemak.middle;
@@ -148,12 +153,14 @@ function setLayout () {
         right_hand = layouts.dvorak.right_hand;
         top_row = layouts.dvorak.top_row;
         home_row = layouts.dvorak.home_row;
+        home_position = layouts.dvorak.home_position;
         bottom_row = layouts.dvorak.bottom_row;
         index = layouts.dvorak.index;
         middle = layouts.dvorak.middle;
         ring =  layouts.dvorak.ring;
         pinky = layouts.dvorak.pinky; 
     }
+
 }
 
 function setDoAlternate() {
@@ -172,6 +179,33 @@ function setHand() {
     hand = document.getElementById("hand").value;
 }
 
+function setRowLetters() {
+    row_letters = [];
+    if (document.getElementById('toprow').checked) {
+        row_letters.push(top_row);
+        document.getElementById('homeposition').checked = false;
+    }
+    if (document.getElementById('homerow').checked) {
+        row_letters.push(home_row);
+        document.getElementById('homeposition').checked = false;
+    }
+    if (document.getElementById('bottomrow').checked) {
+        row_letters.push(bottom_row);
+        document.getElementById('homeposition').checked = false;
+    }
+    console.log(row_letters);
+}
+
+function setHomePosition() {
+    if (document.getElementById('homeposition').checked) {
+        row_letters = home_position;
+        document.getElementById('toprow').checked = false;
+        document.getElementById('homerow').checked = false;
+        document.getElementById('bottomrow').checked = false;
+        console.log(row_letters);
+    }
+}
+
 function displayText () {
     document.getElementById('result').innerHTML = filtered.join(' ');
 }
@@ -181,6 +215,7 @@ function filterTheWords () {
     console.time();
     document.getElementById('status').innerHTML = "";
     filtered = byLength();
+    filtered = byRows(filtered);
     filtered = excludeLetters(filtered);
     filtered = excludeStrings(filtered);
     filtered = includeLetters(filtered);
@@ -207,6 +242,49 @@ function byLength () {
     for (word of wordlist) {
         if (word.length >= min && word.length <= max) {
             filtered.push(word)
+        }
+    }
+    return filtered;
+}
+
+function byRows () {
+    if (row_letters == []) {
+        return arguments[0];
+    }
+    temp_list = [];
+    for (row of row_letters) {
+        for (letter of row) {
+            temp_list.push(letter);
+        }
+    }
+    row_letters = temp_list;
+    var word;
+    var letter;
+    var row_letter;
+    var validWord;
+    var partialValid;
+    var validStates;
+    var filtered = [];
+    for (word of arguments[0]) {
+        validWord = true;
+        validStates = [];
+        for (letter of word) {
+            partialValid = false;
+            for (row_letter of row_letters) {
+                if (row_letter == letter) {
+                    partialValid = true;
+                    break;
+                }
+            }
+            validStates.push(partialValid);
+        }
+        for (validState of validStates) {
+            if (validState == false) {
+                validWord = false;
+            }
+        }
+        if (validWord == true) {
+            filtered.push(word);
         }
     }
     return filtered;
@@ -615,6 +693,10 @@ function reset() {
     document.getElementById('wordset').value = "Top 200";
     document.getElementById('layout').value = "Qwerty";
     document.getElementById('hand').value = "both";
+    document.getElementById('toprow').checked = true;
+    document.getElementById('homerow').checked = true;
+    document.getElementById('bottomrow').checked = true;
+    document.getElementById('homeposition').checked = false;
     document.getElementById('min').value = 1;
     document.getElementById('max').value = 30;
     document.getElementById('excluding_letters').value = "";
@@ -629,6 +711,7 @@ function reset() {
     wordlist = words.top200;
     layout = "Qwerty";
     hand = "both";
+    setRowLetters();
     min = 1;
     max = 30;
     excluded_letters = "";
