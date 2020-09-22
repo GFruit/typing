@@ -18,7 +18,6 @@ var doFingerSwitches;
 var doRowSwitches;
 var hand;
 
-
 function setWordset () {
     wordset = document.getElementById('wordset').value;
     if (wordset == "Top 200") {
@@ -174,11 +173,12 @@ function setHand() {
 }
 
 function displayText () {
-    document.getElementById('result').value = filtered.join(' ');
+    document.getElementById('result').innerHTML = filtered.join(' ');
 }
 
 function filterTheWords () {
     dstart = new Date();
+    console.time();
     document.getElementById('status').innerHTML = "";
     filtered = byLength();
     filtered = excludeLetters(filtered);
@@ -190,6 +190,7 @@ function filterTheWords () {
     filtered = row_switches(filtered);
     filtered = one_hand(filtered);
     displayText(filtered);
+    console.timeEnd();
     document.getElementById('copy').style.visibility = "visible";
     document.getElementById('reset').style.visibility = "visible";
     dend = new Date();
@@ -602,14 +603,14 @@ function one_hand() {
         return filtered;
     }
 }
-
+/*
 function copy() {
     var text = document.getElementById('result'); //text is an HTML collection
     text.select();
     document.execCommand('copy');
     document.getElementById('status').innerHTML = "Copied to Clipboard";
 }
-
+*/
 function reset() {
     document.getElementById('wordset').value = "Top 200";
     document.getElementById('layout').value = "Qwerty";
@@ -623,7 +624,7 @@ function reset() {
     document.getElementById('doAlternate').checked = false;
     document.getElementById('doFingerSwitches').checked = false;
     document.getElementById('doRowSwitches').checked = false;
-    document.getElementById('result').value = " ";
+    document.getElementById('result').innerHTML = " ";
     document.getElementById('status').innerHTML = "Successully Reset";
     wordlist = words.top200;
     layout = "Qwerty";
@@ -637,6 +638,24 @@ function reset() {
     doAlternate = false;
     doFingerSwitches = false;
     doRowSwitches = false;
-    
 
+}
+    
+function copy(node) {
+  node = document.getElementById(node);
+
+  if (document.body.createTextRange) {
+      const range = document.body.createTextRange();
+      range.moveToElementText(node);
+      range.select();
+  } else if (window.getSelection) {
+      const selection = window.getSelection();
+      const range = document.createRange();
+      range.selectNodeContents(node);
+      selection.removeAllRanges();
+      selection.addRange(range);
+  } else {
+      console.warn("Could not select text in node: Unsupported browser.");
+  }
+  document.execCommand('copy');
 }
