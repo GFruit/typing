@@ -19,6 +19,7 @@ var doRowSwitches;
 var hand;
 var setRowLetters;
 var home_position;
+var tips = "inactive";
 
 function setWordset () {
     wordset = document.getElementById('wordset').value;
@@ -740,4 +741,19 @@ function copy(node) {
       console.warn("Could not select text in node: Unsupported browser.");
   }
   document.execCommand('copy');
+}
+
+function showTips() {
+    console.log(tips);
+    if (tips == "inactive") {
+        document.getElementById('left').style.visibility = "visible";
+        document.getElementById('right').style.visibility = "visible";
+        document.getElementById('info').innerHTML = 'hide help'
+        tips = "active";
+    } else if (tips == "active") {
+        document.getElementById('left').style.visibility = "hidden";
+        document.getElementById('right').style.visibility = "hidden";
+        document.getElementById('info').innerHTML = 'show help'
+        tips = "inactive";
+    }
 }

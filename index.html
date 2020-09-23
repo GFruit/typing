@@ -9,9 +9,32 @@
 </head>
 <body onload="setWordset();setLength();setExcludingLetters();setExcludingStrings();setIncludingLetters();setIncludingStrings();setLayout();setDoAlternate();setDoFingerSwitches();setDoRowSwitches();setHand();setRowLetters();setHomePosition()">
 <header>
+<button id="info" onclick="showTips()">show help</button>
 <h1>Words Filter</h1>
 </header>
-<div id="form">
+<div id="container">
+<div id="left" class="float">
+    <b>Wordset</b><br>
+    Choose wordsets up to 370k english words.
+    <br><br><br>
+    <b>Hand/s</b><br>
+    Here you can decide whether you want to create left-hand or right-hand only words.
+    <br><br><br>
+    <b>Home Position</b><br>
+    Tick this if you only want to include words that can be typed in home position.
+    <br><br><br>
+    <b>Excluding Letters</b><br>
+    "en, st" here means "exclude all words that contain at least one "e" AND one "n" OR at least one "s" AND one "t" in any order"
+    <br><br><br>
+    <b>Including Letters</b><br>
+    "aa, pp" here means "only include words that contain at least 2x "p" OR 2x "a""n
+    <br><br><br>
+    <b>Alternate</b><br>
+    Let letters in words alternate hands, fingers, rows after each letter.
+
+
+</div>
+<div id="form" class="float">
 <form autocomplete="off">
     <label for="wordset">Wordset</label>
     <br>
@@ -23,7 +46,7 @@
         <option value="Top 370k">Top 370k</option>
     </select>
     <br>
-    <label for="layout">Layout</label>
+    <label for="layout">Layout</label> 
     <br>
     <select id="layout" onchange="setLayout();setRowLetters();setHomePosition()">
         <option value="Qwerty">Qwerty</option>
@@ -80,7 +103,21 @@
     <input type="checkbox" id="doAlternate" onchange="setDoAlternate()">
     <input type="checkbox" id="doFingerSwitches" onchange="setDoFingerSwitches()">
     <input type="checkbox" id="doRowSwitches" onchange="setDoRowSwitches()">
+
 </form>
+</div>
+<div id="right" class="float">
+    <b>Layout</b><br>
+    Here you can select various different keyboard layouts
+    <br><br><br><b>Rows</b><br>
+    Which rows do you want to include?
+    <br><br><br><b>Length</b><br>
+    Here you can determine the min and max length of the filtered words
+    <br><br><br><b>Excluding n-grams</b><br>
+    "oo g, ll t" here means "exclude all words that contain at least one "oo" AND one "g" OR at least one "ll" AND one "t""
+    <br><br><br><b>Including n-grams</b><br>
+    "co ld, st te, em pro" here means "only include words that contain at least one "co" AND one "ld" OR one "st" AND one "te" OR one "em" AND one "pro""
+</div>
 </div>
 <div id="buttons">
     <p><button id="copy" onclick="copy('result')">Copy</button><button onclick="filterTheWords()">Filter</button><button id="reset" onclick="reset()">Reset</button></p>

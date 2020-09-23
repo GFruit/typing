@@ -59,6 +59,7 @@ select:focus {
 
 #buttons {
 	text-align: center;
+	clear: both;
 }
 
 button {
@@ -89,4 +90,34 @@ form {
 
 #result {
 	text-align: center;
+}
+
+.float {
+    float: left;
+    overflow-wrap: break-word;
+}
+
+#info {
+	position: absolute;
+	top: 0;
+	right: 0;
+	font-size: 1em;
+	border-radius: 20em;
+	padding: 5px;
+}
+
+#left {
+	width: 33%;
+	text-align:left;
+	visibility: hidden;
+}
+
+#right {
+	width: 33%;
+	text-align:right;
+	visibility: hidden;
+}
+
+#form {
+	width: 33%;
 }
