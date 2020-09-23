@@ -709,11 +709,10 @@ function reset() {
     document.getElementById('result').innerHTML = " ";
     document.getElementById('status').innerHTML = "Successully Reset";
     wordlist = words.top200;
-    layout = "Qwerty";
-    hand = "both";
+    setLayout();
+    setHand();
     setRowLetters();
-    min = 1;
-    max = 30;
+    setLength();
     excluded_letters = "";
     included_letters = "";
     excluded_strings = "";
