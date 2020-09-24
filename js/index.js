@@ -857,6 +857,7 @@ function copy(node) {
       console.warn("Could not select text in node: Unsupported browser.");
   }
   document.execCommand('copy');
+  document.getElementById('status').innerHTML = "Copied to Clipboard!";
 }
 
 function showTips() {
