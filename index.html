@@ -20,7 +20,7 @@
 <link rel='icon' href="hopperv3.ico" type='image-x-icon'/>
 <title>Words Filter</title>
 </head>
-<body onload="setWordset();setLength();setExcludingLetters();setExcludingStrings();setIncludingLetters();setIncludingStrings();setLayout();setDoAlternate();setDoFingerSwitches();setDoRowSwitches();setHand();setRowLetters();setHomePosition()">
+<body onload="setWordset();setLength();setExcludingLetters();setExcludingStrings();setIncludingLetters();setIncludingStrings();setLayout();setDoAlternate();setDoFingerSwitches();setDoRowSwitches();setHand();setRowLetters();setHomePosition();setFingers()">
 <header>
 <button id="info" onclick="showTips()">show help</button>
 <h1>Words Filter</h1>
@@ -61,7 +61,7 @@
     <br>
     <label for="layout">Layout</label> 
     <br>
-    <select id="layout" onchange="setLayout();setRowLetters();setHomePosition()">
+    <select id="layout" onchange="setLayout();setRowLetters();setHomePosition();setFingers()">
         <option value="Qwerty">Qwerty</option>
         <option value="Qwertz">Qwertz</option>
         <option value="Colemak">Colemak</option>
@@ -87,6 +87,25 @@
     <label for="homeposition">Home Position</label>
     <br>
     <input type="checkbox" id="homeposition" onchange="setHomePosition()">
+    <br>
+    <label for="fingers">Fingers</label>
+    <br>
+    <label>lp</label>
+    <input type="checkbox" id="lpinky" checked onchange="setFingers()">
+    <label>lr</label>
+    <input type="checkbox" id="lring" checked onchange="setFingers()">
+    <label>lm</label>
+    <input type="checkbox" id="lmiddle" checked onchange="setFingers()">
+    <label>li</label>
+    <input type="checkbox" id="lindex" checked onchange="setFingers()">
+    <label>rp</label>
+    <input type="checkbox" id="rpinky" checked onchange="setFingers()">
+    <label>rr</label>
+    <input type="checkbox" id="rring" checked onchange="setFingers()">
+    <label>rm</label>
+    <input type="checkbox" id="rmiddle" checked onchange="setFingers()">
+    <label>ri</label>
+    <input type="checkbox" id="rindex" checked onchange="setFingers()">
     <br>
     <label for="min">Min-Length</label> / <label for="max">Max-Length</label>
     <br>
@@ -124,6 +143,8 @@
     Here you can select various different keyboard layouts
     <br><br><br><b>Rows</b><br>
     Which rows do you want to include?
+    <br><br><br><b>Fingers</b><br>
+    Which fingers do you want to include? (lp = left pinky | lr = left ring | lm = left middle | li = left index (and same for the right hand) )
     <br><br><br><b>Length</b><br>
     Here you can determine the min and max length of the filtered words
     <br><br><br><b>Excluding Wordparts (n-grams)</b><br>

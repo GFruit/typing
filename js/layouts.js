@@ -12,18 +12,46 @@ const layouts = {
 
         home_position:  ["a", "s", "d", "f", "j", "k", "l"],
 
-        index : ["r", "t", "y", "u",
-                 "f", "g", "h", "j",
-                 "v", "b", "n", "m"],
-        middle :["e", "i",
+        lindex : ["r", "t",
+                 "f", "g",
+                 "v", "b",],
+        rindex : ["y", "u",
+                 "h", "j",
+                 "n", "m"],
+        index : ["r", "t",
+                "f", "g",
+                "v", "b",
+                "y", "u",
+                "h", "j",
+                "n", "m"],
+
+        lmiddle :["e", "i",
                  "d", "k",
                  "c"],
-        ring :  ["w", "o",
-                 "s", "l",
+        rmiddle :["i",
+                 "k"],
+        middle : ["e", "i",
+                  "d", "k",
+                  "c", "i",
+                  "k"],
+
+        lring :  ["w",
+                 "s",
                  "x"],
-        pinky : ["q", "p",
+        rring :  ["o",
+                 "l",],
+        ring : ["w",
+                "s",
+                "x", "o",
+                "l"],
+
+        lpinky : ["q",
                  "a",
-                 "z"]
+                 "z"],
+        rpinky : ["p"],
+        pinky : ["q",
+                "a",
+                "z", "p"]
     },
 
     qwertz : {
@@ -39,18 +67,46 @@ const layouts = {
 
         home_position:  ["a", "s", "d", "f", "j", "k", "l"],
 
-        index : ["r", "t", "z", "u",
-                 "f", "g", "h", "j",
-                 "v", "b", "n", "m"],
-        middle :["e", "i",
+        lindex : ["r", "t",
+                 "f", "g",
+                 "v", "b",],
+        rindex : ["z", "u",
+                 "h", "j",
+                 "n", "m"],
+        index : ["r", "t",
+                "f", "g",
+                "v", "b",
+                "z", "u",
+                "h", "j",
+                "n", "m"],
+        
+        lmiddle :["e", "i",
                  "d", "k",
                  "c"],
-        ring :  ["w", "o",
-                 "s", "l",
+        rmiddle :["i",
+                 "k"],
+        middle : ["e", "i",
+                  "d", "k",
+                  "c", "i",
+                  "k"],
+
+        lring :  ["w",
+                 "s",
                  "x"],
-        pinky : ["q", "p",
+        rring :  ["o",
+                 "l",],
+        ring : ["w",
+                "s",
+                "x", "o",
+                "l"],
+        
+        lpinky : ["q",
                  "a",
-                 "y"]
+                 "y"],
+        rpinky : ["p"],
+        pinky : ["q",
+                "a",
+                "y", "p"]
     },
 
     colemak : {
@@ -66,18 +122,45 @@ const layouts = {
 
         home_position:  ["a", "r", "s", "t", "n", "e", "i", "o"],
 
-        index : ["p", "g", "j", "l",
-                 "t", "d", "h", "n",
-                 "v", "b", "k", "m"],
-        middle :["f", "u",
-                 "s", "e",
+        lindex : ["p", "g",
+                 "t", "d",
+                 "v", "b"],
+        rindex : ["j", "l",
+                 "h", "n",
+                 "k", "m"],
+        index : ["p", "g",
+        "t", "d",
+        "v", "b","j", "l",
+        "h", "n",
+        "k", "m"],
+
+        lmiddle :["f",
+                 "s",
                  "c"],
-        ring :  ["w", "y",
-                 "r", "i",
+        rmiddle :["u",
+                 "e"],
+        middle : ["f",
+                "s",
+                "c","u",
+                "e"],
+            
+        lring :  ["w",
+                 "r",
                  "x"],
-        pinky : ["q", "o",
+        rring :  ["y",
+                 "i"],
+        ring : ["w",
+                "r",
+                "x", "y",
+                "i"],
+        
+        lpinky : ["q",
                  "a",
-                 "z"]
+                 "z"],
+        rpinky : ["o"],
+        pinky : ["q",
+        "a",
+        "z", "o"],
     },
 
     dvorak : {
@@ -93,17 +176,51 @@ const layouts = {
 
         home_position:  ["a", "o", "e", "u", "h", "t", "n", "s"],
 
-        index : ["p", "y", "f", "g",
-                 "u", "i", "d", "h",
-                 "k", "x", "b", "m"],
-        middle :["e", "c",
-                 "j", "t",
-                      "w"],
-        ring :  [     "r",
-                 "o", "n",
-                 "q", "v"],
-        pinky : [     "l",
-                 "a", "s",
-                      "z"]
+        lindex : ["p", "y",
+                  "u", "i",
+                  "k", "x"],
+        rindex : ["f", "g",
+                  "d", "h",
+                  "b", "m"],
+        index :  ["p", "y",
+                "u", "i",
+                "k", "x","f", "g",
+                "d", "h",
+                "b", "m"],      
+
+        lmiddle :["e",
+                  "j",
+                    ],
+        rmiddle :["c",
+                  "t",
+                  "w"],
+        middle : ["e",
+                "j", "c",
+                "t",
+                "w"],
+
+        lring :  [
+                  "o",
+                  "q"],
+        rring :  ["r",
+                  "n",
+                  "v"],
+        ring : [
+            "o",
+            "q","r",
+            "n",
+            "v"],
+
+        lpinky : [
+                  "a"
+                     ],
+        rpinky : ["l",
+                  "s",
+                  "z"],
+        pinky : [
+            "a","l",
+            "s",
+            "z"
+               ]
     }
 }

@@ -120,10 +120,19 @@ function setLayout () {
         home_row = layouts.qwerty.home_row;
         bottom_row = layouts.qwerty.bottom_row;
         home_position = layouts.qwerty.home_position;
+        lindex = layouts.qwerty.lindex;
+        lmiddle = layouts.qwerty.lmiddle;
+        lring =  layouts.qwerty.lring;
+        lpinky = layouts.qwerty.lpinky; 
+        rindex = layouts.qwerty.rindex;
+        rmiddle = layouts.qwerty.rmiddle;
+        rring =  layouts.qwerty.rring;
+        rpinky = layouts.qwerty.rpinky; 
+        
         index = layouts.qwerty.index;
         middle = layouts.qwerty.middle;
         ring =  layouts.qwerty.ring;
-        pinky = layouts.qwerty.pinky;            
+        pinky = layouts.qwerty.pinky;  
     }
     else if (layout == "Qwertz") {
         left_hand = layouts.qwertz.left_hand;
@@ -132,10 +141,19 @@ function setLayout () {
         home_row = layouts.qwertz.home_row;
         home_position = layouts.qwertz.home_position;
         bottom_row = layouts.qwertz.bottom_row;
+        lindex = layouts.qwertz.lindex;
+        lmiddle = layouts.qwertz.lmiddle;
+        lring =  layouts.qwertz.lring;
+        lpinky = layouts.qwertz.lpinky; 
+        rindex = layouts.qwertz.rindex;
+        rmiddle = layouts.qwertz.rmiddle;
+        rring =  layouts.qwertz.rring;
+        rpinky = layouts.qwertz.rpinky;
+        
         index = layouts.qwertz.index;
         middle = layouts.qwertz.middle;
         ring =  layouts.qwertz.ring;
-        pinky = layouts.qwertz.pinky; 
+        pinky = layouts.qwertz.pinky;  
     }
     else if (layout == "Colemak") {
         left_hand = layouts.colemak.left_hand;
@@ -144,10 +162,19 @@ function setLayout () {
         home_row = layouts.colemak.home_row;
         home_position = layouts.colemak.home_position;
         bottom_row = layouts.colemak.bottom_row;
+        lindex = layouts.colemak.lindex;
+        lmiddle = layouts.colemak.lmiddle;
+        lring =  layouts.colemak.lring;
+        lpinky = layouts.colemak.lpinky; 
+        rindex = layouts.colemak.rindex;
+        rmiddle = layouts.colemak.rmiddle;
+        rring =  layouts.colemak.rring;
+        rpinky = layouts.colemak.rpinky;
+
         index = layouts.colemak.index;
         middle = layouts.colemak.middle;
         ring =  layouts.colemak.ring;
-        pinky = layouts.colemak.pinky; 
+        pinky = layouts.colemak.pinky;  
     }
     else if (layout == "Dvorak") {
         left_hand = layouts.dvorak.left_hand;
@@ -156,10 +183,19 @@ function setLayout () {
         home_row = layouts.dvorak.home_row;
         home_position = layouts.dvorak.home_position;
         bottom_row = layouts.dvorak.bottom_row;
+        lindex = layouts.dvorak.lindex;
+        lmiddle = layouts.dvorak.lmiddle;
+        lring =  layouts.dvorak.lring;
+        lpinky = layouts.dvorak.lpinky; 
+        rindex = layouts.dvorak.rindex;
+        rmiddle = layouts.dvorak.rmiddle;
+        rring =  layouts.dvorak.rring;
+        rpinky = layouts.dvorak.rpinky;
+
         index = layouts.dvorak.index;
         middle = layouts.dvorak.middle;
         ring =  layouts.dvorak.ring;
-        pinky = layouts.dvorak.pinky; 
+        pinky = layouts.dvorak.pinky;   
     }
 
 }
@@ -194,7 +230,6 @@ function setRowLetters() {
         row_letters.push(bottom_row);
         document.getElementById('homeposition').checked = false;
     }
-    console.log(row_letters);
 }
 
 function setHomePosition() {
@@ -203,8 +238,36 @@ function setHomePosition() {
         document.getElementById('toprow').checked = false;
         document.getElementById('homerow').checked = false;
         document.getElementById('bottomrow').checked = false;
-        console.log(row_letters);
     }
+}
+
+function setFingers() {
+    finger_letters = [];
+    if (document.getElementById('lpinky').checked) {
+        finger_letters.push(lpinky);
+    }
+    if (document.getElementById('lring').checked) {
+        finger_letters.push(lring);
+    }
+    if (document.getElementById('lmiddle').checked) {
+        finger_letters.push(lmiddle);
+    }
+    if (document.getElementById('lindex').checked) {
+        finger_letters.push(lindex);
+    }
+    if (document.getElementById('rpinky').checked) {
+        finger_letters.push(rpinky);
+    }
+    if (document.getElementById('rring').checked) {
+        finger_letters.push(rring);
+    }
+    if (document.getElementById('rmiddle').checked) {
+        finger_letters.push(rmiddle);
+    }
+    if (document.getElementById('rindex').checked) {
+        finger_letters.push(rindex);
+    }
+    console.log(finger_letters);
 }
 
 function displayText () {
@@ -217,6 +280,7 @@ function filterTheWords () {
     document.getElementById('status').innerHTML = "";
     filtered = byLength();
     filtered = byRows(filtered);
+    filtered = byFingers(filtered);
     filtered = excludeLetters(filtered);
     filtered = excludeStrings(filtered);
     filtered = includeLetters(filtered);
@@ -273,6 +337,49 @@ function byRows () {
             partialValid = false;
             for (row_letter of row_letters) {
                 if (row_letter == letter) {
+                    partialValid = true;
+                    break;
+                }
+            }
+            validStates.push(partialValid);
+        }
+        for (validState of validStates) {
+            if (validState == false) {
+                validWord = false;
+            }
+        }
+        if (validWord == true) {
+            filtered.push(word);
+        }
+    }
+    return filtered;
+}
+
+function byFingers () {
+    if (finger_letters == []) {
+        return arguments[0];
+    }
+    temp_list = [];
+    for (finger of finger_letters) {
+        for (letter of finger) {
+            temp_list.push(letter);
+        }
+    }
+    finger_letters = temp_list;
+    var word;
+    var letter;
+    var finger_letter;
+    var validWord;
+    var partialValid;
+    var validStates;
+    var filtered = [];
+    for (word of arguments[0]) {
+        validWord = true;
+        validStates = [];
+        for (letter of word) {
+            partialValid = false;
+            for (finger_letter of finger_letters) {
+                if (finger_letter == letter) {
                     partialValid = true;
                     break;
                 }
@@ -698,6 +805,14 @@ function reset() {
     document.getElementById('homerow').checked = true;
     document.getElementById('bottomrow').checked = true;
     document.getElementById('homeposition').checked = false;
+    document.getElementById('lpinky').checked = true;
+    document.getElementById('lring').checked = true;
+    document.getElementById('lmiddle').checked = true;
+    document.getElementById('lindex').checked = true;
+    document.getElementById('rpinky').checked = true;
+    document.getElementById('rring').checked = true;
+    document.getElementById('rmiddle').checked = true;
+    document.getElementById('rindex').checked = true;
     document.getElementById('min').value = 1;
     document.getElementById('max').value = 30;
     document.getElementById('excluding_letters').value = "";
@@ -713,6 +828,7 @@ function reset() {
     setLayout();
     setHand();
     setRowLetters();
+    setFingers();
     setLength();
     excluded_letters = "";
     included_letters = "";
