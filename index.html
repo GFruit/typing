@@ -57,6 +57,7 @@
         <option value="Top 10k">Top 10k</option>
         <option value="Top 30k">Top 30k</option>
         <option value="Top 370k">Top 370k</option>
+        <option value="Quotes">Quotes</option>
     </select>
     <br>
     <label for="layout">Layout</label> 
@@ -110,7 +111,7 @@
     <label for="min">Min-Length</label> / <label for="max">Max-Length</label>
     <br>
     <input type="number" id="min" value=1 onchange="setLength()" min=1>
-    <input type="number" id="max" value=30 onchange="setLength()" min=1>
+    <input type="number" id="max" value=999 onchange="setLength()" min=1>
     <br>
     <label for="excluding_letters">Excluding Letters</label>
     <br>
@@ -160,6 +161,7 @@
 <div id="result" spellcheck="false" ></div>
 
 <script src="js/words.js"></script>
+<script src="js/quotes.js"></script>
 <script src="js/index.js"></script>
 <script src="js/layouts.js"></script>
 </body>

@@ -1,9 +1,11 @@
 var wordlist;
+var wordset;
 var min;
 var max;
 var excluded_letters;
 var excluded_strings;
 var included_letters;
+var included_strings;
 var left_hand;
 var right_hand;
 var top_row;
@@ -21,6 +23,11 @@ var setRowLetters;
 var home_position;
 var tips = "inactive";
 
+
+function isLetter(str) {
+    return str.length === 1 && str.match(/[a-z]/i);
+  }
+
 function setWordset () {
     wordset = document.getElementById('wordset').value;
     if (wordset == "Top 200") {
@@ -33,6 +40,9 @@ function setWordset () {
         wordlist = words.top30k;
     } else if (wordset == "Top 370k") {
         wordlist = words.top370k;
+    } else if (wordset == "Quotes") {
+        console.log('test');
+        wordlist = quotes;
     }
 }
 
@@ -52,15 +62,12 @@ function setExcludingLetters() {
             trimmed.push(string.trim());
         }
         excluded_letters = trimmed;
-        console.log("excluded letters " + excluded_letters)
-        console.log("type of " + typeof excluded_letters)
     }
 }
 
 function setExcludingStrings() {
     excluded_strings = document.getElementById("excluding_strings").value;
     if (excluded_strings.length == 0) {
-        excluded_strings = [];
         return;
     } else {
         excluded_strings = excluded_strings.split(",");
@@ -74,7 +81,6 @@ function setExcludingStrings() {
             nested_list.push(string.split(' '));
         }
         excluded_strings = nested_list;
-        console.log(excluded_strings)
     }
 }
 
@@ -267,17 +273,21 @@ function setFingers() {
     if (document.getElementById('rindex').checked) {
         finger_letters.push(rindex);
     }
-    console.log(finger_letters);
 }
 
 function displayText () {
-    document.getElementById('result').innerHTML = filtered.join(' ');
+    if (wordset == "Quotes") {
+        console.log('test2');
+        document.getElementById('result').innerHTML = filtered.join('<br><br><br>');
+    } else {
+        document.getElementById('result').innerHTML = filtered.join(' ');
+    }
 }
 
 function filterTheWords () {
     dstart = new Date();
-    console.time();
     document.getElementById('status').innerHTML = "";
+    setIncludingStrings()
     filtered = byLength();
     filtered = byRows(filtered);
     filtered = byFingers(filtered);
@@ -290,7 +300,6 @@ function filterTheWords () {
     filtered = row_switches(filtered);
     filtered = one_hand(filtered);
     displayText(filtered);
-    console.timeEnd();
     document.getElementById('copy').style.visibility = "visible";
     document.getElementById('reset').style.visibility = "visible";
     dend = new Date();
@@ -298,7 +307,6 @@ function filterTheWords () {
     var end = dend.getTime();
     var time = end-start;
     var seconds = (time/1000).toPrecision(3);
-    console.log(seconds);
 }
 
 function byLength () {
@@ -331,9 +339,14 @@ function byRows () {
     var validStates;
     var filtered = [];
     for (word of arguments[0]) {
+        word_copy = word;
+        word_copy = word_copy.toLowerCase();
         validWord = true;
         validStates = [];
-        for (letter of word) {
+        for (letter of word_copy) {
+            if (isLetter(letter) == null) {
+                continue;
+            }
             partialValid = false;
             for (row_letter of row_letters) {
                 if (row_letter == letter) {
@@ -374,9 +387,14 @@ function byFingers () {
     var validStates;
     var filtered = [];
     for (word of arguments[0]) {
+        word_copy = word;
+        word_copy = word_copy.toLowerCase();
         validWord = true;
         validStates = [];
-        for (letter of word) {
+        for (letter of word_copy) {
+            if (isLetter(letter) == null) {
+                continue;
+            }
             partialValid = false;
             for (finger_letter of finger_letters) {
                 if (finger_letter == letter) {
@@ -413,18 +431,22 @@ function excludeLetters () {
     var nextWord = false;
     var tempWord;
     for (word of arguments[0]) {
-        word = word.toLowerCase();
+        word_copy = word;
+        word_copy = word_copy.toLowerCase();
         nextWord = false;
         discardStates2 = [];
         for (string of excluded_letters) {
             if (nextWord == true) {
                 break;
             }
-            tempWord = word;
+            tempWord = word_copy;
             discardStates = [];
             for (string_letter of string) {
                 partialDiscard = false;
                 for (letter of tempWord) {
+                    if (isLetter(letter) == null) {
+                        continue;
+                    }
                     if (letter == string_letter) {
                         partialDiscard = true;
                         tempWord = tempWord.slice(0, tempWord.indexOf(letter)) + tempWord.slice(tempWord.indexOf(letter) + 1, tempWord.length);
@@ -461,8 +483,12 @@ function excludeLetters () {
 }
 
 function excludeStrings (/*wordset*/) {
-    if (excluded_strings == "") {
-        return arguments[0];
+    if (excluded_strings == "") { //for some reason after executing this function the
+        setExcludingStrings();
+        if (excluded_strings == "") {
+            console.log('excludedStrings empty');
+            return arguments[0];
+        }
     }
     var i;
     var len;
@@ -471,25 +497,157 @@ function excludeStrings (/*wordset*/) {
     var invalidStates;
     var filtered = [];
     var value;
+    var sorted = [];
+    //sort list
+    for (sublist of excluded_strings) {
+        //console.log(sublist)
+        var len = sublist.length;
+        for (var i = 0; i < len; i++) {
+            var el = sublist[i];
+            var j;
+
+            for (j = i - 1; j >= 0 && sublist[j].length > el.length; j--) {
+                sublist[j + 1] = sublist[j];
+              }
+              sublist[j + 1] = el;
+        }
+        sorted.push(sublist);
+    }
+    //find pairs that overlap
+    var totalOverlaps = []
+    for (sublist of sorted) {
+        //console.log(sublist)
+        var overlapPairs = [];
+        for (var i = 0 ; i <= sublist.length-2 ; i++) {
+            for (var j = i+1 ; j <= sublist.length-1 ; j++) {
+                var k = 0
+                var overlapPair = [];
+                while (k+sublist[i].length <= sublist[j].length) {
+                    substring = false;
+                    if (sublist[i] == sublist[j].slice(k, k+sublist[i].length)) {
+                        var overlapPair = [sublist[i], sublist[j]]
+                        break;
+                    }
+                    k++;
+                }
+                overlapPairs.push(overlapPair);
+            }
+        }
+        totalOverlaps.push(overlapPairs);
+    }
+    /*
+    console.log('totalOverlaps')
+    console.log(totalOverlaps);
+    */
+    
+    var new_list = [];
+    var new_sublist;
+    var unique;
+    for (overlapPairs of totalOverlaps) {
+        new_sublist = [];
+        for (overlapPair of overlapPairs) {
+            for (value of overlapPair) {
+                unique = true;
+                for (element of new_sublist) {
+                    if (element == value) {
+                        unique = false;
+                        break;
+                    }
+                }
+                if (unique == true) {
+                    new_sublist.push(value);
+                }
+            }
+        }
+        new_list.push(new_sublist);
+    }
+
+    /*
+    console.log('new_list')
+    console.log(new_list); //distinct values that should not overlap however the amounts aren't right in case there are duplicates for example
+    */
+
+    var newlist2;
+    var newlist3 = [];
+    var i = -1;
+    for (sublist of excluded_strings) { //to fix the amounts
+        i++;
+        newlist2 = [];
+        for (value of sublist) {
+            for (element of new_list[i]) {
+                if (value == element) {
+                    newlist2.push(value);
+                    break;
+                }
+            }
+        }
+        newlist3.push(newlist2)
+    }
+    
+    new_list = newlist3 //replace bad list with good list
+    
+    /*
+    console.log('fixed new list')
+    console.log(new_list);
+    */
+    
+
+    var i = 0;
+    for (sublist of new_list) {
+        for (value of sublist) {
+            index = excluded_strings[i].indexOf(value);
+            excluded_strings[i].splice(index, 1); //remove those values from the original array
+        }
+        i++;
+    }
+    
+    /*
+    console.log('excluded_strings');
+    console.log(excluded_strings);
+    */
+
+    //continue as normal with the strings that aren't allowed to be overlapped in a separate list (new_list)
     for (word of arguments[0]) {
-        word = word.toLowerCase();
+        word_copy = word;
+        word_copy = word_copy.toLowerCase();
         invalidWord = false;
+        var idx = -1;
         for (sublist of excluded_strings) {
+            idx++;
             invalidStates = [];
             if (invalidWord == true) {
                 break;
             }
             for (string of sublist) {
                 partialinValid = false;
-                if (string.length > word.length) {
+                if (string.length > word_copy.length) {
                     invalidStates.push(partialinValid);
                     break;
                 }
                 len = string.length;
                 i = 0;
-                while (i+len <= word.length) {
-                    if (word.slice(i, i+len) == string) {
+                while (i+len <= word_copy.length) {
+                    if (word_copy.slice(i, i+len) == string) {
                         partialinValid = true;
+                        break;
+                    }
+                    i++;
+                }
+                invalidStates.push(partialinValid);
+            }
+            tempWord = word_copy;
+            for (string of new_list[idx]) {
+                partialinValid = false;
+                if (string.length > tempWord.length) {
+                    invalidStates.push(partialinValid);
+                    break;
+                }
+                len = string.length;
+                i = 0;
+                while (i+len <= tempWord.length) {
+                    if (tempWord.slice(i, i+len) == string) {
+                        partialinValid = true;
+                        tempWord = tempWord.slice(0, tempWord.indexOf(string)) + tempWord.slice(tempWord.indexOf(string) + string.length, tempWord.length);
                         break;
                     }
                     i++;
@@ -526,10 +684,11 @@ function includeLetters () {
     var checkNextString;
     var tempWord;
     for (word of arguments[0]) {
-        word = word.toLowerCase();
+        word_copy = word;
+        word_copy = word_copy.toLowerCase();
         for (string of included_letters) {
             validStates = [];
-            tempWord = word;
+            tempWord = word_copy;
             for (string_letter of string) {
                 partialValid = false;
                 for (letter of tempWord) {
@@ -538,7 +697,6 @@ function includeLetters () {
                     }
                     if (string_letter == letter) {
                         partialValid = true
-                        validStates.push(partialValid);
                         tempWord = tempWord.slice(0, tempWord.indexOf(letter)) + tempWord.slice(tempWord.indexOf(letter) + 1, tempWord.length);
                         break;
                     }
@@ -563,7 +721,7 @@ function includeLetters () {
 }
 
 function includeStrings () {
-    if (included_strings == "") {
+    if (included_strings == "") { //for some reason after executing this function the included_strings becomes "empty"
         return arguments[0];
     }
     var i;
@@ -573,25 +731,161 @@ function includeStrings () {
     var validStates;
     var filtered = [];
     var value;
+    var sorted = [];
+    //sort list
+    for (sublist of included_strings) {
+        //console.log(sublist)
+        var len = sublist.length;
+        for (var i = 0; i < len; i++) {
+            var el = sublist[i];
+            var j;
+
+            for (j = i - 1; j >= 0 && sublist[j].length > el.length; j--) {
+                sublist[j + 1] = sublist[j];
+              }
+              sublist[j + 1] = el;
+        }
+        sorted.push(sublist);
+    }
+    //find pairs that overlap
+    var totalOverlaps = []
+    for (sublist of sorted) {
+        //console.log(sublist)
+        var overlapPairs = [];
+        for (var i = 0 ; i <= sublist.length-2 ; i++) {
+            for (var j = i+1 ; j <= sublist.length-1 ; j++) {
+                var k = 0
+                var substring = "";
+                var overlapPair = [];
+                while (k+sublist[i].length <= sublist[j].length) {
+                    substring = false;
+                    if (sublist[i] == sublist[j].slice(k, k+sublist[i].length)) {
+                        var substring = true;
+                        var overlapPair = [sublist[i], sublist[j]]
+                        break;
+                    }
+                    k++;
+                }
+                overlapPairs.push(overlapPair);
+            }
+        }
+        totalOverlaps.push(overlapPairs);
+    }
+
+    /*
+    console.log('totalOverlaps')
+    console.log(totalOverlaps);
+    */
+    
+    var new_list = [];
+    var new_sublist;
+    var unique;
+    for (overlapPairs of totalOverlaps) {
+        new_sublist = [];
+        for (overlapPair of overlapPairs) {
+            for (value of overlapPair) {
+                unique = true;
+                for (element of new_sublist) {
+                    if (element == value) {
+                        unique = false;
+                        break;
+                    }
+                }
+                if (unique == true) {
+                    new_sublist.push(value);
+                }
+            }
+        }
+        new_list.push(new_sublist);
+    }
+
+    /*
+    console.log('new_list')
+    console.log(new_list); //distinct values that should not overlap however the amounts aren't right in case there are duplicates for example
+    */
+
+    var newlist2;
+    var newlist3 = [];
+    var i = -1;
+    for (sublist of included_strings) { //to fix the amounts
+        i++;
+        newlist2 = [];
+        for (value of sublist) {
+            for (element of new_list[i]) {
+                if (value == element) {
+                    newlist2.push(value);
+                    break;
+                }
+            }
+        }
+        newlist3.push(newlist2)
+    }
+    
+    new_list = newlist3 //replace bad list with good list
+    
+    /*
+    console.log('fixed new list')
+    console.log(new_list);
+    */
+    
+    //var included_strings_copy = included_strings;
+
+    var i = 0;
+    for (sublist of new_list) {
+        for (value of sublist) {
+            index = included_strings[i].indexOf(value);
+            included_strings[i].splice(index, 1); //remove those values from the original array
+        }
+        i++;
+    }
+    
+    /*
+    console.log('included_strings');
+    console.log(included_strings);
+    */
+
+    //continue as normal with the strings that aren't allowed to be overlapped in a separate list (new_list)
     for (word of arguments[0]) {
-        word = word.toLowerCase();
+        word_copy = word;
+        word_copy = word_copy.toLowerCase();
         validWord = false;
+        var idx = -1;
         for (sublist of included_strings) {
+            idx++;
             validStates = [];
             if (validWord == true) {
                 break;
             }
             for (string of sublist) {
                 partialValid = false;
-                if (string.length > word.length) {
+                if (string.length > word_copy.length) {
                     validStates.push(partialValid);
                     break;
                 }
                 len = string.length;
                 i = 0;
-                while (i+len <= word.length) {
-                    if (word.slice(i, i+len) == string) {
+                while (i+len <= word_copy.length) {
+                    if (word_copy.slice(i, i+len) == string) {
                         partialValid = true;
+                        break;
+                    }
+                    i++;
+                }
+                validStates.push(partialValid);
+            }
+            tempWord = word_copy;
+            for (string of new_list[idx]) {
+                partialValid = false;
+                if (string.length > tempWord.length) {
+                    validStates.push(partialValid);
+                    break;
+                }
+                len = string.length;
+                i = 0;
+                while (i+len <= tempWord.length) {
+                    if (tempWord.slice(i, i+len) == string) {
+                        partialValid = true;
+                        tempWord = tempWord.slice(0, tempWord.indexOf(string)) + tempWord.slice(tempWord.indexOf(string) + string.length, tempWord.length);
                         break;
                     }
                     i++;
@@ -624,10 +918,14 @@ function alternate() {
     var previous;
     var filtered = [];
     for (word of arguments[0]) {
-        word = word.toLowerCase();
+        word_copy = word;
+        word_copy = word_copy.toLowerCase();
         validWord = true;
         previous = "";
-        for (letter of word) {
+        for (letter of word_copy) {
+            if (isLetter(letter) == null) {
+                continue;
+            }
             handState = "right";
             for (left_letter of left_hand) {
                 if (letter == left_letter) {
@@ -665,10 +963,14 @@ function finger_switches() {
     var pinkyLetter;
     var filtered = [];
     for (word of arguments[0]) {
-        word = word.toLowerCase();
+        word_copy = word;
+        word_copy = word_copy.toLowerCase();
         previous = "";
         validWord = true;
-        for (letter of word) {
+        for (letter of word_copy) {
+            if (isLetter(letter) == null) {
+                continue;
+            }
             fingerState = "index";
             for (middleLetter of middle) {
                 if (middleLetter == letter) {
@@ -710,10 +1012,11 @@ function row_switches() {
     var bottomLetter;
     var filtered = [];
     for (word of arguments[0]) {
-        word = word.toLowerCase();
+        word_copy = word;
+        word_copy = word_copy.toLowerCase();
         previous = "";
         validWord = true;
-        for (letter of word) {
+        for (letter of word_copy) {
             rowState = "top";
             for (homeLetter of home_row) {
                 if (homeLetter == letter) {
@@ -748,9 +1051,10 @@ function one_hand() {
     }
     if (hand == "left") {
         for (word of arguments[0]) {
-            word = word.toLowerCase();
+            word_copy = word;
+            word_copy = word_copy.toLowerCase();
             validWord = true;
-            for (letter of word) {
+            for (letter of word_copy) {
                 if (validWord == false) {
                     break;
                 }
@@ -769,9 +1073,10 @@ function one_hand() {
     }
     if (hand == "right") {
         for (word of arguments[0]) {
-            word = word.toLowerCase();
+            word_copy = word;
+            word_copy = word_copy.toLowerCase();
             validWord = true;
-            for (letter of word) {
+            for (letter of word_copy) {
                 if (validWord == false) {
                     break;
                 }
@@ -814,7 +1119,7 @@ function reset() {
     document.getElementById('rmiddle').checked = true;
     document.getElementById('rindex').checked = true;
     document.getElementById('min').value = 1;
-    document.getElementById('max').value = 30;
+    document.getElementById('max').value = 999;
     document.getElementById('excluding_letters').value = "";
     document.getElementById('including_letters').value = "";
     document.getElementById('excluding_strings').value = "";
@@ -825,6 +1130,7 @@ function reset() {
     document.getElementById('result').innerHTML = " ";
     document.getElementById('status').innerHTML = "Successully Reset";
     wordlist = words.top200;
+    setWordset();
     setLayout();
     setHand();
     setRowLetters();
@@ -861,7 +1167,6 @@ function copy(node) {
 }
 
 function showTips() {
-    console.log(tips);
     if (tips == "inactive") {
         document.getElementById('left').style.visibility = "visible";
         document.getElementById('right').style.visibility = "visible";
