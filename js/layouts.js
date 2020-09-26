@@ -25,8 +25,8 @@ const layouts = {
                 "h", "j",
                 "n", "m"],
 
-        lmiddle :["e", "i",
-                 "d", "k",
+        lmiddle :["e",
+                 "d",
                  "c"],
         rmiddle :["i",
                  "k"],
