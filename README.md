@@ -69,6 +69,7 @@ Usage:
 (comma = OR operator)
 
 Example 1: aa = If a word/quote (doesn't) include(s) at least 2x "a" then it is ex-/included from the list (again, afraid, always, appear, area, paragraph)
+
 Example 2: ab, ed = If a/quote word ex-/includes at least 1 "a" and 1 "b" OR 1 "e" and 1 "d" then it is ex-/included from the list (about, back, because, consider, develop, end, head, lead, need, order, under)
 
 ### Excluding/Including Strings
