@@ -65,6 +65,7 @@ Decide which letters you (don't) want the filtered words to include.
 Usage:
 - groups of letters without spaces between the commas mean that all these letters (need to / shouldn't) be contained in the word.
 - letters or groups of letters separated by commas mean that the word is denied/accepted if any of the letters or groups of letters between the commas are contained in the word in any order.
+
 (no space = AND operator)
 (comma = OR operator)
 
@@ -79,6 +80,7 @@ Decide which strings you (don't) want the filtered words to include
 Usage
 - groups of wordparts (=strings/n-grams) separated by 1 space between the commas mean that all these wordparts (shouldn't / need to) be contained in the word.
 - wordparts or groups of wordparts separated by commas mean that the word is denied/accepted if any of the wordparts or groups of wordparts between the commas are contained in the word in any order.
+
 (one space = AND operator)
 (comma = OR operator)
 
