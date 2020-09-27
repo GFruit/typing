@@ -16,7 +16,7 @@ Decide from which wordset you want to filter the words. You can also choose a se
 
 ### Layout
 
-Decide which layout should be used for the words filter. This influences the Rows, Home Position, Fingers and Alternate filters.
+Decide which layout should be used for the words filter. This influences the Hands, Rows, Home Position, Fingers and Alternate filters.
 - Qwerty: Standard US Keyboard Layout
 - Qwertz: Y and Z swapped, default layout in Germany and Switzerland.
 - Colemak: Alternative Keyboard Layout created by Shai Coleman in 2006, optimised for the English language.
@@ -65,10 +65,12 @@ Decide which letters you (don't) want the filtered words to include.
 Usage:
 - groups of letters without spaces between the commas mean that all these letters (need to / shouldn't) be contained in the word.
 - letters or groups of letters separated by commas mean that the word is denied/accepted if any of the letters or groups of letters between the commas are contained in the word in any order.
+
 (no space = AND operator)
 (comma = OR operator)
 
 Example 1: aa = If a word/quote (doesn't) include(s) at least 2x "a" then it is ex-/included from the list (again, afraid, always, appear, area, paragraph)
+
 Example 2: ab, ed = If a/quote word ex-/includes at least 1 "a" and 1 "b" OR 1 "e" and 1 "d" then it is ex-/included from the list (about, back, because, consider, develop, end, head, lead, need, order, under)
 
 ### Excluding/Including Strings
@@ -78,6 +80,7 @@ Decide which strings you (don't) want the filtered words to include
 Usage
 - groups of wordparts (=strings/n-grams) separated by 1 space between the commas mean that all these wordparts (shouldn't / need to) be contained in the word.
 - wordparts or groups of wordparts separated by commas mean that the word is denied/accepted if any of the wordparts or groups of wordparts between the commas are contained in the word in any order.
+
 (one space = AND operator)
 (comma = OR operator)
 
