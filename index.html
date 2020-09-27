@@ -28,22 +28,21 @@
 <div id="container">
 <div id="left" class="float">
     <b>Wordset</b><br>
-    Choose wordsets up to 370k english words.
+    <i>Examples:</i> Top 200 = top 200 most common english words; Quotes = 5000 quotes pulled from Typeracer
     <br><br><br>
     <b>Hand/s</b><br>
-    Here you can decide whether you want to create left-hand or right-hand only words.
+    <i>Examples:</i> Both = Any word; Left = Only left-hand words; Right = Only right-hand words
     <br><br><br>
     <b>Home Position</b><br>
-    Tick this if you only want to include words that can be typed in home position.
+    <i>Examples:</i> Off = Any word; On: Only home-position words
     <br><br><br>
-    <b>Excluding Letters</b><br>
-    "en, st" here means "exclude all words that contain at least one "e" AND one "n" OR at least one "s" AND one "t" in any order"
+    <b>Length</b><br>
+    <i>Examples:</i> Min-length 5 / Max-length 7 = Only words/quotes with length of at least 5 and at most 7
     <br><br><br>
-    <b>Including Letters</b><br>
-    "aa, pp" here means "only include words that contain at least 2x "p" OR 2x "a""
-    <br><br><br>
-    <b>Alternate</b><br>
-    Excludes all words that don't alternate hands / fingers / rows after each letter
+    <b>Excluding Wordparts (n-grams)</b><br>
+    <i>Example:</i> he he, st, en in on = If the word contains 2x "he" <span style="color:rgb(240, 65, 118);">or</span> an "st" <span style="color:rgb(240, 65, 118);">or</span> an "en" and "in" and "on" it's excluded.
+    <br><br><br><b>Including Wordparts (n-grams)</b><br>
+    <i>Example:</i> he he, st, en in on = If the word contains 2x "he" <span style="color:rgb(240, 65, 118);">or</span> an "st" <span style="color:rgb(240, 65, 118);">or</span> an "en" and "in" and "on" it's included.
 
 
 </div>
@@ -91,21 +90,21 @@
     <br>
     <label for="fingers">Fingers</label>
     <br>
-    <label>lp</label>
+    <label title="left pinky finger">lp</label>
     <input type="checkbox" id="lpinky" checked onchange="setFingers()">
-    <label>lr</label>
+    <label title="left ring finger">lr</label>
     <input type="checkbox" id="lring" checked onchange="setFingers()">
-    <label>lm</label>
+    <label title="left middle finger">lm</label>
     <input type="checkbox" id="lmiddle" checked onchange="setFingers()">
-    <label>li</label>
+    <label title="left index finger">li</label>
     <input type="checkbox" id="lindex" checked onchange="setFingers()">
-    <label>rp</label>
+    <label title="right pinky finger">rp</label>
     <input type="checkbox" id="rpinky" checked onchange="setFingers()">
-    <label>rr</label>
+    <label title="right ring finger">rr</label>
     <input type="checkbox" id="rring" checked onchange="setFingers()">
-    <label>rm</label>
+    <label title="right middle finger">rm</label>
     <input type="checkbox" id="rmiddle" checked onchange="setFingers()">
-    <label>ri</label>
+    <label title=" right index finger">ri</label>
     <input type="checkbox" id="rindex" checked onchange="setFingers()">
     <br>
     <label for="min">Min-Length</label> / <label for="max">Max-Length</label>
@@ -115,19 +114,19 @@
     <br>
     <label for="excluding_letters">Excluding Letters</label>
     <br>
-    <input type="text" id="excluding_letters" placeholder="en, st" onchange="setExcludingLetters()">
+    <input type="text" id="excluding_letters" placeholder="a, m, st, io, eee" onchange="setExcludingLetters()">
     <br>
     <label for="excluding_letters">Excluding Wordparts</label>
     <br>
-    <input type="text" id="excluding_strings" placeholder="oo g, ll t" onchange="setExcludingStrings()">
+    <input type="text" id="excluding_strings" placeholder="he he, st, en in on" onchange="setExcludingStrings()">
     <br>
     <label for="including_letters">Including Letters</label>
     <br>
-    <input type="text" id="including_letters" placeholder="aa, pp" onchange="setIncludingLetters()">
+    <input type="text" id="including_letters" placeholder="a, m, st, io, eee" onchange="setIncludingLetters()">
     <br>
     <label for="including_strings">Including Wordparts</label>
     <br>
-    <input type="text" id="including_strings" placeholder="co ld, st te, em pro" onchange="setIncludingStrings()">
+    <input type="text" id="including_strings" placeholder="he he, st, en in on" onchange="setIncludingStrings()">
     <br>
     Alternate...
     <br>
@@ -141,17 +140,17 @@
 </div>
 <div id="right" class="float">
     <b>Layout</b><br>
-    Here you can select various different keyboard layouts
+    <i>Example:</i> Qwerty = Standard US Keyboard Layout
     <br><br><br><b>Rows</b><br>
-    Which rows do you want to include?
+    <i>Examples:</i> Top and Home on = Only include words that can be typed with the top and home row alone.
     <br><br><br><b>Fingers</b><br>
-    Which fingers do you want to include? (lp = left pinky | lr = left ring | lm = left middle | li = left index (and same for the right hand) )
-    <br><br><br><b>Length</b><br>
-    Here you can determine the min and max length of the filtered words
-    <br><br><br><b>Excluding Wordparts (n-grams)</b><br>
-    "oo g, ll t" here means "exclude all words that contain at least one "oo" AND one "g" OR at least one "ll" AND one "t""
-    <br><br><br><b>Including Wordparts (n-grams)</b><br>
-    "co ld, st te, em pro" here means "only include words that contain at least one "co" AND one "ld" OR one "st" AND one "te" OR one "em" AND one "pro""
+    <i>Example:</i> lp and rp off = Only include words that don't contain letters that are typed with the right and left pinky. (lp = left pinky | lr = left ring | lm = left middle | li = left index (and same for the right hand))
+    <br><br><br><b>Excluding Letters</b><br>
+    <i>Example:</i> a, m, st, io, eee = If the word contains an "a" <span style="color:rgb(240, 65, 118);">or</span> an "m" <span style="color:rgb(240, 65, 118);">or</span> an "s" and "t" <span style="color:rgb(240, 65, 118);">or</span> an "i" and "o" <span style="color:rgb(240, 65, 118);">or</span> 3x "e" it's excluded.
+    <br><br><br><b>Including Letters</b><br>
+    <i>Example:</i> a, m, st, io, eee = If the word contains an "a" <span style="color:rgb(240, 65, 118);">or</span> an "m" <span style="color:rgb(240, 65, 118);">or</span> an "s" and "t" <span style="color:rgb(240, 65, 118);">or</span> an "i" and "o" <span style="color:rgb(240, 65, 118);">or</span> 3x "e" it's excluded.
+    <br><br><br><b>Alternate</b><br>
+    <i>Example:</i> Hands and Fingers on = Only include words in which the hands and fingers alternate after each letter.
 </div>
 </div>
 <div id="buttons">
