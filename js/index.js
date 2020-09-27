@@ -511,6 +511,7 @@ function excludeStrings (/*wordset*/) {
     var value;
     var sorted = [];
 
+    /*
     for (sublist of excluded_strings) {
 
         var len = sublist.length;
@@ -523,6 +524,11 @@ function excludeStrings (/*wordset*/) {
               }
               sublist[j + 1] = el;
         }
+        sorted.push(sublist);
+    }*/
+
+    for (sublist of excluded_strings) {
+        sublist.sort(function(a,b) {return a.length - b.length});
         sorted.push(sublist);
     }
 
@@ -730,6 +736,7 @@ function includeStrings () {
     var value;
     var sorted = [];
     //sort list
+    /*
     for (sublist of included_strings) {
         //console.log(sublist)
         var len = sublist.length;
@@ -744,6 +751,12 @@ function includeStrings () {
         }
         sorted.push(sublist);
     }
+    */
+    for (sublist of included_strings) {
+        sublist.sort(function(a,b) {return a.length - b.length});
+        sorted.push(sublist);
+    }
+    console.log(sorted[0])
     //find pairs that overlap
     var totalOverlaps = []
     for (sublist of sorted) {
