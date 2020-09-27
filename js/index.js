@@ -275,9 +275,20 @@ function setFingers() {
 }
 
 function displayText () {
-    if (wordset == "Quotes") {
+    if (filtered.length == 0 && wordset == "Quotes") {
+        document.getElementById('status').innerHTML = "No quotes found!";
+        document.getElementById('result').innerHTML = "---";
+    }
+    else if (filtered.length == 0) {
+        console.log('test');
+        document.getElementById('status').innerHTML = "No words found!";
+        document.getElementById('result').innerHTML = "---";
+    }
+    else if (wordset == "Quotes") {
+        document.getElementById('status').innerHTML = filtered.length + " quotes found!";
         document.getElementById('result').innerHTML = filtered.join('<br><br><br>');
     } else {
+        document.getElementById('status').innerHTML = filtered.length + " words found!";
         document.getElementById('result').innerHTML = filtered.join(' ');
     }
 }
@@ -1117,7 +1128,7 @@ function reset() {
     document.getElementById('doAlternate').checked = false;
     document.getElementById('doFingerSwitches').checked = false;
     document.getElementById('doRowSwitches').checked = false;
-    document.getElementById('result').innerHTML = " ";
+    document.getElementById('result').innerHTML = "---";
     document.getElementById('status').innerHTML = "Successully Reset";
     wordlist = words.top200;
     setWordset();
