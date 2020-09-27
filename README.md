@@ -16,7 +16,7 @@ Decide from which wordset you want to filter the words. You can also choose a se
 
 ### Layout
 
-Decide which layout should be used for the words filter. This influences the Rows, Home Position, Fingers and Alternate filters.
+Decide which layout should be used for the words filter. This influences the Hands, Rows, Home Position, Fingers and Alternate filters.
 - Qwerty: Standard US Keyboard Layout
 - Qwertz: Y and Z swapped, default layout in Germany and Switzerland.
 - Colemak: Alternative Keyboard Layout created by Shai Coleman in 2006, optimised for the English language.
