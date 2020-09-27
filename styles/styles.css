@@ -32,6 +32,7 @@ input, select {
 	border-radius: 5px;
 	border-color: rgb(240, 65, 118);
 	border-width: 3px;
+	width: auto;
 }
 
 input:focus {
@@ -114,14 +115,33 @@ form {
 
 #right {
 	width: 33%;
-	text-align:right;
+	text-align:left;
 	visibility: hidden;
 }
 
 #form {
 	width: 33%;
+	padding-left: 5%;
+	padding-right: 5%;
 }
 
 a {
 	color: #0075FF;
+}
+
+@media screen and (min-width: 900px) {
+	#left {
+		padding-left: 10%;
+		text-align: left;
+	}
+	#right {
+		padding-right: 10%;
+		text-align: left;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	.text {
+		width: 70px;
+	}
 }
