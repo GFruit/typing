@@ -11,7 +11,7 @@ Decide from which wordset you want to filter the words. You can also choose a se
 - Top 1000: Top 1000 most common English words
 - Top 10k: Top 10,000 most common English words
 - Top 30k: Top 30,000 most common English words
-- Top 370: Top 370,000 most common English words
+- Top 370k: Top 370,000 most common English words
 - Quotes: 5000 quotes from Typeracer.com
 
 ### Layout
