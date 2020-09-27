@@ -756,7 +756,6 @@ function includeStrings () {
         sublist.sort(function(a,b) {return a.length - b.length});
         sorted.push(sublist);
     }
-    console.log(sorted[0])
     //find pairs that overlap
     var totalOverlaps = []
     for (sublist of sorted) {
