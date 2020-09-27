@@ -275,20 +275,28 @@ function setFingers() {
 }
 
 function displayText () {
-    if (filtered.length == 0 && wordset == "Quotes") {
+    len = filtered.length;
+    if (len == 0 && wordset == "Quotes") {
         document.getElementById('status').innerHTML = "No quotes found!";
         document.getElementById('result').innerHTML = "---";
     }
-    else if (filtered.length == 0) {
-        console.log('test');
+    else if (len == 0) {
         document.getElementById('status').innerHTML = "No words found!";
         document.getElementById('result').innerHTML = "---";
     }
     else if (wordset == "Quotes") {
-        document.getElementById('status').innerHTML = filtered.length + " quotes found!";
+        if (len == 1) {
+            document.getElementById('status').innerHTML = len + " quote found!";
+        } else {
+            document.getElementById('status').innerHTML = len + " quotes found!";
+        }
         document.getElementById('result').innerHTML = filtered.join('<br><br><br>');
     } else {
-        document.getElementById('status').innerHTML = filtered.length + " words found!";
+        if (len == 1) {
+            document.getElementById('status').innerHTML = len + " word found!";
+        } else {
+            document.getElementById('status').innerHTML = len + " words found!";
+        }
         document.getElementById('result').innerHTML = filtered.join(' ');
     }
 }
