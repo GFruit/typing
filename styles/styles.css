@@ -1,14 +1,21 @@
+:root {
+	--background: #313131;
+	--text: #F5E6C8;
+	--sub-color: #F66E0D;
+	--hover-color: #E72D2D;
+}
+
 * {
 	box-sizing: border-box;
 	font-family: monospace;
 }
 body {
-	background:rgb(36, 32, 32);
+	background: var(--background);
 	color: white;
 }
 
 h1 {
-	color: rgb(240, 65, 118);
+	color: var(--sub-color);
 	text-align: center;
 	font-size: 3em;
 }
@@ -19,8 +26,8 @@ h1 {
 	border: 0;
 	padding: 0;
 	outline: none;
-	background-color: rgb(36, 32, 32);
-	color: white;
+	background-color: var(--background);
+	color: var(--text);
 }
 
 #copy, #reset {
@@ -30,7 +37,7 @@ h1 {
 input, select {
 	margin: 3px;
 	border-radius: 5px;
-	border-color: rgb(240, 65, 118);
+	border-color: var(--sub-color);
 	border-width: 3px;
 	width: auto;
 }
@@ -43,11 +50,11 @@ input:focus {
 input[type="checkbox"] {
 	margin-left: 17px;
 	margin-right: 17px;
-	margin-bottom: 17px;
+	margin-bottom: 17px;	
 }
 
 input[type="checkbox"]:hover {
-	color: rgb(240, 65, 118);
+	color: var(--sub-color);
 }
 
 select:focus {
@@ -64,8 +71,8 @@ select:focus {
 }
 
 button {
-	background-color: rgb(240, 65, 118);
-	color: white;
+	background-color: var(--sub-color);
+	color: var(--text);
 	border: none;
 	border-radius: 20em;
 	font-size: 3em;
@@ -74,7 +81,7 @@ button {
 }
 
 button:hover {
-	background-color: rgb(255, 0, 76);
+	background-color: var(--hover-color);
 }
 
 button:focus {
@@ -126,7 +133,15 @@ form {
 }
 
 a {
-	color: #0075FF;
+	color: var(--sub-color);
+}
+
+a:hover {
+	color: var(--hover-color);
+}
+
+.or {
+	color: var(--sub-color);
 }
 
 @media screen and (min-width: 900px) {
