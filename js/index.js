@@ -39,7 +39,7 @@ function setWordset () {
     } else if (wordset == "Top 30k") {
         wordlist = words.top30k;
     } else if (wordset == "Top 370k") {
-        wordlist = words.top370k;
+        wordlist = top370k;
     } else if (wordset == "Quotes") {
         wordlist = quotes;
     }
@@ -1115,14 +1115,7 @@ function one_hand() {
         return filtered;
     }
 }
-/*
-function copy() {
-    var text = document.getElementById('result'); //text is an HTML collection
-    text.select();
-    document.execCommand('copy');
-    document.getElementById('status').innerHTML = "Copied to Clipboard";
-}
-*/
+
 function reset() {
     document.getElementById('wordset').value = "Top 200";
     document.getElementById('layout').value = "Qwerty";
@@ -1199,4 +1192,16 @@ function showTips() {
         document.getElementById('info').innerHTML = 'show help'
         tips = "inactive";
     }
+}
+
+function load370k() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            top370k = this.responseText;
+            top370k = JSON.parse(top370k);
+        }
+    }
+    xhttp.open("GET", "js/370k.json", true);
+    xhttp.send();
 }

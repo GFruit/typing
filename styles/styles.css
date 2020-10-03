@@ -226,3 +226,7 @@ a:hover {
   ::-webkit-scrollbar-thumb:hover {
 	background: var(--hover-color);
   }
+
+  input[type="text"] {
+	  outline: none;
+  }
