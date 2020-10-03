@@ -102,17 +102,17 @@ form {
 #left {
 	width: 33%;
 	text-align:left;
-	visibility: hidden;
+	display: none;
 }
 
 #right {
 	width: 33%;
 	text-align:left;
-	visibility: hidden;
+	display: none;
 }
 
 #form {
-	width: 33%;
+	width: 100%;
 	padding-left: 5%;
 	padding-right: 5%;
 }
@@ -149,14 +149,14 @@ a:hover {
 /* Customize the label (the container) */
 .container {
     position: relative;
-    padding-left: 40px;
+    padding-left: 26px;
     margin-bottom: 12px;
     cursor: pointer;
     font-size: 22px;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
-    user-select: none;
+	user-select: none;
   }
   
   /* Hide the browser's default checkbox */

@@ -1182,13 +1182,15 @@ function copy(node) {
 
 function showTips() {
     if (tips == "inactive") {
-        document.getElementById('left').style.visibility = "visible";
-        document.getElementById('right').style.visibility = "visible";
+        document.getElementById('left').style.display = "block";
+        document.getElementById('right').style.display = "block";
+        document.getElementById('form').style.width = "33%";
         document.getElementById('info').innerHTML = 'hide help'
         tips = "active";
     } else if (tips == "active") {
-        document.getElementById('left').style.visibility = "hidden";
-        document.getElementById('right').style.visibility = "hidden";
+        document.getElementById('left').style.display = "none";
+        document.getElementById('right').style.display = "none";
+        document.getElementById('form').style.width = "100%";
         document.getElementById('info').innerHTML = 'show help'
         tips = "inactive";
     }
