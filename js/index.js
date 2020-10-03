@@ -1184,7 +1184,7 @@ function showTips() {
     if (tips == "inactive") {
         document.getElementById('left').style.display = "block";
         document.getElementById('right').style.display = "block";
-        document.getElementById('form').style.width = "33%";
+        document.getElementById('form').style.width = "34%";
         document.getElementById('info').innerHTML = 'hide help'
         tips = "active";
     } else if (tips == "active") {

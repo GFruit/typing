@@ -22,7 +22,7 @@ h1 {
 
 #result {
 	width: 100%;
-	height: 200vh;
+	height: 20vh;
 	border: 0;
 	padding: 0;
 	outline: none;
@@ -62,7 +62,7 @@ button {
 	border-radius: 20em;
 	font-size: 3em;
 	padding: 10px;
-	margin-left: 10px;
+	margin: auto;
 }
 
 button:hover {
