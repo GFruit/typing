@@ -8,6 +8,7 @@
 * {
 	box-sizing: border-box;
 	font-family: monospace;
+	scroll-behavior: smooth;
 }
 body {
 	background: var(--background);
@@ -40,6 +41,7 @@ input, select {
 	border-color: var(--sub-color);
 	border-width: 3px;
 	width: auto;
+	outline: none;
 }
 
 select:focus {
@@ -117,13 +119,30 @@ form {
 	padding-right: 5%;
 }
 
-a {
+
+#tipslink {
 	color: var(--sub-color);
 }
 
-a:hover {
+a:not(#tipslink) {
+	background-color: var(--sub-color);
+	color: var(--text);
+	border: none;
+	border-radius: 20em;
+	font-size: 3em;
+	padding: 10px;
+	margin: auto;
+	text-decoration: none;
+}
+
+a:not(#tipslink):hover {
+	background-color: var(--hover-color);
+}
+
+#tipslink:hover {
 	color: var(--hover-color);
 }
+
 
 .or {
 	color: var(--sub-color);
@@ -225,8 +244,4 @@ a:hover {
   }
   ::-webkit-scrollbar-thumb:hover {
 	background: var(--hover-color);
-  }
-
-  input[type="text"] {
-	  outline: none;
   }
