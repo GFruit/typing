@@ -134,6 +134,8 @@ a:not(#tipslink) {
 	margin: auto;
 	text-decoration: none;
 	cursor: default;
+	display: inline-block;
+	width: 150px;
 }
 
 a:not(#tipslink):hover {
