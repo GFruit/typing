@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="filter">
 <head>
 <!-- Google Analytics -->
 <script>
@@ -201,7 +201,11 @@
 </div>
 </div>
 <div id="buttons">
-    <p><button id="copy" onclick="copy('result')">Copy</button><a onclick="filterTheWords()" href="#buttons">Filter</a><a id="reset" onclick="reset()" href="#info">Reset</a></p>
+    <p>
+        <button id="copy" onclick="copy('result')">Copy</button>
+        <a onclick="filterTheWords()" href="#buttons">Filter</a>
+        <a id="reset" onclick="reset()" href="#filter">Reset</a>
+    </p>
 </div>
 <div id="status"></div>
 <br>

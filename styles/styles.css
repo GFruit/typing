@@ -133,6 +133,7 @@ a:not(#tipslink) {
 	padding: 10px;
 	margin: auto;
 	text-decoration: none;
+	cursor: default;
 }
 
 a:not(#tipslink):hover {
@@ -170,7 +171,6 @@ a:not(#tipslink):hover {
     position: relative;
     padding-left: 26px;
     margin-bottom: 12px;
-    cursor: pointer;
     font-size: 22px;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -182,7 +182,6 @@ a:not(#tipslink):hover {
   .container input {
     position: absolute;
     opacity: 0;
-    cursor: pointer;
     height: 0;
     width: 0;
   }
@@ -206,6 +205,10 @@ a:not(#tipslink):hover {
   /* When the checkbox is checked, add a blue background */
   .container input:checked ~ .checkmark {
     background-color: var(--sub-color);
+  }
+
+  .container input:checked ~ .checkmark:hover {
+    background-color: var(--hover-color);
   }
   
   /* Create the checkmark/indicator (hidden when not checked) */
