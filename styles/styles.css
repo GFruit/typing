@@ -3,6 +3,7 @@
 	--text: #F5E6C8;
 	--sub-color: #F66E0D;
 	--hover-color: #E72D2D;
+	--caret-color: white;
 }
 
 * {
@@ -10,6 +11,100 @@
 	font-family: monospace;
 	scroll-behavior: smooth;
 }
+
+.correct {
+	color: rgba(2, 148, 2, 0.336);
+}
+
+.error {
+	color: rgba(145, 0, 0, 0.336);
+}
+
+.space-error {
+	border-bottom: 1px solid rgba(145, 0, 0, 0.336);
+}
+
+body {
+	background:rgb(36, 32, 32);
+	color: white;
+}
+
+.headerlink:link, .headerlink:visited {
+	color: white;
+	background-color: darkgrey;
+}
+.headerlink.active {
+	background-color: var(--sub-color);
+	
+}
+.headerlink:hover:not(.active) {
+	background-color:var(--hover-color);
+}
+ul {
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+li {
+	float: left;
+	width: 33%;
+}
+li a {
+	display: block;
+	padding: 8px;
+	text-align: center;
+	text-decoration: none;
+}
+
+
+#textdisplay {
+	color: rgba(180, 179, 179, 0.336);
+	margin-bottom: 10px;
+	margin: auto;
+	/*border: 3px solid rgb(82, 34, 34);*/
+	width: 80%;
+	text-align: center;
+	white-space: pre-wrap;
+	font-size: 2em;
+	line-height: 40px;
+}
+#refresh {
+	/*border: 3px solid black;*/
+	text-align: center;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+#typing-input{
+	/*
+	margin: auto;
+	width: 50%;
+	padding: 5px;
+	background-color: rgb(218, 218, 218);
+	*/
+	width: 0;
+	height: 0;
+	border: none;
+	outline: none;
+	padding: 0px;
+}
+
+#typing-input:focus ~ #typingarea > #textdisplay > word > letter{
+	color: white;
+}
+
+#typing-input:focus ~ #typingarea > #textdisplay > word > letter.correct{
+	color: rgb(4, 255, 4);
+}
+
+#typing-input:focus ~ #typingarea > #textdisplay > word > letter.error{
+	color: rgb(255, 81, 0);
+}
+
+#typing-input:focus ~ #typingarea > #textdisplay > letter.space-error {
+	border-bottom: 1px solid rgb(255, 81, 0);
+}
+
 body {
 	background: var(--background);
 	color: white;
@@ -35,7 +130,9 @@ h1 {
 	visibility: hidden;
 }
 
-input, select {
+
+
+.text, input[type="number"], select {
 	margin: 3px;
 	border-radius: 5px;
 	border-color: var(--sub-color);
@@ -52,27 +149,31 @@ select:focus {
 	max-width: 70px;
 }
 
-#buttons {
-	text-align: center;
-	clear: both;
-}
-
-button {
-	background-color: var(--sub-color);
-	color: var(--text);
-	border: none;
+input[type="button"] {
 	border-radius: 20em;
 	font-size: 3em;
 	padding: 10px;
-	margin: auto;
-}
-
-button:hover {
-	background-color: var(--hover-color);
-}
-
-button:focus {
+	color: var(--text);
+	background-color: var(--sub-color);
 	outline: none;
+	border: none;
+	cursor: pointer;
+}
+
+#clearstatsbutton, #hidestatsbutton {
+	font-size: 1em;
+	border-radius: 20em;
+	padding: 5px;
+	width: 90px;
+}
+
+input[type="button"]:hover {
+	background-color: var(--hover-color)
+}
+
+#buttons {
+	text-align: center;
+	clear: both;
 }
 
 form {
@@ -93,12 +194,18 @@ form {
 }
 
 #info {
-	position: absolute;
-	top: 0;
-	right: 0;
 	font-size: 1em;
 	border-radius: 20em;
 	padding: 5px;
+	outline: none;
+	border: none;
+	background-color: var(--sub-color);
+	color: var(--text);
+	cursor: pointer;
+}
+
+#info:hover {
+	background-color: var(--hover-color)
 }
 
 #left {
@@ -120,29 +227,11 @@ form {
 }
 
 
-#tipslink {
+#link {
 	color: var(--sub-color);
 }
 
-a:not(#tipslink) {
-	background-color: var(--sub-color);
-	color: var(--text);
-	border: none;
-	border-radius: 20em;
-	font-size: 3em;
-	padding: 10px;
-	margin: auto;
-	text-decoration: none;
-	cursor: default;
-	display: inline-block;
-	width: 150px;
-}
-
-a:not(#tipslink):hover {
-	background-color: var(--hover-color);
-}
-
-#tipslink:hover {
+#link:hover {
 	color: var(--hover-color);
 }
 
@@ -196,7 +285,8 @@ a:not(#tipslink):hover {
     height: 25px;
     width: 25px;
     border-radius: 50%;
-    background-color: #F5E6C8;
+	background-color: #F5E6C8;
+	cursor: pointer;
   }
   
   /* On mouse-over, add a grey background color */
@@ -250,3 +340,87 @@ a:not(#tipslink):hover {
   ::-webkit-scrollbar-thumb:hover {
 	background: var(--hover-color);
   }
+
+ .linkbutton {
+	background-color: var(--sub-color);
+	color: var(--text);
+	border: none;
+	border-radius: 20em;
+	font-size: 3em;
+	padding: 10px;
+	margin: auto;
+	text-decoration: none;
+	cursor: pointer;
+	display: inline-block;
+	width: 150px;
+  }
+
+ .linkbutton:hover {
+	background-color: var(--hover-color);
+}
+
+#analysis-container {
+	position: relative;
+	top: 50px;
+}
+
+#statsstatus {
+	text-align: center;
+	font-size: 2em;
+	margin-top: 50px;
+}
+
+#analysis-container > * {
+	top: 50px;
+	width: 25%;
+	text-align: center;
+	font-size: 2em;
+	white-space: pre;
+	float: left;
+}
+
+#infodiv, #clear-stats, #hidestats {
+	text-align: right;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+#main {
+	margin-top: 0px;
+}
+
+#modes {
+	text-align: center;
+}
+
+.modes > * {
+	cursor: pointer;
+	font-size: 2em;
+}
+
+.modes > *:hover {
+	color: var(--hover-color);
+}
+
+.noselect {
+	-webkit-touch-callout: none; /* iOS Safari */
+	  -webkit-user-select: none; /* Safari */
+	   -khtml-user-select: none; /* Konqueror HTML */
+		 -moz-user-select: none; /* Old versions of Firefox */
+		  -ms-user-select: none; /* Internet Explorer/Edge */
+			  user-select: none; /* Non-prefixed version, currently
+									supported by Chrome, Edge, Opera and Firefox */
+}
+
+#caret {
+	animation-name: caretFlash;
+	animation-iteration-count: infinite;
+	animation-duration: 1s;
+}
+
+@keyframes caretFlash {
+	0% {border-left-color: var(--caret-color)}
+	50% {border-left-color: rgba(255, 255, 255, 0)}
+	100% {border-left-color: var(--caret-color)}
+}
+
