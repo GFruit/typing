@@ -75,6 +75,9 @@ li a {
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
+#refresh > input:focus {
+	background-color: var(--hover-color);
+}
 #typing-input{
 	/*
 	margin: auto;
