@@ -82,8 +82,8 @@ li a {
 	padding: 5px;
 	background-color: rgb(218, 218, 218);
 	*/
-	width: 100vw;
-	height: 100px;
+	width: 0;
+	height: 0;
 	border: none;
 	outline: none;
 	padding: 0px;
