@@ -275,7 +275,12 @@ function focusInput() {
     document.getElementById('typing-input').focus();
 }
 
+function blurInput() {
+    document.getElementById('typing-input').blur();
+}
+
 function refresh() {
+    blurInput();
     reset();
     loadWords();
     focusInput();
@@ -367,12 +372,14 @@ function hideStats() { //toggle stats visibility
 }
 
 function stopFlash() {
+    console.log('stopflash');
     if (document.getElementById('caret') != null) {
         document.getElementById('caret').removeAttribute('id');
     }
 }
 
 function startFlash() {
+    console.log('startflash');
     letter = document.querySelectorAll("letter")[obj.lettercounter];
     if (obj.lettercounter < obj.lettercount) {
         letter.setAttribute("id", "caret");
