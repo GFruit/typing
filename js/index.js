@@ -138,6 +138,9 @@ function textDisplayColors(event) {
         return;
     }
     var x = event.which || event.keyCode;
+    if (x == 13) {
+        return;
+    }
     var pressedKey = String.fromCharCode(x);
     letter = document.querySelectorAll("letter")[obj.lettercounter];
     previousletter = document.querySelectorAll("letter")[obj.lettercounter-1];
@@ -205,6 +208,9 @@ function handleBackspace(event) {
             letter.style.borderLeft = "0.1px solid " + caretColor;
         }
         return;
+    } else if (x == 13) {
+        console.log('test');
+        refresh();
     }
 }
 
