@@ -67,25 +67,17 @@ function shuffle(array) {
 async function getItem(item, cache) {
     var request = item + '.json';
     const response = await cache.match(request);
-        if (response != undefined) {
-            response.text().then(function(result) {
-                stats[item] = JSON.parse(result);
-                obj.itemcounter += 1
-                if (obj.itemcounter == 4) {
-                    displayStats();
-                    updateStatus();
-                }
-                
-            })
-        } else {
-            obj.itemcounter += 1
-            if (obj.itemcounter == 4) {
-                displayStats();
-                updateStatus();
-            }
-            //console.log('item not found in cache');
-        }
-
+    if (response != undefined) {
+        const result = await response.text();
+        stats[item] = JSON.parse(result);
+        console.log('test2');
+    }
+    obj.itemcounter += 1
+    console.log('test1');
+    if (obj.itemcounter == 4) {
+        displayStats();
+        updateStatus();
+    }
 }
 
 if ('caches' in window) {
