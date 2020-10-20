@@ -303,7 +303,11 @@ function displayStats() {
     for (item in stats) {
         var sortable = [];
         for (letter in stats[item]) {
-            sortable.push([letter, stats[item][letter]])
+	    var displayletter = letter;
+	    if (i == 2 && letter.includes(" ")) {
+		displayletter = letter.replace(" ", "_");
+	    }
+            sortable.push([displayletter, stats[item][letter]])
         }
 
         sortable.sort(function(a, b) {return b[1] - a[1]})
