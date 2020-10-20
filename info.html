@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google Analytics -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  
+  ga('create', 'UA-XXXXX-Y', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="styles\styles.css">
+<title>Home</title>
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="info.html" class="headerlink active" title="Go to Info Page" class="active">Info</a></li>
+        <li><a href="index.html" class="headerlink" title="Go to Typing Section" >Typing Test</a></li>
+        <li><a href="words-filter.html" class="headerlink" title="Go to Words Filter">Words Filter</a></li>
+        <div style="clear: both;"></div>
+      </ul>
+    </nav>
+  </header>
+  <main style="text-align: center; width: 50%;margin: auto;">
+    <h1>Info</h1>
+    <p>This site consists of a typing test as well as a words filter. The goal is to analyse your weaknesses at typing so you can work on making them your strengths.</p>
+    <h2>Typing Test</h2>
+    <h3>Modes</h3>
+    <p>The typing test features three different modes. Top 200 and Top 1000 let you do tests based on the most common english words. Quote lets you type a random english quote.</p>
+    <h3>Stats</h3>
+    <p>At the bottom of the typing test you can see an analysis of your mistakes. The analysis shows your most mistyped letters, bigrams, words, and wordpairs</p>
+    <h2>Words Filter</h2>
+    <h3>Introduction</h3>
+    <p>The words filter lets you filter words based on certain rules that you can set yourself.
+      Do you want to find words that can be typed entirely with your left hand? Are you looking for 3-letter words only?
+      Do you want to exclude words that contain the n-gram "eas"? (that would exclude words such as "increase")
+      These are some examples of what you can do with the words filter. More explanations or examples can be found in the words filter tab, as well as in the <a id="link" href="https://github.com/GFruit/words-filter/blob/master/README.md#words-filter" target="_blank">GitHub README</a>.
+    </p>
+    <p>Note: The words filter returns a list of words separated by spaces. If you want to practice typing these words, copy the list, visit
+      <a href="monkeytype.com" target="_blank" id="link">Monkeytype</a> and paste the copied words into the custom mode.
+    </p>
+  </main>
+</body>
+</html>
