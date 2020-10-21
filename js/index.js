@@ -24,7 +24,6 @@ obj = {
 var caretColor = "white";
 document.body.style.setProperty("--caret-color", caretColor);
 
-
 function setWordset (value) { 
     if (value == "Top 200") {
         wordlist = words.top200;
@@ -239,8 +238,8 @@ function updateCaret(keycode, letter, next) {
     }
 }
 
-function stopCtrl(event) {
-    var x = event.which || event.keyCode;
+function stopStates(event) {
+    var x = event.which || event.keyCode;;
     if (obj.ctrlBefore == true && x == 17) {
         obj.ctrlBefore = false;
     }
