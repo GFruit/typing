@@ -180,8 +180,6 @@ function handleNonletters(event) {
             letter.classList.remove(letter.classList.item(0));
             letter = document.querySelectorAll("letter")[obj.lettercounter-1];
             next = document.querySelectorAll("letter")[obj.lettercounter];
-            console.log(letter.innerHTML);
-            console.log(next.innerHTML);
         }
         while (obj.lettercounter > 0 && letter.innerHTML != ' ') {
             obj.lettercounter--;
@@ -192,7 +190,6 @@ function handleNonletters(event) {
         }
     }
     if (x == 8 && obj.lettercounter > 0 && obj.ctrlBefore == false) {
-        console.log('test');
         letter = document.querySelectorAll("letter")[obj.lettercounter-1];
         next = document.querySelectorAll("letter")[obj.lettercounter];
         letter.classList.remove(letter.classList.item(0));
@@ -219,8 +216,6 @@ function handleNonletters(event) {
 
 function updateCaret(keycode, letter, next) {
     if (keycode == 8) {
-        console.log(obj.lettercounter);
-        console.log(obj.lettercount);
         if (obj.lettercounter+1 >= obj.lettercount) {
             letter.style.borderRight = "0.1px solid transparent";
         } else {
