@@ -175,6 +175,9 @@ function handleNonletters(event) {
         next = document.querySelectorAll("letter")[obj.lettercounter];
         if (letter.innerHTML == ' ') {
             obj.lettercounter--;
+            if (obj.mistakeIdx == obj.lettercounter) {
+                obj.mistake = false;
+            }
             obj.wordcounter--;
             updateCaret(x, letter, next);
             letter.classList.remove(letter.classList.item(0));
@@ -183,6 +186,9 @@ function handleNonletters(event) {
         }
         while (obj.lettercounter > 0 && letter.innerHTML != ' ') {
             obj.lettercounter--;
+            if (obj.mistakeIdx == obj.lettercounter) {
+                obj.mistake = false;
+            }
             updateCaret(x, letter, next);
             letter.classList.remove(letter.classList.item(0));
             letter = document.querySelectorAll("letter")[obj.lettercounter-1];
