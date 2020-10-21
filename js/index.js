@@ -17,7 +17,8 @@ obj = {
     wordcount: 0,
     mistake: false, //does the typed text contain any mistakes
     mistakeIdx: -1,
-    itemcounter: 0
+    itemcounter: 0,
+    ctrlBefore: false
 }
 
 var caretColor = "white";
@@ -70,10 +71,8 @@ async function getItem(item, cache) {
     if (response != undefined) {
         const result = await response.text();
         stats[item] = JSON.parse(result);
-        console.log('test2');
     }
     obj.itemcounter += 1
-    console.log('test1');
     if (obj.itemcounter == 4) {
         displayStats();
         updateStatus();
@@ -143,12 +142,7 @@ function textDisplayColors(event) {
         flash.firstLetterTyped = true;
         stopFlash();
     }
-    if (obj.lettercounter+1 < obj.lettercount) {
-        next.style.borderLeft = "0.1px solid " + caretColor;
-    } else {
-        letter.style.borderRight = "0.1px solid " + caretColor;
-    }
-    letter.style.borderLeft = "0.1px solid transparent";
+    updateCaret(x, letter, next);
 
     if (pressedKey == letter.innerHTML && obj.mistake == false) {
         letter.classList.add("correct");
@@ -174,10 +168,31 @@ function textDisplayColors(event) {
     obj.lettercounter++
 }
 
-function handleBackspace(event) {
+function handleNonletters(event) {
     var x = event.which || event.keyCode;
-    if (x == 8 && obj.lettercounter > 0) {
-        previousletter = document.querySelectorAll("letter")[obj.lettercounter-2];
+    if (x == 8  && obj.lettercounter > 0 && obj.ctrlBefore == true) {
+        letter = document.querySelectorAll("letter")[obj.lettercounter-1];
+        next = document.querySelectorAll("letter")[obj.lettercounter];
+        if (letter.innerHTML == ' ') {
+            obj.lettercounter--;
+            obj.wordcounter--;
+            updateCaret(x, letter, next);
+            letter.classList.remove(letter.classList.item(0));
+            letter = document.querySelectorAll("letter")[obj.lettercounter-1];
+            next = document.querySelectorAll("letter")[obj.lettercounter];
+            console.log(letter.innerHTML);
+            console.log(next.innerHTML);
+        }
+        while (obj.lettercounter > 0 && letter.innerHTML != ' ') {
+            obj.lettercounter--;
+            updateCaret(x, letter, next);
+            letter.classList.remove(letter.classList.item(0));
+            letter = document.querySelectorAll("letter")[obj.lettercounter-1];
+            next = document.querySelectorAll("letter")[obj.lettercounter];
+        }
+    }
+    if (x == 8 && obj.lettercounter > 0 && obj.ctrlBefore == false) {
+        console.log('test');
         letter = document.querySelectorAll("letter")[obj.lettercounter-1];
         next = document.querySelectorAll("letter")[obj.lettercounter];
         letter.classList.remove(letter.classList.item(0));
@@ -192,17 +207,41 @@ function handleBackspace(event) {
         if (obj.mistakeIdx == obj.lettercounter) {
             obj.mistake = false;
         }
-        if (obj.lettercounter+1 == obj.lettercount) {
-            letter.style.borderRight = "0.1px solid transparent";
-            letter.style.borderLeft = "0.1px solid " + caretColor;
-        } else {
-            next.style.borderLeft =  "0.1px solid transparent";
-            letter.style.borderLeft = "0.1px solid " + caretColor;
-        }
+        updateCaret(x, letter, next)
         return;
     } else if (x == 13) {
-        console.log('test');
         refresh();
+    }
+    else if (x == 17) {
+        obj.ctrlBefore = true;
+    }
+}
+
+function updateCaret(keycode, letter, next) {
+    if (keycode == 8) {
+        console.log(obj.lettercounter);
+        console.log(obj.lettercount);
+        if (obj.lettercounter+1 >= obj.lettercount) {
+            letter.style.borderRight = "0.1px solid transparent";
+        } else {
+            next.style.borderLeft =  "0.1px solid transparent";
+        }
+        letter.style.borderLeft = "0.1px solid " + caretColor;
+    }
+    else {
+        if (obj.lettercounter+1 < obj.lettercount) {
+            next.style.borderLeft = "0.1px solid " + caretColor;
+        } else {
+            letter.style.borderRight = "0.1px solid " + caretColor;
+        }
+        letter.style.borderLeft = "0.1px solid transparent";
+    }
+}
+
+function stopCtrl(event) {
+    var x = event.which || event.keyCode;
+    if (obj.ctrlBefore == true && x == 17) {
+        obj.ctrlBefore = false;
     }
 }
 
@@ -368,14 +407,12 @@ function hideStats() { //toggle stats visibility
 }
 
 function stopFlash() {
-    console.log('stopflash');
     if (document.getElementById('caret') != null) {
         document.getElementById('caret').removeAttribute('id');
     }
 }
 
 function startFlash() {
-    console.log('startflash');
     letter = document.querySelectorAll("letter")[obj.lettercounter];
     if (obj.lettercounter < obj.lettercount) {
         letter.setAttribute("id", "caret");
