@@ -18,9 +18,9 @@ obj = {
     mistake: false, //does the typed text contain any mistakes
     mistakeIdx: -1,
     itemcounter: 0,
-    ctrlBefore: false
+    ctrlBefore: false,
+    shiftBefore: false
 }
-console.log('test');
 var caretColor = "white";
 document.body.style.setProperty("--caret-color", caretColor);
 
@@ -129,11 +129,14 @@ function textDisplayColors(event) {
         return;
     }
     var x = event.which || event.keyCode;
-    console.log(x);
     if (x == 13) {
         return;
     }
     var pressedKey = String.fromCharCode(x);
+    if (obj.shiftBefore == false && x != 16) {
+        pressedKey = pressedKey.toLowerCase();
+    }
+    console.log(pressedKey);
     letter = document.querySelectorAll("letter")[obj.lettercounter];
     previousletter = document.querySelectorAll("letter")[obj.lettercounter-1];
     next = document.querySelectorAll("letter")[obj.lettercounter+1];
@@ -171,7 +174,6 @@ function textDisplayColors(event) {
 
 function handleNonletters(event) {
     var x = event.which || event.keyCode;
-    console.log(x);
     if (x == 8  && obj.lettercounter > 0 && obj.ctrlBefore == true) {
         letter = document.querySelectorAll("letter")[obj.lettercounter-1];
         next = document.querySelectorAll("letter")[obj.lettercounter];
@@ -220,6 +222,11 @@ function handleNonletters(event) {
     else if (x == 17) {
         obj.ctrlBefore = true;
     }
+    else if (x == 16) {
+        obj.shiftBefore = true;
+    } else {
+        textDisplayColors(event)
+    }
 }
 
 function updateCaret(keycode, letter, next) {
@@ -246,8 +253,9 @@ function stopCtrl(event) {
     if (obj.ctrlBefore == true && x == 17) {
         obj.ctrlBefore = false;
     }
-    textDisplayColors(event)
-    
+    if (obj.shiftBefore == true && x == 16) {
+        obj.shiftBefore = false;
+    }  
 }
 
 function addWrongLetter(letter) {
