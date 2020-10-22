@@ -5,31 +5,42 @@ if( navigator.userAgent.match(/Android/i)
  || navigator.userAgent.match(/iPod/i)
  || navigator.userAgent.match(/BlackBerry/i)
  || navigator.userAgent.match(/Windows Phone/i)) {
-    document.getElementById('input').addEventListener("keydown", getValue);
+    document.getElementById('input').addEventListener("keyup", getValue);
  } else {
-    document.getElementById('input').addEventListener("keypress", getValue);
+    document.getElementById('input').addEventListener("keyup", getValue);
  }
 
 obj = {
     i: 0,
-    lettercount: 0
+    lettercount: 0,
+    previouslen: -1
 }
 
 function getValue() {
-    if (obj.i-1 > obj.lettercount) {
-        return;
-    }
     input = document.getElementById('input').value;
     document.getElementById('result').innerHTML = input;
-    len = input.length;
-    text = document.querySelector('letter').innerHTML;
     letter = document.querySelectorAll('letter')[obj.i];
-    if (input[obj.i] == letter.innerHTML) {
-        letter.style.color = "green";
-    } else {
-        letter.style.color = "red";
+    len = input.length;
+    if (obj.previouslen > len) {
+        while (obj.previouslen > len) {
+            obj.previouslen--
+            obj.i--
+            console.log('test');
+            letter = document.querySelectorAll('letter')[obj.i];
+            letter.classList.remove(letter.classList.item(0));
+        }
+    } else if (input[obj.i] != undefined) {
+        if (obj.i < obj.lettercount) {
+            console.log('test2');
+            if (input[obj.i] == letter.innerHTML) {
+                letter.classList.add("correct");
+            } else {
+                letter.classList.add("error");
+            }
+        }
+        obj.i++;
     }
-    obj.i++;
+    obj.previouslen = len;
 }
 
 wordlist = ['hello', 'my', 'friend']
@@ -37,7 +48,10 @@ for (word of wordlist) {
     for (letter of word) {
         obj.lettercount++;
     }
+    obj.lettercount++;
 }
+obj.lettercount--;
+document.getElementById('input').setAttribute("maxlength", obj.lettercount)
 
 text = document.getElementById('text');
 
@@ -57,4 +71,7 @@ for (var i=0; i<wordlist.length; i++) {
 }
 lastspace = text.lastChild;
 text.removeChild(lastspace);
+
+//keyup for mobile
+//keydown for pc
 
