@@ -5,9 +5,9 @@ if( navigator.userAgent.match(/Android/i)
  || navigator.userAgent.match(/iPod/i)
  || navigator.userAgent.match(/BlackBerry/i)
  || navigator.userAgent.match(/Windows Phone/i)) {
-    document.getElementById('input').addEventListener("keyup", getValue);
- } else {
     document.getElementById('input').addEventListener("keydown", getValue);
+ } else {
+    document.getElementById('input').addEventListener("keypress", getValue);
  }
 
 obj = {
