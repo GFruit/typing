@@ -43,7 +43,7 @@ function getValue() {
     obj.previouslen = len;
 }
 
-wordlist = ['hello', 'my', 'friend']
+wordlist = ['helLo', 'my', 'friend.?*#']
 for (word of wordlist) {
     for (letter of word) {
         obj.lettercount++;
@@ -73,5 +73,5 @@ lastspace = text.lastChild;
 text.removeChild(lastspace);
 
 //keyup for mobile
-//keydown for pc
+//keydown/keypress for pc
 
