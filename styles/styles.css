@@ -419,7 +419,7 @@ form {
 	animation-name: caretFlash;
 	animation-iteration-count: infinite;
 	animation-duration: 1s;
-	animation-delay: 1s;
+	animation-delay: 0.5s;
 }
 
 #rightcaret {
