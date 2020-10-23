@@ -419,11 +419,25 @@ form {
 	animation-name: caretFlash;
 	animation-iteration-count: infinite;
 	animation-duration: 1s;
+	animation-delay: 1s;
+}
+
+#rightcaret {
+	animation-name: rightCaretFlash;
+	animation-iteration-count: infinite;
+	animation-duration: 1s;
+	animation-delay: 1s;
 }
 
 @keyframes caretFlash {
 	0% {border-left-color: var(--caret-color)}
 	50% {border-left-color: rgba(255, 255, 255, 0)}
 	100% {border-left-color: var(--caret-color)}
+}
+
+@keyframes rightCaretFlash {
+	0% {border-right-color: var(--caret-color)}
+	50% {border-right-color: rgba(255, 255, 255, 0)}
+	100% {border-right-color: var(--caret-color)}
 }
 
