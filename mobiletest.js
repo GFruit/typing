@@ -1,3 +1,12 @@
+obj = {
+    i: 0,
+    lettercount: 0,
+    previouslen: -1,
+}
+
+
+
+
 if( navigator.userAgent.match(/Android/i)
  || navigator.userAgent.match(/webOS/i)
  || navigator.userAgent.match(/iPhone/i)
@@ -10,11 +19,6 @@ if( navigator.userAgent.match(/Android/i)
     document.getElementById('input').addEventListener("keyup", getValue);
  }
 
-obj = {
-    i: 0,
-    lettercount: 0,
-    previouslen: -1
-}
 
 function getValue() {
     input = document.getElementById('input').value;
@@ -43,7 +47,7 @@ function getValue() {
     obj.previouslen = len;
 }
 
-wordlist = ['helLo', 'my', 'friend.?*#']
+wordlist = ['helLo', 'my', 'friend.?*#ā']
 for (word of wordlist) {
     for (letter of word) {
         obj.lettercount++;
@@ -72,6 +76,83 @@ for (var i=0; i<wordlist.length; i++) {
 lastspace = text.lastChild;
 text.removeChild(lastspace);
 
+function updateCaret(letter, next) {
+    if (obj.previouslen > len) {
+        while (obj.previouslen > len) {
+            if (obj.i+1 >= obj.lettercount) {
+                letter.style.borderRight = "0.1px solid transparent";
+            } else {
+                next.style.borderLeft =  "0.1px solid transparent";
+            }
+            letter.style.borderLeft = "0.1px solid " + caretColor;
+        }
+    }
+    else {
+        if (obj.lettercounter+1 < obj.lettercount) {
+            next.style.borderLeft = "0.1px solid " + caretColor;
+        } else {
+            letter.style.borderRight = "0.1px solid " + caretColor;
+        }
+        letter.style.borderLeft = "0.1px solid transparent";
+    }
+}
+
+function stopFlash() {
+    if (document.getElementById('caret') != null) {
+        document.getElementById('caret').removeAttribute('id');
+    }
+}
+
+function startFlash() {
+    letter = document.querySelectorAll("letter")[obj.lettercounter];
+    if (obj.lettercounter < obj.lettercount) {
+        letter.setAttribute("id", "caret");
+        flash.firstLetterTyped = false;
+        flash.firstLetterBackspaced = false;
+    }
+}
+
+function hideCaret() {
+    letter = document.querySelectorAll("letter")[obj.lettercounter];
+    if (obj.lettercounter < obj.lettercount) {
+        letter.style.borderLeft = "0.1px solid transparent";
+    } else {
+        letter = document.querySelectorAll("letter")[obj.lettercounter-1];
+        letter.style.borderRight = "0.1px solid transparent";
+    }
+    if (flash.firstLetterTyped == false && flash.firstLetterBackspaced == false) {
+        stopFlash();
+    }
+}
+
+function showCaret() {
+    letter = document.querySelectorAll("letter")[obj.lettercounter];
+    if (obj.lettercounter < obj.lettercount) {
+        letter.style.borderLeft = "0.1px solid " + caretColor;
+    } else {
+        letter = document.querySelectorAll("letter")[obj.lettercounter-1];
+        letter.style.borderRight = "0.1px solid " + caretColor;
+    }
+    startFlash();
+}
+
 //keyup for mobile
 //keydown/keypress for pc
 
+//find solution so keydown works for PC with this solution here
+//This would be a better solution because dead keys work and I wouldn't
+//Have to write 2 different codes twice for mobile and PC
+//I would just have to change keyup and keydown
+
+//note: this solution works with keyup (ON MOBILE)
+
+//On mobile it's a good solution because on PC it would lag behind
+//on mobile there are only keyups basically (the key isn't sent until
+//keyup / also you can't hold a letter on mobile to spam it)
+
+//so I should detect mobile then use this solution, but first i'll try
+//to implement the caret and all the other stuff that I got so far
+//on the main site
+
+//and I use the other solution that I got so far for PC (if I can't
+//figure out how to make keydown work for PC with this solution here)
