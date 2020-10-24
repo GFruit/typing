@@ -35,8 +35,17 @@
     <h2>Typing Test</h2>
     <h3>Modes</h3>
     <p>The typing test features three different modes. Top 200 and Top 1000 let you do tests based on the most common english words. Quote lets you type a random english quote.</p>
+    <h3>Typing</h3>
+    <p>Correctly typed letters are colored green, incorrectly typed letters are colored red. Letters that haven't been typed yet are colored white.</p>
     <h3>Stats</h3>
     <p>At the bottom of the typing test you can see an analysis of your mistakes. The analysis shows your most mistyped letters, bigrams, words, and wordpairs</p>
+    <p>
+      <p>The <span class="mark">1st</span> column shows your most mistyped letters.</p>
+      <p>The <span class="mark">2nd</span> column shows your most mistyped bigrams. The bigram is based on your mistyped letters. If you make a mistake on a letter then the previous letter + the current letter will be counted as the mistyped bigram.</p>
+      <p>The <span class="mark">3rd</span> column shows your most mistyped words.</p>
+      <p>The <span class="mark">4th</span> column shows your most mistyped wordpairs. The wordpair is based on your mistyped words. If you make a mistake on a word then the previous word + the current word will be counted as the mistyped wordpair.</p>
+      <p class="mark">If you make more mistakes after your first mistake on a word/letter then the subsequent errors aren't counted towards your mistyped stats</p>
+    </p>
     <p>Note: You can quickly refresh a test by pressing <kbd class="mark">enter</kbd> and if you want to retype the same quote, you can go back to the beginning
        with <kbd class="mark">ctrl + a + backspace</kbd> or you can just begin typing after <kbd class="mark">ctrl + a</kbd> since it works just like normal highlighting</p>
     <h2>Words Filter</h2>
@@ -45,7 +54,7 @@
       I recommend using your most mistyped letters or bigrams from the typing test to create similar words which you can then practice.
     </p>
     <p>Note: The words filter returns a list of words separated by spaces. If you want to practice typing these words, copy the list, visit
-      <a href="https://monkeytype.com/" target="_blank" id="link">Monkeytype</a> and paste the copied words into the custom mode.
+      <a href="https://monkeytype.com/" target="_blank" id="link">Monkeytype</a> and paste the copied words into the custom mode. I recommend using the stats below the typing test to create typing tests based on those weaknesses.
     </p>
   </main>
 </body>
