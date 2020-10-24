@@ -24,6 +24,10 @@
 	border-bottom: 1px solid rgba(145, 0, 0, 0.336);
 }
 
+.highlight {
+	background-color: #0076d727;
+}
+
 body {
 	background:rgb(36, 32, 32);
 	color: white;
@@ -106,6 +110,10 @@ li a {
 
 #typing-input:focus ~ #typingarea > #textdisplay > letter.space-error {
 	border-bottom: 1px solid rgb(255, 81, 0);
+}
+
+#typing-input:focus ~ #typingarea > #textdisplay letter.highlight {
+	background-color: #0078D7;
 }
 
 body {
@@ -239,7 +247,7 @@ form {
 }
 
 
-.or {
+.mark {
 	color: var(--sub-color);
 }
 

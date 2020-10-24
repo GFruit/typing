@@ -479,7 +479,8 @@ function addHighlight() {
     hideCaret();
     letters = document.querySelectorAll("letter");
     for (let i = 0; i < obj.lettercounter; i++) {
-        letters[i].style.backgroundColor = "#0078D7";
+        letters[i].classList.add("highlight");
+        //letters[i].style.backgroundColor = "#0078D7";
     }
     obj.highlight = true;
 }
@@ -487,7 +488,8 @@ function addHighlight() {
 function removeHighlight() {
     letters = document.querySelectorAll("letter");
     for (let i = 0; i < obj.lettercounter; i++) {
-        letters[i].style.backgroundColor = "inherit";
+        letters[i].classList.remove(letters[i].classList.item(1));
+        //letters[i].style.backgroundColor = "inherit";
     }
     obj.highlight = false;
 }
