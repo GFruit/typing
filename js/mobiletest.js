@@ -38,7 +38,7 @@ if( navigator.userAgent.match(/Android/i)
     document.getElementById('typing-input').addEventListener("keyup", getValue);
  } else {
     console.log('test');
-    //document.getElementById('typing-input').addEventListener("keyup", getValue);
+    document.getElementById('typing-input').addEventListener("keyup", getValue);
  }
 
  function setWordset (value) { 
