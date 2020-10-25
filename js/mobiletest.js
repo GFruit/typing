@@ -202,6 +202,127 @@ function getValue() {
     obj.previouslen = len;
 }
 
+function textDisplayColors(event) {
+    if (obj.lettercounter >= obj.lettercount && obj.highlight == false) {
+        return;
+    }
+    var x = event.which || event.keyCode;
+    if (x == 13) {
+        return;
+    }
+    if (x == 1 && obj.ctrlBefore == true) {
+        return
+    }
+    if (obj.highlight == true) {
+        removeHighlight();
+        resetColors();
+        obj.lettercounter = 0;
+        obj.wordcounter = 0;
+        obj.mistake = false;
+    }
+    var pressedKey = String.fromCharCode(x);
+    letter = document.querySelectorAll("letter")[obj.lettercounter];
+    previousletter = document.querySelectorAll("letter")[obj.lettercounter-1];
+    next = document.querySelectorAll("letter")[obj.lettercounter+1];
+    word = document.querySelectorAll("word")[obj.wordcounter];
+    previousword = document.querySelectorAll("word")[obj.wordcounter-1];
+    flash.caretChange = true;
+    hideCaret();
+    showCaret(letter, next);
+    updateCaret(x, letter, next);
+    flash.caretChange = false;
+    if (pressedKey == letter.innerHTML && obj.mistake == false) {
+        letter.classList.add("correct");
+    } else {
+        if (letter.innerHTML == ' ') {
+            letter.classList.add("space-error")
+        } else {
+            letter.classList.add("error");
+        }
+        
+        if (obj.mistake == false) {
+            addWrongLetter(letter);
+            addWrongBigram(previousletter, letter);
+            addWrongWord(letter, word);
+            addWrongWordpairs(letter, previousword, word);
+            obj.mistakeIdx = obj.lettercounter;
+        }
+        obj.mistake = true;
+    }
+    if (letter.innerHTML == ' ') {
+        obj.wordcounter++
+    }
+    obj.lettercounter++
+}
+function handleNonletters(event) {
+    var x = event.which || event.keyCode;
+    if (x == 8  && obj.lettercounter > 0 && obj.ctrlBefore == true && obj.highlight == false) {
+        letter = document.querySelectorAll("letter")[obj.lettercounter-1];
+        next = document.querySelectorAll("letter")[obj.lettercounter];
+        if (letter.innerHTML == ' ') {
+            obj.lettercounter--;
+            if (obj.mistakeIdx == obj.lettercounter) {
+                obj.mistake = false;
+            }
+            obj.wordcounter--;
+            updateCaret(x, letter, next);
+            letter.classList.remove(letter.classList.item(0));
+            letter = document.querySelectorAll("letter")[obj.lettercounter-1];
+            next = document.querySelectorAll("letter")[obj.lettercounter];
+        }
+        while (obj.lettercounter > 0 && letter.innerHTML != ' ') {
+            obj.lettercounter--;
+            if (obj.mistakeIdx == obj.lettercounter) {
+                obj.mistake = false;
+            }
+            hideCaret();
+            showCaret(letter, next);
+            updateCaret(x, letter, next);
+            letter.classList.remove(letter.classList.item(0));
+            letter = document.querySelectorAll("letter")[obj.lettercounter-1];
+            next = document.querySelectorAll("letter")[obj.lettercounter];
+        }
+        //showCaret(letter, next);
+    }
+    if (x == 8 && obj.lettercounter > 0 && obj.ctrlBefore == false && obj.highlight == false) {
+        letter = document.querySelectorAll("letter")[obj.lettercounter-1];
+        next = document.querySelectorAll("letter")[obj.lettercounter];
+        letter.classList.remove(letter.classList.item(0));
+        if (letter.innerHTML == ' ') {
+            obj.wordcounter--
+        }
+        obj.lettercounter--
+        if (obj.mistakeIdx == obj.lettercounter) {
+            obj.mistake = false;
+        }
+        hideCaret();
+        showCaret(letter, next);
+        updateCaret(x, letter, next)
+        return;
+    } else if (x == 8 && obj.highlight == true) {
+        removeHighlight();
+        resetColors();
+        obj.lettercounter = 0;
+        obj.wordcounter = 0;
+        obj.mistake = false;
+        hideCaret();
+        showCaret(letter, next);
+    } else if (x == 13) {
+        refresh();
+    }else if (x == 17) {
+        obj.ctrlBefore = true;
+    } else if (x == 65 && obj.ctrlBefore == true) {
+        addHighlight();
+    }
+}
+
+function stopStates(event) {
+    var x = event.which || event.keyCode;;
+    if (obj.ctrlBefore == true && x == 17) {
+        obj.ctrlBefore = false;
+    }
+}
+
 function updateCaret(keycode, letter, next) {
     if (keycode == 8) {
         if (obj.lettercounter+1 >= obj.lettercount) {
