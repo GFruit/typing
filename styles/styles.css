@@ -82,13 +82,15 @@ li a {
 #refresh > input:focus {
 	background-color: var(--hover-color);
 }
-#typing-input{
-	/*
-	margin: auto;
-	width: 50%;
-	padding: 5px;
-	background-color: rgb(218, 218, 218);
-	*/
+.mobile-input{
+	background-color: var(--background);
+	color: var(--background);
+	border: none;
+	outline: none;
+	padding: 0px;
+}
+
+.pc-input{
 	width: 0;
 	height: 0;
 	border: none;
