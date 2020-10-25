@@ -136,7 +136,6 @@ function loadWords() {
     lastspace = textdisplay.lastChild;
     textdisplay.removeChild(lastspace);
     obj.lettercount -= 1;
-    console.log(obj.lettercount);
     document.querySelectorAll("letter")[obj.lettercounter].style.borderLeft = "0.1px solid " + caretColor;
     document.getElementById('typing-input').setAttribute("maxlength", obj.lettercount);
 }

@@ -1,4 +1,4 @@
-var wordset;
+//var wordset;
 var wordlist;
 var amount;
 var hide = false;
@@ -21,7 +21,8 @@ obj = {
     mistakeIdx: -1,
     itemcounter: 0,
     ctrlBefore: false,
-    highlight: false
+    highlight: false,
+    mobile: false
 }
 
 var caretColor = "white";
@@ -35,6 +36,7 @@ if( navigator.userAgent.match(/Android/i)
  || navigator.userAgent.match(/BlackBerry/i)
  || navigator.userAgent.match(/Windows Phone/i)) {
     document.getElementById('typing-input').addEventListener("keyup", getValue);
+    obj.mobile = true;
  } else {
     document.getElementById('typing-input').addEventListener("keyup", stopStates);
     document.getElementById('typing-input').addEventListener("keydown", handleNonletters);
@@ -138,6 +140,7 @@ function loadWords() {
     textdisplay.removeChild(lastspace);
     obj.lettercount -= 1;
     document.querySelectorAll("letter")[obj.lettercounter].style.borderLeft = "0.1px solid " + caretColor;
+    document.getElementById('typing-input').setAttribute("maxlength", obj.lettercount);
 }
 
 function getValue() {
@@ -399,7 +402,9 @@ function addWrongWordpairs(letter, previouswordTag, wordTag) {
 
 function focusInput() {
     document.getElementById('typing-input').focus();
-    removeHighlight();
+    if (obj.mobile == false && obj.highlight == true) {
+        removeHighlight();
+    }
 }
 
 function blurInput() {
@@ -429,6 +434,7 @@ function reset() {
     obj.wordcount = 0;
     obj.mistake = false;
     obj.mistakeIdx = -1;
+    obj.previouslen = -1;
     textdisplay.innerHTML = "";
     document.getElementById('typing-input').value = "";
 }
