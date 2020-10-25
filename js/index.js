@@ -1,3 +1,4 @@
+//var wordset;
 var wordlist;
 var amount;
 var hide = false;
@@ -28,7 +29,6 @@ obj = {
 var caretColor = "white";
 document.body.style.setProperty("--caret-color", caretColor);
 
-
 if( navigator.userAgent.match(/Android/i)
  || navigator.userAgent.match(/webOS/i)
  || navigator.userAgent.match(/iPhone/i)
@@ -39,13 +39,12 @@ if( navigator.userAgent.match(/Android/i)
     document.getElementById('typing-input').addEventListener("keyup", getValue);
     obj.mobile = true;
  } else {
-    console.log('test');
     document.getElementById('typing-input').addEventListener("keyup", stopStates);
     document.getElementById('typing-input').addEventListener("keydown", handleNonletters);
     document.getElementById('typing-input').addEventListener("keypress", textDisplayColors);
  }
 
- function setWordset (value) { 
+function setWordset (value) { 
     if (value == "Top 200") {
         wordlist = words.top200;
         document.getElementById('top200').style.color = "#F66E0D";
@@ -68,35 +67,36 @@ if( navigator.userAgent.match(/Android/i)
     focusInput();
 }
 
+
 function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
-  
-    while (0 !== currentIndex) {
-  
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex -= 1;
-  
-      temporaryValue = array[currentIndex];
-      array[currentIndex] = array[randomIndex];
-      array[randomIndex] = temporaryValue;
-    }
-  
-    return array;
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  while (0 !== currentIndex) {
+
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
   }
-  
+
+  return array;
+}
+
 async function getItem(item, cache) {
-      var request = item + '.json';
-      const response = await cache.match(request);
-      if (response != undefined) {
-          const result = await response.text();
-          stats[item] = JSON.parse(result);
-      }
-      obj.itemcounter += 1
-      if (obj.itemcounter == 4) {
-          displayStats();
-          updateStatus();
-      }
-  }
+    var request = item + '.json';
+    const response = await cache.match(request);
+    if (response != undefined) {
+        const result = await response.text();
+        stats[item] = JSON.parse(result);
+    }
+    obj.itemcounter += 1
+    if (obj.itemcounter == 4) {
+        displayStats();
+        updateStatus();
+    }
+}
 
 if ('caches' in window) {
     
@@ -402,6 +402,7 @@ function addWrongBigram(previousletter, current) {
         }
     }
 }
+
 function addWrongWord(letter, wordTag) {
     if (letter.innerHTML == ' ') {
         return;
@@ -442,8 +443,13 @@ function addWrongWordpairs(letter, previouswordTag, wordTag) {
 
 function focusInput() {
     document.getElementById('typing-input').focus();
-    //removeHighlight();
+    /*
+    if (obj.mobile == false && obj.highlight == true) {
+        removeHighlight();
+    }
+    */
 }
+
 function blurInput() {
     document.getElementById('typing-input').blur();
 }
@@ -474,6 +480,13 @@ function reset() {
     obj.previouslen = -1;
     textdisplay.innerHTML = "";
     document.getElementById('typing-input').value = "";
+}
+
+function resetColors() {
+    letters = document.querySelectorAll("letter");
+    for (let i = 0; i < obj.lettercounter; i++) {
+        letters[i].classList.remove(letters[i].classList.item(0));
+    }
 }
 
 function displayStats() {
@@ -545,24 +558,34 @@ function hideStats() { //toggle stats visibility
     focusInput();
 }
 
+function addHighlight() {
+    hideCaret();
+    letters = document.querySelectorAll("letter");
+    for (let i = 0; i < obj.lettercounter; i++) {
+        letters[i].classList.add("highlight");
+        //letters[i].style.backgroundColor = "#0078D7";
+    }
+    obj.highlight = true;
+}
 
-//keyup for mobile
-//keydown/keypress for pc
+function removeHighlight() {
+    letters = document.querySelectorAll("letter");
+    for (let i = 0; i < obj.lettercounter; i++) {
+        letters[i].classList.remove(letters[i].classList.item(1));
+        //letters[i].style.backgroundColor = "inherit";
+    }
+    obj.highlight = false;
+}
 
-//find solution so keydown works for PC with this solution here
-//This would be a better solution because dead keys work and I wouldn't
-//Have to write 2 different codes twice for mobile and PC
-//I would just have to change keyup and keydown
+//to do:
 
-//note: this solution works with keyup (ON MOBILE)
+/*
+What should I use? 
+Here's a general recommendation for storing resources:
 
-//On mobile it's a good solution because on PC it would lag behind
-//on mobile there are only keyups basically (the key isn't sent until
-//keyup / also you can't hold a letter on mobile to spam it)
+For the network resources necessary to load your app and file-based content, use the Cache Storage API (part of service workers).
+For other data, use IndexedDB (with a promises wrapper).
 
-//so I should detect mobile then use this solution, but first i'll try
-//to implement the caret and all the other stuff that I got so far
-//on the main site
-
-//and I use the other solution that I got so far for PC (if I can't
-//figure out how to make keydown work for PC with this solution here)
+https://web.dev/storage-for-the-web/
+https://javascript.info/callbacks and further lessons to learn about awaits etc.
+*/
