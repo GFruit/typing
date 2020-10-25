@@ -21,6 +21,7 @@ obj = {
     itemcounter: 0,
     ctrlBefore: false,
     highlight: false,
+    mobile: false,
     previouslen: -1
 }
 
@@ -36,6 +37,7 @@ if( navigator.userAgent.match(/Android/i)
  || navigator.userAgent.match(/BlackBerry/i)
  || navigator.userAgent.match(/Windows Phone/i)) {
     document.getElementById('typing-input').addEventListener("keyup", getValue);
+    obj.mobile = true;
  } else {
     console.log('test');
     document.getElementById('typing-input').addEventListener("keyup", stopStates);
@@ -469,7 +471,7 @@ function reset() {
     obj.wordcount = 0;
     obj.mistake = false;
     obj.mistakeIdx = -1;
-    obj.previouslen = -1
+    obj.previouslen = -1;
     textdisplay.innerHTML = "";
     document.getElementById('typing-input').value = "";
 }
