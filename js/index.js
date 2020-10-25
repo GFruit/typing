@@ -22,7 +22,8 @@ obj = {
     itemcounter: 0,
     ctrlBefore: false,
     highlight: false,
-    mobile: false
+    mobile: false,
+    previouslen: -1
 }
 
 var caretColor = "white";
