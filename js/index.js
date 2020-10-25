@@ -36,9 +36,11 @@ if( navigator.userAgent.match(/Android/i)
  || navigator.userAgent.match(/iPod/i)
  || navigator.userAgent.match(/BlackBerry/i)
  || navigator.userAgent.match(/Windows Phone/i)) {
+    document.getElementById('typing-input').classList.add("mobile-input");
     document.getElementById('typing-input').addEventListener("keyup", getValue);
     obj.mobile = true;
  } else {
+    document.getElementById('typing-input').classList.add("pc-input");
     document.getElementById('typing-input').addEventListener("keyup", stopStates);
     document.getElementById('typing-input').addEventListener("keydown", handleNonletters);
     document.getElementById('typing-input').addEventListener("keypress", textDisplayColors);
