@@ -142,6 +142,7 @@ function loadWords() {
 }
 
 function getValue() {
+    console.log("hey");
     input = document.getElementById('typing-input').value;
     letter = document.querySelectorAll("letter")[obj.lettercounter];
     previousletter = document.querySelectorAll("letter")[obj.lettercounter-1];

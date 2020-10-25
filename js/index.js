@@ -27,6 +27,20 @@ obj = {
 var caretColor = "white";
 document.body.style.setProperty("--caret-color", caretColor);
 
+if( navigator.userAgent.match(/Android/i)
+ || navigator.userAgent.match(/webOS/i)
+ || navigator.userAgent.match(/iPhone/i)
+ || navigator.userAgent.match(/iPad/i)
+ || navigator.userAgent.match(/iPod/i)
+ || navigator.userAgent.match(/BlackBerry/i)
+ || navigator.userAgent.match(/Windows Phone/i)) {
+    document.getElementById('typing-input').addEventListener("keyup", getValue);
+ } else {
+    document.getElementById('typing-input').addEventListener("keyup", stopStates);
+    document.getElementById('typing-input').addEventListener("keydown", handleNonletters);
+    document.getElementById('typing-input').addEventListener("keypress", textDisplayColors);
+ }
+
 function setWordset (value) { 
     if (value == "Top 200") {
         wordlist = words.top200;
@@ -124,6 +138,66 @@ function loadWords() {
     textdisplay.removeChild(lastspace);
     obj.lettercount -= 1;
     document.querySelectorAll("letter")[obj.lettercounter].style.borderLeft = "0.1px solid " + caretColor;
+}
+
+function getValue() {
+    console.log("hey");
+    input = document.getElementById('typing-input').value;
+    letter = document.querySelectorAll("letter")[obj.lettercounter];
+    previousletter = document.querySelectorAll("letter")[obj.lettercounter-1];
+    next = document.querySelectorAll("letter")[obj.lettercounter+1];
+    word = document.querySelectorAll("word")[obj.wordcounter];
+    previousword = document.querySelectorAll("word")[obj.wordcounter-1];
+    len = input.length;
+    if (obj.previouslen <= len && input[obj.lettercounter] != undefined) {
+        if (obj.lettercounter < obj.lettercount) {
+            flash.caretChange = true;
+            hideCaret();
+            showCaret(letter, next);
+            updateCaret(9, letter, next);
+            flash.caretChange = false;
+            if (input[obj.lettercounter] == letter.innerHTML && obj.mistake == false) {
+                letter.classList.add("correct");
+            } else {
+                if (letter.innerHTML == ' ') {
+                    letter.classList.add("space-error");
+                } else {
+                    letter.classList.add("error");
+                }
+
+                if (obj.mistake == false) {
+                    addWrongLetter(letter);
+                    addWrongBigram(previousletter, letter);
+                    addWrongWord(letter, word);
+                    addWrongWordpairs(letter, previousword, word);
+                    obj.mistakeIdx = obj.lettercounter;
+                }
+                obj.mistake = true;
+            }
+        }
+        if (letter.innerHTML == ' ') {
+            obj.wordcounter++
+        }
+        obj.lettercounter++;
+    } else {
+        while (obj.previouslen > len) {
+            obj.previouslen--
+            letter = document.querySelectorAll("letter")[obj.lettercounter-1];
+            next = document.querySelectorAll("letter")[obj.lettercounter];
+            letter.classList.remove(letter.classList.item(0));
+            if (letter.innerHTML == ' ') {
+                obj.wordcounter--
+            }
+            obj.lettercounter--
+            if (obj.mistakeIdx >= obj.lettercounter) {
+                obj.mistake = false;
+            }
+            hideCaret();
+            showCaret(letter, next);
+            updateCaret(8, letter, next)
+        }
+    }
+    obj.previouslen = len;
 }
 
 function textDisplayColors(event) {
