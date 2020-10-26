@@ -445,11 +445,9 @@ function addWrongWordpairs(letter, previouswordTag, wordTag) {
 
 function focusInput() {
     document.getElementById('typing-input').focus();
-    /*
     if (obj.mobile == false && obj.highlight == true) {
         removeHighlight();
     }
-    */
 }
 
 function blurInput() {

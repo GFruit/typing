@@ -567,3 +567,6 @@ function hideStats() { //toggle stats visibility
 
 //and I use the other solution that I got so far for PC (if I can't
 //figure out how to make keydown work for PC with this solution here)
+
+//see if it's possible to measure space to the bottom of the page (from an element)
+//if space under a certain threshold then I would scroll down a bit
