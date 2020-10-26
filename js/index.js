@@ -45,10 +45,15 @@ if( navigator.userAgent.match(/Android/i)
     document.getElementById('typing-input').addEventListener("keyup", getValue);
     obj.mobile = true;
  } else {
+    document.getElementById('typing-input').classList.add("mobile-input");
+    document.getElementById('typing-input').addEventListener("keyup", getValue);
+    obj.mobile = true;
+    /*
     document.getElementById('typing-input').classList.add("pc-input");
     document.getElementById('typing-input').addEventListener("keyup", stopStates);
     document.getElementById('typing-input').addEventListener("keydown", handleNonletters);
     document.getElementById('typing-input').addEventListener("keypress", textDisplayColors);
+    */
  }
 
  function setWordset (value) { 
@@ -510,7 +515,11 @@ function refresh() {
 
 function resetScroll() {
     style.top = 25;
-    document.getElementsByClassName('pc-input')[0].style.top = style.top + 'em';
+    if (obj.mobile == true) {
+        document.getElementsByClassName('mobile-input')[0].style.top = style.top + 'em';
+    } else {
+        document.getElementsByClassName('pc-input')[0].style.top = style.top + 'em';
+    }
     window.scrollTo (0, 0);
 }
 
