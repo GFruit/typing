@@ -93,8 +93,10 @@ li a {
 }
 
 .pc-input{
-	width: 0;
-	height: 0;
+	position: absolute;
+	top: 90vh;
+	left: 9%;
+	width: 0.1px;
 	border: none;
 	outline: none;
 	padding: 0px;
@@ -180,6 +182,7 @@ input[type="button"] {
 	border-radius: 20em;
 	padding: 5px;
 	width: 90px;
+	height: 25px;
 }
 
 input[type="button"]:hover {

@@ -224,6 +224,7 @@ function textDisplayColors(event) {
     }
     var pressedKey = String.fromCharCode(x);
     letter = document.querySelectorAll("letter")[obj.lettercounter];
+    console.log(letter.offsetTop);
     previousletter = document.querySelectorAll("letter")[obj.lettercounter-1];
     next = document.querySelectorAll("letter")[obj.lettercounter+1];
     word = document.querySelectorAll("word")[obj.wordcounter];
