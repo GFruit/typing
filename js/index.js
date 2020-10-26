@@ -1,4 +1,3 @@
-//var wordset;
 var wordlist;
 var amount;
 var hide = false;
@@ -23,11 +22,17 @@ obj = {
     ctrlBefore: false,
     highlight: false,
     mobile: false,
-    previouslen: -1
+    previouslen: -1,
+    previousOffset: -1
+}
+
+style = {
+    top: 25
 }
 
 var caretColor = "white";
 document.body.style.setProperty("--caret-color", caretColor);
+
 
 if( navigator.userAgent.match(/Android/i)
  || navigator.userAgent.match(/webOS/i)
@@ -46,7 +51,7 @@ if( navigator.userAgent.match(/Android/i)
     document.getElementById('typing-input').addEventListener("keypress", textDisplayColors);
  }
 
-function setWordset (value) { 
+ function setWordset (value) { 
     if (value == "Top 200") {
         wordlist = words.top200;
         document.getElementById('top200').style.color = "#F66E0D";
@@ -66,39 +71,39 @@ function setWordset (value) {
     wordset = value;
     reset();
     loadWords();
+    setPreviousOffset();
     focusInput();
 }
 
-
 function shuffle(array) {
-  var currentIndex = array.length, temporaryValue, randomIndex;
-
-  while (0 !== currentIndex) {
-
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
+    var currentIndex = array.length, temporaryValue, randomIndex;
+  
+    while (0 !== currentIndex) {
+  
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+  
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+  
+    return array;
   }
-
-  return array;
-}
-
+  
 async function getItem(item, cache) {
-    var request = item + '.json';
-    const response = await cache.match(request);
-    if (response != undefined) {
-        const result = await response.text();
-        stats[item] = JSON.parse(result);
-    }
-    obj.itemcounter += 1
-    if (obj.itemcounter == 4) {
-        displayStats();
-        updateStatus();
-    }
-}
+      var request = item + '.json';
+      const response = await cache.match(request);
+      if (response != undefined) {
+          const result = await response.text();
+          stats[item] = JSON.parse(result);
+      }
+      obj.itemcounter += 1
+      if (obj.itemcounter == 4) {
+          displayStats();
+          updateStatus();
+      }
+  }
 
 if ('caches' in window) {
     
@@ -146,8 +151,33 @@ function loadWords() {
     document.getElementById('typing-input').setAttribute("maxlength", obj.lettercount);
 }
 
+function setPreviousOffset() {
+    let letter = document.querySelectorAll('letter')[obj.lettercounter];
+    if (letter != undefined) {
+        obj.previousOffset = letter.offsetTop;
+    }
+}
+
+function checkOffset(x) {
+    let letter = document.querySelectorAll('letter')[obj.lettercounter];
+    if (letter != undefined) {
+        if (x == 8) {
+            if (obj.previousOffset > letter.offsetTop) {
+                style.top -= 3;
+                scrollBy(0, -48);
+                document.getElementsByClassName('pc-input')[0].style.top = style.top + 'em';
+            }
+        } else {
+            if (obj.previousOffset < letter.offsetTop) {
+                style.top += 3;
+                document.getElementsByClassName('pc-input')[0].style.top = style.top + 'em';
+            }
+        }
+        setPreviousOffset()
+    }
+}
+
 function getValue() {
-    console.log("hey");
     input = document.getElementById('typing-input').value;
     letter = document.querySelectorAll("letter")[obj.lettercounter];
     previousletter = document.querySelectorAll("letter")[obj.lettercounter-1];
@@ -220,9 +250,12 @@ function textDisplayColors(event) {
     if (obj.highlight == true) {
         removeHighlight();
         resetColors();
+        resetScroll();
         obj.lettercounter = 0;
         obj.wordcounter = 0;
         obj.mistake = false;
+        style.top = 25;
+        document.getElementsByClassName('pc-input')[0].style.top = style.top + 'em';
     }
     var pressedKey = String.fromCharCode(x);
     letter = document.querySelectorAll("letter")[obj.lettercounter];
@@ -230,6 +263,7 @@ function textDisplayColors(event) {
     next = document.querySelectorAll("letter")[obj.lettercounter+1];
     word = document.querySelectorAll("word")[obj.wordcounter];
     previousword = document.querySelectorAll("word")[obj.wordcounter-1];
+    checkOffset(x);
     flash.caretChange = true;
     hideCaret();
     showCaret(letter, next);
@@ -285,6 +319,8 @@ function handleNonletters(event) {
             letter.classList.remove(letter.classList.item(0));
             letter = document.querySelectorAll("letter")[obj.lettercounter-1];
             next = document.querySelectorAll("letter")[obj.lettercounter];
+            checkOffset(x);
+            
         }
         //showCaret(letter, next);
     }
@@ -292,6 +328,7 @@ function handleNonletters(event) {
         letter = document.querySelectorAll("letter")[obj.lettercounter-1];
         next = document.querySelectorAll("letter")[obj.lettercounter];
         letter.classList.remove(letter.classList.item(0));
+        checkOffset(x);
         if (letter.innerHTML == ' ') {
             obj.wordcounter--
         }
@@ -306,11 +343,14 @@ function handleNonletters(event) {
     } else if (x == 8 && obj.highlight == true) {
         removeHighlight();
         resetColors();
+        resetScroll();
         obj.lettercounter = 0;
         obj.wordcounter = 0;
         obj.mistake = false;
         hideCaret();
         showCaret(letter, next);
+        style.top = 25;
+        document.getElementsByClassName('pc-input')[0].style.top = style.top + 'em';
     } else if (x == 13) {
         refresh();
     }else if (x == 17) {
@@ -404,7 +444,6 @@ function addWrongBigram(previousletter, current) {
         }
     }
 }
-
 function addWrongWord(letter, wordTag) {
     if (letter.innerHTML == ' ') {
         return;
@@ -445,11 +484,8 @@ function addWrongWordpairs(letter, previouswordTag, wordTag) {
 
 function focusInput() {
     document.getElementById('typing-input').focus();
-    if (obj.mobile == false && obj.highlight == true) {
-        removeHighlight();
-    }
+    //removeHighlight();
 }
-
 function blurInput() {
     document.getElementById('typing-input').blur();
 }
@@ -470,6 +506,12 @@ function refresh() {
     updateStatus()
 }
 
+function resetScroll() {
+    style.top = 25;
+    document.getElementsByClassName('pc-input')[0].style.top = style.top + 'em';
+    window.scrollTo (0, 0);
+}
+
 function reset() {
     obj.lettercounter = 0;
     obj.lettercount = 0;
@@ -478,15 +520,9 @@ function reset() {
     obj.mistake = false;
     obj.mistakeIdx = -1;
     obj.previouslen = -1;
+    resetScroll();
     textdisplay.innerHTML = "";
     document.getElementById('typing-input').value = "";
-}
-
-function resetColors() {
-    letters = document.querySelectorAll("letter");
-    for (let i = 0; i < obj.lettercounter; i++) {
-        letters[i].classList.remove(letters[i].classList.item(0));
-    }
 }
 
 function displayStats() {
@@ -577,15 +613,34 @@ function removeHighlight() {
     obj.highlight = false;
 }
 
-//to do:
+function resetColors() {
+    letters = document.querySelectorAll("letter");
+    for (let i = 0; i < obj.lettercounter; i++) {
+        letters[i].classList.remove(letters[i].classList.item(0));
+    }
+}
 
-/*
-What should I use? 
-Here's a general recommendation for storing resources:
 
-For the network resources necessary to load your app and file-based content, use the Cache Storage API (part of service workers).
-For other data, use IndexedDB (with a promises wrapper).
+//keyup for mobile
+//keydown/keypress for pc
 
-https://web.dev/storage-for-the-web/
-https://javascript.info/callbacks and further lessons to learn about awaits etc.
-*/
+//find solution so keydown works for PC with this solution here
+//This would be a better solution because dead keys work and I wouldn't
+//Have to write 2 different codes twice for mobile and PC
+//I would just have to change keyup and keydown
+
+//note: this solution works with keyup (ON MOBILE)
+
+//On mobile it's a good solution because on PC it would lag behind
+//on mobile there are only keyups basically (the key isn't sent until
+//keyup / also you can't hold a letter on mobile to spam it)
+
+//so I should detect mobile then use this solution, but first i'll try
+//to implement the caret and all the other stuff that I got so far
+//on the main site
+
+//and I use the other solution that I got so far for PC (if I can't
+//figure out how to make keydown work for PC with this solution here)
+
+//see if it's possible to measure space to the bottom of the page (from an element)
+//if space under a certain threshold then I would scroll down a bit

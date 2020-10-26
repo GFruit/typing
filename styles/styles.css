@@ -83,6 +83,11 @@ li a {
 	background-color: var(--hover-color);
 }
 .mobile-input{
+	position: absolute;
+	top: 25em;
+	left: 0;
+	width: 0.01px;
+	height: 0.01px;
 	background-color: var(--background);
 	color: var(--background);
 	border: none;
@@ -91,6 +96,9 @@ li a {
 }
 
 .pc-input{
+	position: absolute;
+	top: 25em;
+	left: 0;
 	width: 0;
 	height: 0;
 	border: none;

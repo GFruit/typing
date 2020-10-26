@@ -22,7 +22,12 @@ obj = {
     ctrlBefore: false,
     highlight: false,
     mobile: false,
-    previouslen: -1
+    previouslen: -1,
+    previousOffset: -1
+}
+
+style = {
+    top: 25
 }
 
 var caretColor = "white";
@@ -36,10 +41,11 @@ if( navigator.userAgent.match(/Android/i)
  || navigator.userAgent.match(/iPod/i)
  || navigator.userAgent.match(/BlackBerry/i)
  || navigator.userAgent.match(/Windows Phone/i)) {
+    document.getElementById('typing-input').classList.add("mobile-input");
     document.getElementById('typing-input').addEventListener("keyup", getValue);
     obj.mobile = true;
  } else {
-    console.log('test');
+    document.getElementById('typing-input').classList.add("pc-input");
     document.getElementById('typing-input').addEventListener("keyup", stopStates);
     document.getElementById('typing-input').addEventListener("keydown", handleNonletters);
     document.getElementById('typing-input').addEventListener("keypress", textDisplayColors);
@@ -65,6 +71,7 @@ if( navigator.userAgent.match(/Android/i)
     wordset = value;
     reset();
     loadWords();
+    setPreviousOffset();
     focusInput();
 }
 
@@ -144,8 +151,33 @@ function loadWords() {
     document.getElementById('typing-input').setAttribute("maxlength", obj.lettercount);
 }
 
+function setPreviousOffset() {
+    let letter = document.querySelectorAll('letter')[obj.lettercounter];
+    if (letter != undefined) {
+        obj.previousOffset = letter.offsetTop;
+    }
+}
+
+function checkOffset(x) {
+    let letter = document.querySelectorAll('letter')[obj.lettercounter];
+    if (letter != undefined) {
+        if (x == 8) {
+            if (obj.previousOffset > letter.offsetTop) {
+                style.top -= 3;
+                scrollBy(0, -48);
+                document.getElementsByClassName('pc-input')[0].style.top = style.top + 'em';
+            }
+        } else {
+            if (obj.previousOffset < letter.offsetTop) {
+                style.top += 3;
+                document.getElementsByClassName('pc-input')[0].style.top = style.top + 'em';
+            }
+        }
+        setPreviousOffset()
+    }
+}
+
 function getValue() {
-    console.log("hey");
     input = document.getElementById('typing-input').value;
     letter = document.querySelectorAll("letter")[obj.lettercounter];
     previousletter = document.querySelectorAll("letter")[obj.lettercounter-1];
@@ -218,17 +250,20 @@ function textDisplayColors(event) {
     if (obj.highlight == true) {
         removeHighlight();
         resetColors();
+        resetScroll();
         obj.lettercounter = 0;
         obj.wordcounter = 0;
         obj.mistake = false;
+        style.top = 25;
+        document.getElementsByClassName('pc-input')[0].style.top = style.top + 'em';
     }
     var pressedKey = String.fromCharCode(x);
     letter = document.querySelectorAll("letter")[obj.lettercounter];
-    console.log(letter.offsetTop);
     previousletter = document.querySelectorAll("letter")[obj.lettercounter-1];
     next = document.querySelectorAll("letter")[obj.lettercounter+1];
     word = document.querySelectorAll("word")[obj.wordcounter];
     previousword = document.querySelectorAll("word")[obj.wordcounter-1];
+    checkOffset(x);
     flash.caretChange = true;
     hideCaret();
     showCaret(letter, next);
@@ -284,6 +319,8 @@ function handleNonletters(event) {
             letter.classList.remove(letter.classList.item(0));
             letter = document.querySelectorAll("letter")[obj.lettercounter-1];
             next = document.querySelectorAll("letter")[obj.lettercounter];
+            checkOffset(x);
+            
         }
         //showCaret(letter, next);
     }
@@ -291,6 +328,7 @@ function handleNonletters(event) {
         letter = document.querySelectorAll("letter")[obj.lettercounter-1];
         next = document.querySelectorAll("letter")[obj.lettercounter];
         letter.classList.remove(letter.classList.item(0));
+        checkOffset(x);
         if (letter.innerHTML == ' ') {
             obj.wordcounter--
         }
@@ -305,11 +343,14 @@ function handleNonletters(event) {
     } else if (x == 8 && obj.highlight == true) {
         removeHighlight();
         resetColors();
+        resetScroll();
         obj.lettercounter = 0;
         obj.wordcounter = 0;
         obj.mistake = false;
         hideCaret();
         showCaret(letter, next);
+        style.top = 25;
+        document.getElementsByClassName('pc-input')[0].style.top = style.top + 'em';
     } else if (x == 13) {
         refresh();
     }else if (x == 17) {
@@ -465,6 +506,12 @@ function refresh() {
     updateStatus()
 }
 
+function resetScroll() {
+    style.top = 25;
+    document.getElementsByClassName('pc-input')[0].style.top = style.top + 'em';
+    window.scrollTo (0, 0);
+}
+
 function reset() {
     obj.lettercounter = 0;
     obj.lettercount = 0;
@@ -473,6 +520,7 @@ function reset() {
     obj.mistake = false;
     obj.mistakeIdx = -1;
     obj.previouslen = -1;
+    resetScroll();
     textdisplay.innerHTML = "";
     document.getElementById('typing-input').value = "";
 }
@@ -544,6 +592,32 @@ function hideStats() { //toggle stats visibility
         hide = false;
     }
     focusInput();
+}
+
+function addHighlight() {
+    hideCaret();
+    letters = document.querySelectorAll("letter");
+    for (let i = 0; i < obj.lettercounter; i++) {
+        letters[i].classList.add("highlight");
+        //letters[i].style.backgroundColor = "#0078D7";
+    }
+    obj.highlight = true;
+}
+
+function removeHighlight() {
+    letters = document.querySelectorAll("letter");
+    for (let i = 0; i < obj.lettercounter; i++) {
+        letters[i].classList.remove(letters[i].classList.item(1));
+        //letters[i].style.backgroundColor = "inherit";
+    }
+    obj.highlight = false;
+}
+
+function resetColors() {
+    letters = document.querySelectorAll("letter");
+    for (let i = 0; i < obj.lettercounter; i++) {
+        letters[i].classList.remove(letters[i].classList.item(0));
+    }
 }
 
 
