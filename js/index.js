@@ -45,15 +45,11 @@ if( navigator.userAgent.match(/Android/i)
     document.getElementById('typing-input').addEventListener("keyup", getValue);
     obj.mobile = true;
  } else {
-    document.getElementById('typing-input').classList.add("mobile-input");
-    document.getElementById('typing-input').addEventListener("keyup", getValue);
-    obj.mobile = true;
-    /*
     document.getElementById('typing-input').classList.add("pc-input");
     document.getElementById('typing-input').addEventListener("keyup", stopStates);
     document.getElementById('typing-input').addEventListener("keydown", handleNonletters);
     document.getElementById('typing-input').addEventListener("keypress", textDisplayColors);
-    */
+    
  }
 
  function setWordset (value) { 
@@ -170,13 +166,16 @@ function checkOffset(x) {
             if (obj.previousOffset > letter.offsetTop) {
                 style.top -= 3;
                 scrollBy(0, -48);
-                document.getElementsByClassName('pc-input')[0].style.top = style.top + 'em';
             }
         } else {
             if (obj.previousOffset < letter.offsetTop) {
                 style.top += 3;
-                document.getElementsByClassName('pc-input')[0].style.top = style.top + 'em';
             }
+        }
+        if (obj.mobile == true) {
+            document.getElementsByClassName('mobile-input')[0].style.top = style.top + 'em';
+        } else {
+            document.getElementsByClassName('pc-input')[0].style.top = style.top + 'em';
         }
         setPreviousOffset()
     }
@@ -192,7 +191,7 @@ function getValue() {
     len = input.length;
     if (obj.previouslen <= len && input[obj.lettercounter] != undefined) {
         if (obj.lettercounter < obj.lettercount) {
-            checkOffset(x)
+            checkOffset(9)
             flash.caretChange = true;
             hideCaret();
             showCaret(letter, next);
@@ -223,7 +222,7 @@ function getValue() {
         obj.lettercounter++;
     } else {
         while (obj.previouslen > len) {
-            checkOffset(x)
+            checkOffset(8)
             obj.previouslen--
             letter = document.querySelectorAll("letter")[obj.lettercounter-1];
             next = document.querySelectorAll("letter")[obj.lettercounter];
