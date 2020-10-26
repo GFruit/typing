@@ -187,6 +187,7 @@ function getValue() {
     len = input.length;
     if (obj.previouslen <= len && input[obj.lettercounter] != undefined) {
         if (obj.lettercounter < obj.lettercount) {
+            checkOffset(x)
             flash.caretChange = true;
             hideCaret();
             showCaret(letter, next);
@@ -217,6 +218,7 @@ function getValue() {
         obj.lettercounter++;
     } else {
         while (obj.previouslen > len) {
+            checkOffset(x)
             obj.previouslen--
             letter = document.querySelectorAll("letter")[obj.lettercounter-1];
             next = document.querySelectorAll("letter")[obj.lettercounter];
