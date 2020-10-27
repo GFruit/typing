@@ -1,17 +1,17 @@
-var wordlist;
-var amount;
-var hide = false;
-flash = {
+let wordlist;
+let amount;
+let hide = false;
+let flash = {
     caretChange: false
 };
 textdisplay = document.getElementById('textdisplay');
-stats = {
+let stats = {
     wrong_letters : {},
     wrong_bigrams : {},
     wrong_words : {},
     wrong_wordpairs : {}
 }
-obj = {
+let obj = {
     lettercounter: 0,
     lettercount: 0,
     wordcounter: 0,
@@ -26,11 +26,11 @@ obj = {
     previousOffset: -1
 }
 
-style = {
+let style = {
     top: 25
 }
 
-var caretColor = "white";
+let caretColor = "white";
 document.body.style.setProperty("--caret-color", caretColor);
 
 
@@ -49,6 +49,7 @@ if( navigator.userAgent.match(/Android/i)
     document.getElementById('typing-input').addEventListener("keyup", stopStates);
     document.getElementById('typing-input').addEventListener("keydown", handleNonletters);
     document.getElementById('typing-input').addEventListener("keypress", textDisplayColors);
+    
  }
 
  function setWordset (value) { 
@@ -151,29 +152,39 @@ function loadWords() {
     document.getElementById('typing-input').setAttribute("maxlength", obj.lettercount);
 }
 
-function setPreviousOffset() {
-    let letter = document.querySelectorAll('letter')[obj.lettercounter];
+function setPreviousOffset(letter) {
     if (letter != undefined) {
         obj.previousOffset = letter.offsetTop;
     }
 }
 
 function checkOffset(x) {
-    let letter = document.querySelectorAll('letter')[obj.lettercounter];
-    if (letter != undefined) {
-        if (x == 8) {
-            if (obj.previousOffset > letter.offsetTop) {
+    if (x == 8) {
+        let previous = document.querySelectorAll('letter')[obj.lettercounter-1];
+        if (previous != undefined) {
+            console.log(obj.previousOffset);
+            console.log(previous.offsetTop);
+            if (obj.previousOffset > previous.offsetTop) {
                 style.top -= 3;
-                scrollBy(0, -48);
-                document.getElementsByClassName('pc-input')[0].style.top = style.top + 'em';
+                pixel_per_em = Number(getComputedStyle(document.body, "").fontSize.match(/(\d*(\.\d*)?)px/)[1]);
+                scrollBy(0, -3*pixel_per_em);
             }
-        } else {
-            if (obj.previousOffset < letter.offsetTop) {
-                style.top += 3;
-                document.getElementsByClassName('pc-input')[0].style.top = style.top + 'em';
-            }
+            setPreviousOffset(previous);
         }
-        setPreviousOffset()
+    } else {
+        let next = document.querySelectorAll('letter')[obj.lettercounter+1];
+        if (next != undefined)
+            if (obj.previousOffset < next.offsetTop) {
+                style.top += 3;
+                pixel_per_em = Number(getComputedStyle(document.body, "").fontSize.match(/(\d*(\.\d*)?)px/)[1]);
+                scrollBy(0, 3*pixel_per_em);
+            }
+            setPreviousOffset(next)
+        }
+    if (obj.mobile == true) {
+        document.getElementsByClassName('mobile-input')[0].style.top = style.top + 'em';
+    } else {
+        document.getElementsByClassName('pc-input')[0].style.top = style.top + 'em';
     }
 }
 
@@ -187,6 +198,7 @@ function getValue() {
     len = input.length;
     if (obj.previouslen <= len && input[obj.lettercounter] != undefined) {
         if (obj.lettercounter < obj.lettercount) {
+            checkOffset(9)
             flash.caretChange = true;
             hideCaret();
             showCaret(letter, next);
@@ -217,6 +229,7 @@ function getValue() {
         obj.lettercounter++;
     } else {
         while (obj.previouslen > len) {
+            checkOffset(8)
             obj.previouslen--
             letter = document.querySelectorAll("letter")[obj.lettercounter-1];
             next = document.querySelectorAll("letter")[obj.lettercounter];
@@ -309,6 +322,7 @@ function handleNonletters(event) {
             next = document.querySelectorAll("letter")[obj.lettercounter];
         }
         while (obj.lettercounter > 0 && letter.innerHTML != ' ') {
+            checkOffset(x);
             obj.lettercounter--;
             if (obj.mistakeIdx == obj.lettercounter) {
                 obj.mistake = false;
@@ -319,7 +333,6 @@ function handleNonletters(event) {
             letter.classList.remove(letter.classList.item(0));
             letter = document.querySelectorAll("letter")[obj.lettercounter-1];
             next = document.querySelectorAll("letter")[obj.lettercounter];
-            checkOffset(x);
             
         }
         //showCaret(letter, next);
@@ -508,8 +521,14 @@ function refresh() {
 
 function resetScroll() {
     style.top = 25;
-    document.getElementsByClassName('pc-input')[0].style.top = style.top + 'em';
-    window.scrollTo (0, 0);
+    if (obj.mobile == true) {
+        document.getElementsByClassName('mobile-input')[0].style.top = style.top + 'em';
+    } else {
+        document.getElementsByClassName('pc-input')[0].style.top = style.top + 'em';
+    }
+    let refresh = document.getElementById("refresh");
+    refreshOffset = refresh.offsetTop;
+    window.scrollTo (0, refreshOffset);
 }
 
 function reset() {

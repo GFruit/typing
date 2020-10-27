@@ -98,9 +98,15 @@ li a {
 .pc-input{
 	position: absolute;
 	top: 25em;
+	
 	left: 0;
+	/*
 	width: 0;
 	height: 0;
+	*/
+	width: 10px;
+	
+
 	border: none;
 	outline: none;
 	padding: 0px;
