@@ -162,8 +162,6 @@ function checkOffset(x) {
     if (x == 8) {
         let previous = document.querySelectorAll('letter')[obj.lettercounter-1];
         if (previous != undefined) {
-            console.log(obj.previousOffset);
-            console.log(previous.offsetTop);
             if (obj.previousOffset > previous.offsetTop) {
                 style.top -= 3;
                 pixel_per_em = Number(getComputedStyle(document.body, "").fontSize.match(/(\d*(\.\d*)?)px/)[1]);
@@ -526,9 +524,12 @@ function resetScroll() {
     } else {
         document.getElementsByClassName('pc-input')[0].style.top = style.top + 'em';
     }
+    /*
     let refresh = document.getElementById("refresh");
     refreshOffset = refresh.offsetTop;
-    window.scrollTo (0, refreshOffset);
+    console.log(refreshOffset);
+    */
+    window.scrollTo(0, 0);
 }
 
 function reset() {
