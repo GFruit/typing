@@ -29,7 +29,7 @@
 }
 
 body {
-	background:rgb(36, 32, 32);
+	background:hsl(0, 6%, 13%);
 	color: white;
 }
 
@@ -85,11 +85,21 @@ li a {
 
 
 .mobile-input{
+	position: absolute;
+	top: 25em;
+	left: 0;
+	width: 50px;
+	/*
 	background-color: var(--background);
 	color: var(--background);
+	*/
 	border: none;
 	outline: none;
 	padding: 0px;
+}
+
+.mobile-input:focus{
+	background-color: yellow;
 }
 
 .pc-input{

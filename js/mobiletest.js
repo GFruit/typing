@@ -33,7 +33,7 @@ let style = {
 let caretColor = "white";
 document.body.style.setProperty("--caret-color", caretColor);
 
-
+/*
 if( navigator.userAgent.match(/Android/i)
  || navigator.userAgent.match(/webOS/i)
  || navigator.userAgent.match(/iPhone/i)
@@ -45,12 +45,30 @@ if( navigator.userAgent.match(/Android/i)
     document.getElementById('typing-input').addEventListener("keyup", getValue);
     obj.mobile = true;
  } else {
+    document.getElementById('typing-input').classList.add("mobile-input");
+    document.getElementById('typing-input').addEventListener("input", getValue);
+    obj.mobile = true;
+    
     document.getElementById('typing-input').classList.add("pc-input");
     document.getElementById('typing-input').addEventListener("keyup", stopStates);
     document.getElementById('typing-input').addEventListener("keydown", handleNonletters);
     document.getElementById('typing-input').addEventListener("keypress", textDisplayColors);
     
  }
+ */
+
+ document.getElementById('typing-input').classList.add("mobile-input");
+ document.getElementById('typing-input').addEventListener("input", getValue);
+ document.getElementById('typing-input').addEventListener("select", select);
+ obj.mobile = true;
+
+function select() {
+    console.log('select');
+    selection = window.getSelection();
+    selectedText = selection.toString()
+    addHighlight(selectedText);
+
+}
 
  function setWordset (value) { 
     if (value == "Top 200") {
@@ -189,6 +207,9 @@ function checkOffset(x) {
 }
 
 function getValue() {
+    if (obj.highlight == true) {
+        removeHighlight();
+    }
     input = document.getElementById('typing-input').value;
     letter = document.querySelectorAll("letter")[obj.lettercounter];
     previousletter = document.querySelectorAll("letter")[obj.lettercounter-1];
@@ -196,7 +217,7 @@ function getValue() {
     word = document.querySelectorAll("word")[obj.wordcounter];
     previousword = document.querySelectorAll("word")[obj.wordcounter-1];
     len = input.length;
-    if (obj.previouslen <= len && input[obj.lettercounter] != undefined) {
+    if (obj.previouslen < len && input[obj.lettercounter] != undefined) {
         if (obj.lettercounter < obj.lettercount) {
             checkOffset(9)
             flash.caretChange = true;
@@ -229,6 +250,9 @@ function getValue() {
         obj.lettercounter++;
     } else {
         while (obj.previouslen > len) {
+            if (obj.highlight == true) {
+                
+            }
             checkOffset(8)
             obj.previouslen--
             letter = document.querySelectorAll("letter")[obj.lettercounter-1];
@@ -613,10 +637,16 @@ function hideStats() { //toggle stats visibility
     focusInput();
 }
 
-function addHighlight() {
+function addHighlight(selectedText) {
     hideCaret();
+    input = document.getElementById('typing-input').value;
     letters = document.querySelectorAll("letter");
-    for (let i = 0; i < obj.lettercounter; i++) {
+    text = "";
+    for (letter of letters) {
+        text += letter.innerHTML
+    }
+    n = text.lastIndexOf(selectedText);
+    for (let i = n; i < n + selectedText.length; i++) {
         letters[i].classList.add("highlight");
         //letters[i].style.backgroundColor = "#0078D7";
     }
