@@ -63,7 +63,6 @@ if( navigator.userAgent.match(/Android/i)
  obj.mobile = true;
 
 function select() {
-    console.log('select');
     selection = window.getSelection();
     selectedText = selection.toString()
     addHighlight(selectedText);
@@ -180,8 +179,6 @@ function checkOffset(x) {
     if (x == 8) {
         let previous = document.querySelectorAll('letter')[obj.lettercounter-1];
         if (previous != undefined) {
-            console.log(obj.previousOffset);
-            console.log(previous.offsetTop);
             if (obj.previousOffset > previous.offsetTop) {
                 style.top -= 3;
                 pixel_per_em = Number(getComputedStyle(document.body, "").fontSize.match(/(\d*(\.\d*)?)px/)[1]);
@@ -250,9 +247,6 @@ function getValue() {
         obj.lettercounter++;
     } else {
         while (obj.previouslen > len) {
-            if (obj.highlight == true) {
-                
-            }
             checkOffset(8)
             obj.previouslen--
             letter = document.querySelectorAll("letter")[obj.lettercounter-1];
@@ -262,6 +256,8 @@ function getValue() {
                 obj.wordcounter--
             }
             obj.lettercounter--
+            console.log(obj.mistakeIdx);
+            console.log(obj.lettercounter);
             if (obj.mistakeIdx >= obj.lettercounter) {
                 obj.mistake = false;
             }
@@ -521,7 +517,6 @@ function addWrongWordpairs(letter, previouswordTag, wordTag) {
 
 function focusInput() {
     document.getElementById('typing-input').focus();
-    //removeHighlight();
 }
 function blurInput() {
     document.getElementById('typing-input').blur();
@@ -639,25 +634,22 @@ function hideStats() { //toggle stats visibility
 
 function addHighlight(selectedText) {
     hideCaret();
-    input = document.getElementById('typing-input').value;
     letters = document.querySelectorAll("letter");
-    text = "";
-    for (letter of letters) {
-        text += letter.innerHTML
-    }
-    n = text.lastIndexOf(selectedText);
-    for (let i = n; i < n + selectedText.length; i++) {
+    for (let i = obj.lettercounter - selectedText.length; i < obj.lettercounter; i++) {
         letters[i].classList.add("highlight");
-        //letters[i].style.backgroundColor = "#0078D7";
     }
     obj.highlight = true;
 }
 
 function removeHighlight() {
     letters = document.querySelectorAll("letter");
+    /*
     for (let i = 0; i < obj.lettercounter; i++) {
         letters[i].classList.remove(letters[i].classList.item(1));
-        //letters[i].style.backgroundColor = "inherit";
+    }
+    */
+   for (let i = obj.lettercounter - selectedText.length; i < obj.lettercounter; i++) {
+    letters[i].classList.remove(letters[i].classList.item(1));
     }
     obj.highlight = false;
 }

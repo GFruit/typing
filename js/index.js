@@ -495,7 +495,6 @@ function addWrongWordpairs(letter, previouswordTag, wordTag) {
 
 function focusInput() {
     document.getElementById('typing-input').focus();
-    //removeHighlight();
 }
 function blurInput() {
     document.getElementById('typing-input').blur();
@@ -630,6 +629,7 @@ function removeHighlight() {
         letters[i].classList.remove(letters[i].classList.item(1));
         //letters[i].style.backgroundColor = "inherit";
     }
+    console.log('yes');
     obj.highlight = false;
 }
 
