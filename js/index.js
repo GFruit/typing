@@ -207,8 +207,8 @@ function getValue() {
                 checkOffset(9)
                 obj.previouslen++
                 flash.caretChange = true;
-                stopFlash();
-                startFlash(next);
+                hideCaret();
+                showCaret(letter, next);
                 updateCaret(9, letter, next);
                 flash.caretChange = false;
                 if (input[obj.lettercounter] == letter.innerHTML && obj.mistake == false) {
@@ -249,8 +249,8 @@ function getValue() {
             if (obj.mistakeIdx >= obj.lettercounter) {
                 obj.mistake = false;
             }
-            stopFlash();
-            startFlash(next);
+            hideCaret();
+            showCaret(letter, next);
             updateCaret(8, letter, next)
         }
     }
@@ -289,8 +289,7 @@ function stopFlash() {
     }
 }
 
-function startFlash(next) {
-    letter = document.querySelectorAll("letter")[obj.lettercounter];
+function startFlash(letter, next) {
     if (obj.lettercounter < obj.lettercount-1 && flash.caretChange == true) {
         next.setAttribute("id", "caret");
     } else if (obj.lettercounter < obj.lettercount && flash.caretChange == false) {
@@ -298,6 +297,28 @@ function startFlash(next) {
     } else {
         letter.setAttribute("id", "rightcaret");
     }
+}
+
+function hideCaret() {
+    letter = document.querySelectorAll("letter")[obj.lettercounter];
+    if (obj.lettercounter < obj.lettercount) {
+        letter.style.borderLeft = "0.1px solid transparent";
+    } else {
+        letter = document.querySelectorAll("letter")[obj.lettercounter-1];
+        letter.style.borderRight = "0.1px solid transparent";
+    }
+    stopFlash();
+}
+
+function showCaret(letter, next) {
+    letter = document.querySelectorAll("letter")[obj.lettercounter];
+    if (obj.lettercounter < obj.lettercount) {
+        letter.style.borderLeft = "0.1px solid " + caretColor;
+    } else {
+        letter = document.querySelectorAll("letter")[obj.lettercounter-1];
+        letter.style.borderRight = "0.1px solid " + caretColor;
+    }
+    startFlash(letter, next);
 }
 
 function addWrongLetter(letter) {
@@ -473,7 +494,7 @@ function hideStats() { //toggle stats visibility
 }
 
 function addHighlight(selectedText) {
-    stopFlash();
+    hideCaret();
     letters = document.querySelectorAll("letter");
     for (let i = obj.lettercounter - selectedText.length; i < obj.lettercounter; i++) {
         letters[i].classList.add("highlight");

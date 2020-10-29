@@ -46,7 +46,7 @@
     </ul>
   </div>
   <input type="text" id="typing-input" autocomplete="off" spellcheck="false"
-  onblur="stopFlash();removeHighlight()" onfocus="startFlash();removeHighlight()">
+  onblur="hideCaret();removeHighlight()" onfocus="showCaret();removeHighlight()">
   <div id="refresh">
     <input type="button" value="refresh" onclick="refresh()">
   </div>
