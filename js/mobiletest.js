@@ -22,8 +22,11 @@ let obj = {
     ctrlBefore: false,
     highlight: false,
     mobile: false,
-    previouslen: -1,
-    previousOffset: -1
+    previouslen: 0,
+    previousOffset: -1,
+    selectedText: "",
+    selection: "",
+    focusCounter: 0
 }
 
 let style = {
@@ -42,29 +45,27 @@ if( navigator.userAgent.match(/Android/i)
  || navigator.userAgent.match(/BlackBerry/i)
  || navigator.userAgent.match(/Windows Phone/i)) {
     document.getElementById('typing-input').classList.add("mobile-input");
-    document.getElementById('typing-input').addEventListener("keyup", getValue);
     obj.mobile = true;
  } else {
-    document.getElementById('typing-input').classList.add("mobile-input");
-    document.getElementById('typing-input').addEventListener("input", getValue);
-    obj.mobile = true;
-    
     document.getElementById('typing-input').classList.add("pc-input");
+    
     document.getElementById('typing-input').addEventListener("keyup", stopStates);
     document.getElementById('typing-input').addEventListener("keydown", handleNonletters);
     document.getElementById('typing-input').addEventListener("keypress", textDisplayColors);
     
  }
- */
+*/
 
- document.getElementById('typing-input').classList.add("mobile-input");
- document.getElementById('typing-input').addEventListener("input", getValue);
- document.getElementById('typing-input').addEventListener("select", select);
- obj.mobile = true;
+document.getElementById('typing-input').classList.add("mobile-input");
+obj.mobile = true;
+document.getElementById('typing-input').addEventListener("input", getValue);
+document.getElementById('typing-input').addEventListener("select", select);
+
 
 function select() {
-    selection = window.getSelection();
-    selectedText = selection.toString()
+    obj.selection = window.getSelection();
+    selectedText = obj.selection.toString()
+    console.log('this causes highlight');
     addHighlight(selectedText);
 
 }
@@ -204,47 +205,63 @@ function checkOffset(x) {
 }
 
 function getValue() {
-    if (obj.highlight == true) {
-        removeHighlight();
-    }
+    addedChars = 0;
     input = document.getElementById('typing-input').value;
-    letter = document.querySelectorAll("letter")[obj.lettercounter];
-    previousletter = document.querySelectorAll("letter")[obj.lettercounter-1];
-    next = document.querySelectorAll("letter")[obj.lettercounter+1];
-    word = document.querySelectorAll("word")[obj.wordcounter];
-    previousword = document.querySelectorAll("word")[obj.wordcounter-1];
     len = input.length;
+    if (obj.highlight == true) {
+        console.log(obj.selectedText)
+        removeHighlight();
+        console.log(len);
+        console.log(obj.previouslen);
+        console.log(obj.selectedText.length);
+        addedChars = len - (obj.previouslen - obj.selectedText.length);
+        console.log(addedChars)
+        len -= addedChars //so we decrease fully
+    }
     if (obj.previouslen < len && input[obj.lettercounter] != undefined) {
-        if (obj.lettercounter < obj.lettercount) {
-            checkOffset(9)
-            flash.caretChange = true;
-            hideCaret();
-            showCaret(letter, next);
-            updateCaret(9, letter, next);
-            flash.caretChange = false;
-            if (input[obj.lettercounter] == letter.innerHTML && obj.mistake == false) {
-                letter.classList.add("correct");
-            } else {
-                if (letter.innerHTML == ' ') {
-                    letter.classList.add("space-error");
+        while (obj.previouslen < len) {
+            console.log('previouslen ' + obj.previouslen);
+            console.log('len ' + len);
+            if (obj.lettercounter < obj.lettercount) {
+                input = document.getElementById('typing-input').value;
+                letter = document.querySelectorAll("letter")[obj.lettercounter];
+                previousletter = document.querySelectorAll("letter")[obj.lettercounter-1];
+                next = document.querySelectorAll("letter")[obj.lettercounter+1];
+                word = document.querySelectorAll("word")[obj.wordcounter];
+                previousword = document.querySelectorAll("word")[obj.wordcounter-1];
+                checkOffset(9)
+                obj.previouslen++
+                flash.caretChange = true;
+                hideCaret();
+                showCaret(letter, next);
+                updateCaret(9, letter, next);
+                flash.caretChange = false;
+                console.log(input[obj.lettercounter]);
+                console.log(letter.innerHTML);
+                if (input[obj.lettercounter] == letter.innerHTML && obj.mistake == false) {
+                    letter.classList.add("correct");
                 } else {
-                    letter.classList.add("error");
+                    if (letter.innerHTML == ' ') {
+                        letter.classList.add("space-error");
+                    } else {
+                        letter.classList.add("error");
+                    }
+    
+                    if (obj.mistake == false) {
+                        addWrongLetter(letter);
+                        addWrongBigram(previousletter, letter);
+                        addWrongWord(letter, word);
+                        addWrongWordpairs(letter, previousword, word);
+                        obj.mistakeIdx = obj.lettercounter;
+                    }
+                    obj.mistake = true;
                 }
-
-                if (obj.mistake == false) {
-                    addWrongLetter(letter);
-                    addWrongBigram(previousletter, letter);
-                    addWrongWord(letter, word);
-                    addWrongWordpairs(letter, previousword, word);
-                    obj.mistakeIdx = obj.lettercounter;
+                if (letter.innerHTML == ' ') {
+                    obj.wordcounter++
                 }
-                obj.mistake = true;
-            }
-        }
-        if (letter.innerHTML == ' ') {
-            obj.wordcounter++
-        }
-        obj.lettercounter++;
+                obj.lettercounter++;
+            }       
+        }  
     } else {
         while (obj.previouslen > len) {
             checkOffset(8)
@@ -256,8 +273,6 @@ function getValue() {
                 obj.wordcounter--
             }
             obj.lettercounter--
-            console.log(obj.mistakeIdx);
-            console.log(obj.lettercounter);
             if (obj.mistakeIdx >= obj.lettercounter) {
                 obj.mistake = false;
             }
@@ -267,7 +282,14 @@ function getValue() {
         }
     }
     obj.previouslen = len;
+    if (addedChars > 0) {
+        for (let i = 0; i < addedChars; i++) {
+            getValue();
+        } 
+    }
 }
+
+/*
 
 function textDisplayColors(event) {
     if (obj.lettercounter >= obj.lettercount && obj.highlight == false) {
@@ -392,6 +414,7 @@ function handleNonletters(event) {
         addHighlight();
     }
 }
+*/
 
 function stopStates(event) {
     var x = event.which || event.keyCode;;
@@ -516,7 +539,11 @@ function addWrongWordpairs(letter, previouswordTag, wordTag) {
 }
 
 function focusInput() {
+    inputValue = document.getElementById('typing-input').value;
     document.getElementById('typing-input').focus();
+    document.getElementById('typing-input').value = "";
+    document.getElementById('typing-input').value = inputValue;
+    obj.focusCounter += 1;
 }
 function blurInput() {
     document.getElementById('typing-input').blur();
@@ -557,7 +584,7 @@ function reset() {
     obj.wordcount = 0;
     obj.mistake = false;
     obj.mistakeIdx = -1;
-    obj.previouslen = -1;
+    obj.previouslen = 0;
     resetScroll();
     textdisplay.innerHTML = "";
     document.getElementById('typing-input').value = "";
@@ -633,15 +660,21 @@ function hideStats() { //toggle stats visibility
 }
 
 function addHighlight(selectedText) {
+    console.log('highlighted');
     hideCaret();
     letters = document.querySelectorAll("letter");
     for (let i = obj.lettercounter - selectedText.length; i < obj.lettercounter; i++) {
         letters[i].classList.add("highlight");
     }
     obj.highlight = true;
+    obj.selectedText = selectedText;
 }
 
 function removeHighlight() {
+    if (obj.highlight == false) {
+        return;
+    }
+    console.log('removed now');
     letters = document.querySelectorAll("letter");
     /*
     for (let i = 0; i < obj.lettercounter; i++) {
@@ -685,3 +718,8 @@ function resetColors() {
 
 //see if it's possible to measure space to the bottom of the page (from an element)
 //if space under a certain threshold then I would scroll down a bit
+
+//Current bugs:
+//1. focus doesn't remove highlight (fixed)
+//2. obj.mistake doesn't turn false, if a letter is typed after highlight instead of backspace (fixed)
+//3. Any letter (even a wrong one) that is typed after highlight is considered correct if it was correct before (fixed)

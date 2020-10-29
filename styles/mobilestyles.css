@@ -87,19 +87,14 @@ li a {
 .mobile-input{
 	position: absolute;
 	top: 25em;
-	left: 0;
-	width: 100%;
-	/*
+	left: 5px;
+	width: 0.01px;
+	height: 0.01px;
 	background-color: var(--background);
 	color: var(--background);
-	*/
 	border: none;
 	outline: none;
 	padding: 0px;
-}
-
-.mobile-input:focus{
-	background-color: yellow;
 }
 
 .pc-input{
@@ -107,6 +102,7 @@ li a {
 	top: 25em;
 	left: 0;
 	width: 10px;
+	height: 10px;
 	border: none;
 	outline: none;
 	padding: 0px;
