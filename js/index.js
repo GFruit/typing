@@ -166,7 +166,6 @@ function checkOffset(x) {
         let previous = document.querySelectorAll('letter')[obj.lettercounter-1];
         if (previous != undefined) {
             if (obj.previousOffset > previous.offsetTop) {
-                console.log('decrease')
                 style.top -= 3;
                 pixel_per_em = Number(getComputedStyle(document.body, "").fontSize.match(/(\d*(\.\d*)?)px/)[1]);
                 scrollBy(0, -3*pixel_per_em);
@@ -177,7 +176,6 @@ function checkOffset(x) {
         let next = document.querySelectorAll('letter')[obj.lettercounter+1];
         if (next != undefined)
             if (obj.previousOffset < next.offsetTop && obj.previousOffset != -1) {
-                console.log('increase')
                 style.top += 3;
                 //pixel_per_em = Number(getComputedStyle(document.body, "").fontSize.match(/(\d*(\.\d*)?)px/)[1]);
                 //scrollBy(0, 3*pixel_per_em);
@@ -189,7 +187,6 @@ function checkOffset(x) {
 }
 
 function getValue() {
-    console.log('oninput');
     addedChars = 0;
     input = document.getElementById('typing-input').value;
     len = input.length;
@@ -393,9 +390,10 @@ function blurInput() {
 
 function refresh() {
     blurInput();
-    focusInput();
     reset();
     loadWords();
+    focusInput();
+    resetScroll();
     if ('caches' in window) {
         caches.open('new-cache').then(function (cache) {
             for (item in stats) {
@@ -411,9 +409,7 @@ function resetScroll() {
     style.top = 25;
     document.getElementById('typing-input').style.top = style.top + 'em';
     let refresh = document.getElementById("refresh");
-    console.log(refresh);
     refreshOffset = refresh.offsetTop;
-    console.log(refreshOffset);
     window.scrollTo(0, refreshOffset);
 }
 
@@ -425,7 +421,6 @@ function reset() {
     obj.mistake = false;
     obj.mistakeIdx = -1;
     obj.previouslen = 0;
-    resetScroll();
     document.getElementById('typing-input').value = "";
 }
 

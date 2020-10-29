@@ -91,7 +91,7 @@ li a {
 	width: 0.01px;
 	height: 0.01px;
 	
-	/*width: 100%;*/
+	width: 100%;
 	background-color: var(--background);
 	color: var(--background);
 	border: none;
