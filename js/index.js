@@ -176,7 +176,7 @@ function checkOffset(x) {
     } else {
         let next = document.querySelectorAll('letter')[obj.lettercounter+1];
         if (next != undefined)
-            if (obj.previousOffset < next.offsetTop) {
+            if (obj.previousOffset < next.offsetTop && obj.previousOffset != -1) {
                 console.log('increase')
                 style.top += 3;
                 //pixel_per_em = Number(getComputedStyle(document.body, "").fontSize.match(/(\d*(\.\d*)?)px/)[1]);
@@ -189,6 +189,7 @@ function checkOffset(x) {
 }
 
 function getValue() {
+    console.log('oninput');
     addedChars = 0;
     input = document.getElementById('typing-input').value;
     len = input.length;
