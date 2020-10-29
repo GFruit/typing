@@ -36,26 +36,6 @@ let style = {
 let caretColor = "white";
 document.body.style.setProperty("--caret-color", caretColor);
 
-/*
-if( navigator.userAgent.match(/Android/i)
- || navigator.userAgent.match(/webOS/i)
- || navigator.userAgent.match(/iPhone/i)
- || navigator.userAgent.match(/iPad/i)
- || navigator.userAgent.match(/iPod/i)
- || navigator.userAgent.match(/BlackBerry/i)
- || navigator.userAgent.match(/Windows Phone/i)) {
-    document.getElementById('typing-input').classList.add("mobile-input");
-    obj.mobile = true;
- } else {
-    document.getElementById('typing-input').classList.add("pc-input");
-    
-    document.getElementById('typing-input').addEventListener("keyup", stopStates);
-    document.getElementById('typing-input').addEventListener("keydown", handleNonletters);
-    document.getElementById('typing-input').addEventListener("keypress", textDisplayColors);
-    
- }
-*/
-
 document.getElementById('typing-input').classList.add("mobile-input");
 obj.mobile = true;
 document.getElementById('typing-input').addEventListener("input", getValue);
@@ -286,140 +266,6 @@ function getValue() {
         for (let i = 0; i < addedChars; i++) {
             getValue();
         } 
-    }
-}
-
-/*
-
-function textDisplayColors(event) {
-    if (obj.lettercounter >= obj.lettercount && obj.highlight == false) {
-        return;
-    }
-    var x = event.which || event.keyCode;
-    if (x == 13) {
-        return;
-    }
-    if (x == 1 && obj.ctrlBefore == true) {
-        return
-    }
-    if (obj.highlight == true) {
-        removeHighlight();
-        resetColors();
-        resetScroll();
-        obj.lettercounter = 0;
-        obj.wordcounter = 0;
-        obj.mistake = false;
-        style.top = 25;
-        document.getElementsByClassName('pc-input')[0].style.top = style.top + 'em';
-    }
-    var pressedKey = String.fromCharCode(x);
-    letter = document.querySelectorAll("letter")[obj.lettercounter];
-    previousletter = document.querySelectorAll("letter")[obj.lettercounter-1];
-    next = document.querySelectorAll("letter")[obj.lettercounter+1];
-    word = document.querySelectorAll("word")[obj.wordcounter];
-    previousword = document.querySelectorAll("word")[obj.wordcounter-1];
-    checkOffset(x);
-    flash.caretChange = true;
-    hideCaret();
-    showCaret(letter, next);
-    updateCaret(x, letter, next);
-    flash.caretChange = false;
-    if (pressedKey == letter.innerHTML && obj.mistake == false) {
-        letter.classList.add("correct");
-    } else {
-        if (letter.innerHTML == ' ') {
-            letter.classList.add("space-error")
-        } else {
-            letter.classList.add("error");
-        }
-        
-        if (obj.mistake == false) {
-            addWrongLetter(letter);
-            addWrongBigram(previousletter, letter);
-            addWrongWord(letter, word);
-            addWrongWordpairs(letter, previousword, word);
-            obj.mistakeIdx = obj.lettercounter;
-        }
-        obj.mistake = true;
-    }
-    if (letter.innerHTML == ' ') {
-        obj.wordcounter++
-    }
-    obj.lettercounter++
-}
-function handleNonletters(event) {
-    var x = event.which || event.keyCode;
-    if (x == 8  && obj.lettercounter > 0 && obj.ctrlBefore == true && obj.highlight == false) {
-        letter = document.querySelectorAll("letter")[obj.lettercounter-1];
-        next = document.querySelectorAll("letter")[obj.lettercounter];
-        if (letter.innerHTML == ' ') {
-            obj.lettercounter--;
-            if (obj.mistakeIdx == obj.lettercounter) {
-                obj.mistake = false;
-            }
-            obj.wordcounter--;
-            updateCaret(x, letter, next);
-            letter.classList.remove(letter.classList.item(0));
-            letter = document.querySelectorAll("letter")[obj.lettercounter-1];
-            next = document.querySelectorAll("letter")[obj.lettercounter];
-        }
-        while (obj.lettercounter > 0 && letter.innerHTML != ' ') {
-            checkOffset(x);
-            obj.lettercounter--;
-            if (obj.mistakeIdx == obj.lettercounter) {
-                obj.mistake = false;
-            }
-            hideCaret();
-            showCaret(letter, next);
-            updateCaret(x, letter, next);
-            letter.classList.remove(letter.classList.item(0));
-            letter = document.querySelectorAll("letter")[obj.lettercounter-1];
-            next = document.querySelectorAll("letter")[obj.lettercounter];
-            
-        }
-        //showCaret(letter, next);
-    }
-    if (x == 8 && obj.lettercounter > 0 && obj.ctrlBefore == false && obj.highlight == false) {
-        letter = document.querySelectorAll("letter")[obj.lettercounter-1];
-        next = document.querySelectorAll("letter")[obj.lettercounter];
-        letter.classList.remove(letter.classList.item(0));
-        checkOffset(x);
-        if (letter.innerHTML == ' ') {
-            obj.wordcounter--
-        }
-        obj.lettercounter--
-        if (obj.mistakeIdx == obj.lettercounter) {
-            obj.mistake = false;
-        }
-        hideCaret();
-        showCaret(letter, next);
-        updateCaret(x, letter, next)
-        return;
-    } else if (x == 8 && obj.highlight == true) {
-        removeHighlight();
-        resetColors();
-        resetScroll();
-        obj.lettercounter = 0;
-        obj.wordcounter = 0;
-        obj.mistake = false;
-        hideCaret();
-        showCaret(letter, next);
-        style.top = 25;
-        document.getElementsByClassName('pc-input')[0].style.top = style.top + 'em';
-    } else if (x == 13) {
-        refresh();
-    }else if (x == 17) {
-        obj.ctrlBefore = true;
-    } else if (x == 65 && obj.ctrlBefore == true) {
-        addHighlight();
-    }
-}
-*/
-
-function stopStates(event) {
-    var x = event.which || event.keyCode;;
-    if (obj.ctrlBefore == true && x == 17) {
-        obj.ctrlBefore = false;
     }
 }
 
@@ -676,11 +522,6 @@ function removeHighlight() {
     }
     console.log('removed now');
     letters = document.querySelectorAll("letter");
-    /*
-    for (let i = 0; i < obj.lettercounter; i++) {
-        letters[i].classList.remove(letters[i].classList.item(1));
-    }
-    */
    for (let i = obj.lettercounter - selectedText.length; i < obj.lettercounter; i++) {
     letters[i].classList.remove(letters[i].classList.item(1));
     }
@@ -693,33 +534,3 @@ function resetColors() {
         letters[i].classList.remove(letters[i].classList.item(0));
     }
 }
-
-
-//keyup for mobile
-//keydown/keypress for pc
-
-//find solution so keydown works for PC with this solution here
-//This would be a better solution because dead keys work and I wouldn't
-//Have to write 2 different codes twice for mobile and PC
-//I would just have to change keyup and keydown
-
-//note: this solution works with keyup (ON MOBILE)
-
-//On mobile it's a good solution because on PC it would lag behind
-//on mobile there are only keyups basically (the key isn't sent until
-//keyup / also you can't hold a letter on mobile to spam it)
-
-//so I should detect mobile then use this solution, but first i'll try
-//to implement the caret and all the other stuff that I got so far
-//on the main site
-
-//and I use the other solution that I got so far for PC (if I can't
-//figure out how to make keydown work for PC with this solution here)
-
-//see if it's possible to measure space to the bottom of the page (from an element)
-//if space under a certain threshold then I would scroll down a bit
-
-//Current bugs:
-//1. focus doesn't remove highlight (fixed)
-//2. obj.mistake doesn't turn false, if a letter is typed after highlight instead of backspace (fixed)
-//3. Any letter (even a wrong one) that is typed after highlight is considered correct if it was correct before (fixed)

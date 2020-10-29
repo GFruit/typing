@@ -28,13 +28,8 @@
 	background-color: #0076d727;
 }
 
-html {
-	height: 100%;
-}
-
 body {
-	height: 100%;
-	background:rgb(36, 32, 32);
+	background:hsl(0, 6%, 13%);
 	color: white;
 }
 
@@ -87,28 +82,16 @@ li a {
 #refresh > input:focus {
 	background-color: var(--hover-color);
 }
-.mobile-input{
+
+#typing-input {
 	position: absolute;
 	top: 25em;
-	left: 0;
+	left: 5px;
 	width: 0.01px;
 	height: 0.01px;
+	width: 100%;
 	background-color: var(--background);
 	color: var(--background);
-	border: none;
-	outline: none;
-	padding: 0px;
-}
-
-.pc-input{
-	position: absolute;
-	top: 25em;
-	
-	left: 0;
-	width: 0;
-	height: 0;
-
-
 	border: none;
 	outline: none;
 	padding: 0px;
@@ -194,6 +177,7 @@ input[type="button"] {
 	border-radius: 20em;
 	padding: 5px;
 	width: 90px;
+	height: 25px;
 }
 
 input[type="button"]:hover {

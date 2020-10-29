@@ -83,26 +83,15 @@ li a {
 	background-color: var(--hover-color);
 }
 
-
-.mobile-input{
+#typing-input {
 	position: absolute;
 	top: 25em;
 	left: 5px;
 	width: 0.01px;
 	height: 0.01px;
+	width: 100%;
 	background-color: var(--background);
 	color: var(--background);
-	border: none;
-	outline: none;
-	padding: 0px;
-}
-
-.pc-input{
-	position: absolute;
-	top: 25em;
-	left: 0;
-	width: 10px;
-	height: 10px;
 	border: none;
 	outline: none;
 	padding: 0px;

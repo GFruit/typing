@@ -4,7 +4,7 @@ let hide = false;
 let flash = {
     caretChange: false
 };
-let textdisplay = document.getElementById('textdisplay');
+textdisplay = document.getElementById('textdisplay');
 let stats = {
     wrong_letters : {},
     wrong_bigrams : {},
@@ -22,8 +22,11 @@ let obj = {
     ctrlBefore: false,
     highlight: false,
     mobile: false,
-    previouslen: -1,
-    previousOffset: -1
+    previouslen: 0,
+    previousOffset: -1,
+    selectedText: "",
+    selection: "",
+    focusCounter: 0
 }
 
 let style = {
@@ -34,23 +37,24 @@ let caretColor = "white";
 document.body.style.setProperty("--caret-color", caretColor);
 
 
-if( navigator.userAgent.match(/Android/i)
- || navigator.userAgent.match(/webOS/i)
- || navigator.userAgent.match(/iPhone/i)
- || navigator.userAgent.match(/iPad/i)
- || navigator.userAgent.match(/iPod/i)
- || navigator.userAgent.match(/BlackBerry/i)
- || navigator.userAgent.match(/Windows Phone/i)) {
-    document.getElementById('typing-input').classList.add("mobile-input");
-    document.getElementById('typing-input').addEventListener("keyup", getValue);
-    obj.mobile = true;
- } else {
-    document.getElementById('typing-input').classList.add("pc-input");
-    document.getElementById('typing-input').addEventListener("keyup", stopStates);
-    document.getElementById('typing-input').addEventListener("keydown", handleNonletters);
-    document.getElementById('typing-input').addEventListener("keypress", textDisplayColors);
-    
- }
+document.getElementById('typing-input').addEventListener("input", getValue);
+document.getElementById('typing-input').addEventListener("select", select);
+document.getElementById('typing-input').addEventListener("keydown", keydown);
+
+function keydown(e) {
+    let keyCode = e.which || e.keyCode;
+    if (keyCode == 13) {
+        refresh();
+    }
+}
+
+function select() {
+    obj.selection = window.getSelection();
+    selectedText = obj.selection.toString()
+    console.log('this causes highlight');
+    addHighlight(selectedText);
+
+}
 
  function setWordset (value) { 
     if (value == "Top 200") {
@@ -174,57 +178,73 @@ function checkOffset(x) {
         if (next != undefined)
             if (obj.previousOffset < next.offsetTop) {
                 style.top += 3;
-                //pixel_per_em = Number(getComputedStyle(document.body, "").fontSize.match(/(\d*(\.\d*)?)px/)[1]);
-                //scrollBy(0, 3*pixel_per_em);
+                pixel_per_em = Number(getComputedStyle(document.body, "").fontSize.match(/(\d*(\.\d*)?)px/)[1]);
+                scrollBy(0, 3*pixel_per_em);
             }
             setPreviousOffset(next)
         }
-    if (obj.mobile == true) {
-        document.getElementsByClassName('mobile-input')[0].style.top = style.top + 'em';
-    } else {
-        document.getElementsByClassName('pc-input')[0].style.top = style.top + 'em';
-    }
+    
+    document.getElementById('typing-input').style.top = style.top + 'em';
 }
 
 function getValue() {
+    addedChars = 0;
     input = document.getElementById('typing-input').value;
-    letter = document.querySelectorAll("letter")[obj.lettercounter];
-    previousletter = document.querySelectorAll("letter")[obj.lettercounter-1];
-    next = document.querySelectorAll("letter")[obj.lettercounter+1];
-    word = document.querySelectorAll("word")[obj.wordcounter];
-    previousword = document.querySelectorAll("word")[obj.wordcounter-1];
     len = input.length;
-    if (obj.previouslen <= len && input[obj.lettercounter] != undefined) {
-        if (obj.lettercounter < obj.lettercount) {
-            checkOffset(9)
-            flash.caretChange = true;
-            hideCaret();
-            showCaret(letter, next);
-            updateCaret(9, letter, next);
-            flash.caretChange = false;
-            if (input[obj.lettercounter] == letter.innerHTML && obj.mistake == false) {
-                letter.classList.add("correct");
-            } else {
-                if (letter.innerHTML == ' ') {
-                    letter.classList.add("space-error");
+    if (obj.highlight == true) {
+        console.log(obj.selectedText)
+        removeHighlight();
+        console.log(len);
+        console.log(obj.previouslen);
+        console.log(obj.selectedText.length);
+        addedChars = len - (obj.previouslen - obj.selectedText.length);
+        console.log(addedChars)
+        len -= addedChars //so we decrease fully
+    }
+    if (obj.previouslen < len && input[obj.lettercounter] != undefined) {
+        while (obj.previouslen < len) {
+            console.log('previouslen ' + obj.previouslen);
+            console.log('len ' + len);
+            if (obj.lettercounter < obj.lettercount) {
+                input = document.getElementById('typing-input').value;
+                letter = document.querySelectorAll("letter")[obj.lettercounter];
+                previousletter = document.querySelectorAll("letter")[obj.lettercounter-1];
+                next = document.querySelectorAll("letter")[obj.lettercounter+1];
+                word = document.querySelectorAll("word")[obj.wordcounter];
+                previousword = document.querySelectorAll("word")[obj.wordcounter-1];
+                checkOffset(9)
+                obj.previouslen++
+                flash.caretChange = true;
+                hideCaret();
+                showCaret(letter, next);
+                updateCaret(9, letter, next);
+                flash.caretChange = false;
+                console.log(input[obj.lettercounter]);
+                console.log(letter.innerHTML);
+                if (input[obj.lettercounter] == letter.innerHTML && obj.mistake == false) {
+                    letter.classList.add("correct");
                 } else {
-                    letter.classList.add("error");
+                    if (letter.innerHTML == ' ') {
+                        letter.classList.add("space-error");
+                    } else {
+                        letter.classList.add("error");
+                    }
+    
+                    if (obj.mistake == false) {
+                        addWrongLetter(letter);
+                        addWrongBigram(previousletter, letter);
+                        addWrongWord(letter, word);
+                        addWrongWordpairs(letter, previousword, word);
+                        obj.mistakeIdx = obj.lettercounter;
+                    }
+                    obj.mistake = true;
                 }
-
-                if (obj.mistake == false) {
-                    addWrongLetter(letter);
-                    addWrongBigram(previousletter, letter);
-                    addWrongWord(letter, word);
-                    addWrongWordpairs(letter, previousword, word);
-                    obj.mistakeIdx = obj.lettercounter;
+                if (letter.innerHTML == ' ') {
+                    obj.wordcounter++
                 }
-                obj.mistake = true;
-            }
-        }
-        if (letter.innerHTML == ' ') {
-            obj.wordcounter++
-        }
-        obj.lettercounter++;
+                obj.lettercounter++;
+            }       
+        }  
     } else {
         while (obj.previouslen > len) {
             checkOffset(8)
@@ -245,136 +265,10 @@ function getValue() {
         }
     }
     obj.previouslen = len;
-}
-
-function textDisplayColors(event) {
-    if (obj.lettercounter >= obj.lettercount && obj.highlight == false) {
-        return;
-    }
-    var x = event.which || event.keyCode;
-    if (x == 13) {
-        return;
-    }
-    if (x == 1 && obj.ctrlBefore == true) {
-        return
-    }
-    if (obj.highlight == true) {
-        removeHighlight();
-        resetColors();
-        resetScroll();
-        obj.lettercounter = 0;
-        obj.wordcounter = 0;
-        obj.mistake = false;
-        style.top = 25;
-        document.getElementsByClassName('pc-input')[0].style.top = style.top + 'em';
-    }
-    var pressedKey = String.fromCharCode(x);
-    letter = document.querySelectorAll("letter")[obj.lettercounter];
-    previousletter = document.querySelectorAll("letter")[obj.lettercounter-1];
-    next = document.querySelectorAll("letter")[obj.lettercounter+1];
-    word = document.querySelectorAll("word")[obj.wordcounter];
-    previousword = document.querySelectorAll("word")[obj.wordcounter-1];
-    checkOffset(x);
-    flash.caretChange = true;
-    hideCaret();
-    showCaret(letter, next);
-    updateCaret(x, letter, next);
-    flash.caretChange = false;
-    if (pressedKey == letter.innerHTML && obj.mistake == false) {
-        letter.classList.add("correct");
-    } else {
-        if (letter.innerHTML == ' ') {
-            letter.classList.add("space-error")
-        } else {
-            letter.classList.add("error");
-        }
-        
-        if (obj.mistake == false) {
-            addWrongLetter(letter);
-            addWrongBigram(previousletter, letter);
-            addWrongWord(letter, word);
-            addWrongWordpairs(letter, previousword, word);
-            obj.mistakeIdx = obj.lettercounter;
-        }
-        obj.mistake = true;
-    }
-    if (letter.innerHTML == ' ') {
-        obj.wordcounter++
-    }
-    obj.lettercounter++
-}
-function handleNonletters(event) {
-    var x = event.which || event.keyCode;
-    if (x == 8  && obj.lettercounter > 0 && obj.ctrlBefore == true && obj.highlight == false) {
-        letter = document.querySelectorAll("letter")[obj.lettercounter-1];
-        next = document.querySelectorAll("letter")[obj.lettercounter];
-        if (letter.innerHTML == ' ') {
-            obj.lettercounter--;
-            if (obj.mistakeIdx == obj.lettercounter) {
-                obj.mistake = false;
-            }
-            obj.wordcounter--;
-            updateCaret(x, letter, next);
-            letter.classList.remove(letter.classList.item(0));
-            letter = document.querySelectorAll("letter")[obj.lettercounter-1];
-            next = document.querySelectorAll("letter")[obj.lettercounter];
-        }
-        while (obj.lettercounter > 0 && letter.innerHTML != ' ') {
-            checkOffset(x);
-            obj.lettercounter--;
-            if (obj.mistakeIdx == obj.lettercounter) {
-                obj.mistake = false;
-            }
-            hideCaret();
-            showCaret(letter, next);
-            updateCaret(x, letter, next);
-            letter.classList.remove(letter.classList.item(0));
-            letter = document.querySelectorAll("letter")[obj.lettercounter-1];
-            next = document.querySelectorAll("letter")[obj.lettercounter];
-            
-        }
-        //showCaret(letter, next);
-    }
-    if (x == 8 && obj.lettercounter > 0 && obj.ctrlBefore == false && obj.highlight == false) {
-        letter = document.querySelectorAll("letter")[obj.lettercounter-1];
-        next = document.querySelectorAll("letter")[obj.lettercounter];
-        letter.classList.remove(letter.classList.item(0));
-        checkOffset(x);
-        if (letter.innerHTML == ' ') {
-            obj.wordcounter--
-        }
-        obj.lettercounter--
-        if (obj.mistakeIdx == obj.lettercounter) {
-            obj.mistake = false;
-        }
-        hideCaret();
-        showCaret(letter, next);
-        updateCaret(x, letter, next)
-        return;
-    } else if (x == 8 && obj.highlight == true) {
-        removeHighlight();
-        resetColors();
-        resetScroll();
-        obj.lettercounter = 0;
-        obj.wordcounter = 0;
-        obj.mistake = false;
-        hideCaret();
-        showCaret(letter, next);
-        style.top = 25;
-        document.getElementsByClassName('pc-input')[0].style.top = style.top + 'em';
-    } else if (x == 13) {
-        refresh();
-    }else if (x == 17) {
-        obj.ctrlBefore = true;
-    } else if (x == 65 && obj.ctrlBefore == true) {
-        addHighlight();
-    }
-}
-
-function stopStates(event) {
-    var x = event.which || event.keyCode;;
-    if (obj.ctrlBefore == true && x == 17) {
-        obj.ctrlBefore = false;
+    if (addedChars > 0) {
+        for (let i = 0; i < addedChars; i++) {
+            getValue();
+        } 
     }
 }
 
@@ -494,7 +388,11 @@ function addWrongWordpairs(letter, previouswordTag, wordTag) {
 }
 
 function focusInput() {
+    inputValue = document.getElementById('typing-input').value;
     document.getElementById('typing-input').focus();
+    document.getElementById('typing-input').value = "";
+    document.getElementById('typing-input').value = inputValue;
+    obj.focusCounter += 1;
 }
 function blurInput() {
     document.getElementById('typing-input').blur();
@@ -518,17 +416,10 @@ function refresh() {
 
 function resetScroll() {
     style.top = 25;
-    if (obj.mobile == true) {
-        document.getElementsByClassName('mobile-input')[0].style.top = style.top + 'em';
-    } else {
-        document.getElementsByClassName('pc-input')[0].style.top = style.top + 'em';
-    }
-    /*
+    document.getElementById('typing-input').style.top = style.top + 'em';
     let refresh = document.getElementById("refresh");
     refreshOffset = refresh.offsetTop;
-    console.log(refreshOffset);
-    */
-    window.scrollTo(0, 0);
+    window.scrollTo (0, refreshOffset);
 }
 
 function reset() {
@@ -538,7 +429,7 @@ function reset() {
     obj.wordcount = 0;
     obj.mistake = false;
     obj.mistakeIdx = -1;
-    obj.previouslen = -1;
+    obj.previouslen = 0;
     resetScroll();
     textdisplay.innerHTML = "";
     document.getElementById('typing-input').value = "";
@@ -613,23 +504,26 @@ function hideStats() { //toggle stats visibility
     focusInput();
 }
 
-function addHighlight() {
+function addHighlight(selectedText) {
+    console.log('highlighted');
     hideCaret();
     letters = document.querySelectorAll("letter");
-    for (let i = 0; i < obj.lettercounter; i++) {
+    for (let i = obj.lettercounter - selectedText.length; i < obj.lettercounter; i++) {
         letters[i].classList.add("highlight");
-        //letters[i].style.backgroundColor = "#0078D7";
     }
     obj.highlight = true;
+    obj.selectedText = selectedText;
 }
 
 function removeHighlight() {
-    letters = document.querySelectorAll("letter");
-    for (let i = 0; i < obj.lettercounter; i++) {
-        letters[i].classList.remove(letters[i].classList.item(1));
-        //letters[i].style.backgroundColor = "inherit";
+    if (obj.highlight == false) {
+        return;
     }
-    console.log('yes');
+    console.log('removed now');
+    letters = document.querySelectorAll("letter");
+   for (let i = obj.lettercounter - selectedText.length; i < obj.lettercounter; i++) {
+    letters[i].classList.remove(letters[i].classList.item(1));
+    }
     obj.highlight = false;
 }
 
@@ -639,28 +533,3 @@ function resetColors() {
         letters[i].classList.remove(letters[i].classList.item(0));
     }
 }
-
-
-//keyup for mobile
-//keydown/keypress for pc
-
-//find solution so keydown works for PC with this solution here
-//This would be a better solution because dead keys work and I wouldn't
-//Have to write 2 different codes twice for mobile and PC
-//I would just have to change keyup and keydown
-
-//note: this solution works with keyup (ON MOBILE)
-
-//On mobile it's a good solution because on PC it would lag behind
-//on mobile there are only keyups basically (the key isn't sent until
-//keyup / also you can't hold a letter on mobile to spam it)
-
-//so I should detect mobile then use this solution, but first i'll try
-//to implement the caret and all the other stuff that I got so far
-//on the main site
-
-//and I use the other solution that I got so far for PC (if I can't
-//figure out how to make keydown work for PC with this solution here)
-
-//see if it's possible to measure space to the bottom of the page (from an element)
-//if space under a certain threshold then I would scroll down a bit
