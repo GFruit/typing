@@ -51,7 +51,6 @@ function keydown(e) {
 function select() {
     obj.selection = window.getSelection();
     selectedText = obj.selection.toString()
-    console.log('this causes highlight');
     addHighlight(selectedText);
 
 }
@@ -167,6 +166,7 @@ function checkOffset(x) {
         let previous = document.querySelectorAll('letter')[obj.lettercounter-1];
         if (previous != undefined) {
             if (obj.previousOffset > previous.offsetTop) {
+                console.log('decrease')
                 style.top -= 3;
                 pixel_per_em = Number(getComputedStyle(document.body, "").fontSize.match(/(\d*(\.\d*)?)px/)[1]);
                 scrollBy(0, -3*pixel_per_em);
@@ -177,9 +177,10 @@ function checkOffset(x) {
         let next = document.querySelectorAll('letter')[obj.lettercounter+1];
         if (next != undefined)
             if (obj.previousOffset < next.offsetTop) {
+                console.log('increase')
                 style.top += 3;
-                pixel_per_em = Number(getComputedStyle(document.body, "").fontSize.match(/(\d*(\.\d*)?)px/)[1]);
-                scrollBy(0, 3*pixel_per_em);
+                //pixel_per_em = Number(getComputedStyle(document.body, "").fontSize.match(/(\d*(\.\d*)?)px/)[1]);
+                //scrollBy(0, 3*pixel_per_em);
             }
             setPreviousOffset(next)
         }
@@ -192,19 +193,12 @@ function getValue() {
     input = document.getElementById('typing-input').value;
     len = input.length;
     if (obj.highlight == true) {
-        console.log(obj.selectedText)
         removeHighlight();
-        console.log(len);
-        console.log(obj.previouslen);
-        console.log(obj.selectedText.length);
         addedChars = len - (obj.previouslen - obj.selectedText.length);
-        console.log(addedChars)
         len -= addedChars //so we decrease fully
     }
     if (obj.previouslen < len && input[obj.lettercounter] != undefined) {
         while (obj.previouslen < len) {
-            console.log('previouslen ' + obj.previouslen);
-            console.log('len ' + len);
             if (obj.lettercounter < obj.lettercount) {
                 input = document.getElementById('typing-input').value;
                 letter = document.querySelectorAll("letter")[obj.lettercounter];
@@ -219,8 +213,6 @@ function getValue() {
                 showCaret(letter, next);
                 updateCaret(9, letter, next);
                 flash.caretChange = false;
-                console.log(input[obj.lettercounter]);
-                console.log(letter.innerHTML);
                 if (input[obj.lettercounter] == letter.innerHTML && obj.mistake == false) {
                     letter.classList.add("correct");
                 } else {
@@ -400,9 +392,9 @@ function blurInput() {
 
 function refresh() {
     blurInput();
+    focusInput();
     reset();
     loadWords();
-    focusInput();
     if ('caches' in window) {
         caches.open('new-cache').then(function (cache) {
             for (item in stats) {
@@ -418,8 +410,10 @@ function resetScroll() {
     style.top = 25;
     document.getElementById('typing-input').style.top = style.top + 'em';
     let refresh = document.getElementById("refresh");
+    console.log(refresh);
     refreshOffset = refresh.offsetTop;
-    window.scrollTo (0, refreshOffset);
+    console.log(refreshOffset);
+    window.scrollTo(0, refreshOffset);
 }
 
 function reset() {
@@ -431,7 +425,6 @@ function reset() {
     obj.mistakeIdx = -1;
     obj.previouslen = 0;
     resetScroll();
-    textdisplay.innerHTML = "";
     document.getElementById('typing-input').value = "";
 }
 
@@ -505,7 +498,6 @@ function hideStats() { //toggle stats visibility
 }
 
 function addHighlight(selectedText) {
-    console.log('highlighted');
     hideCaret();
     letters = document.querySelectorAll("letter");
     for (let i = obj.lettercounter - selectedText.length; i < obj.lettercounter; i++) {
@@ -519,7 +511,6 @@ function removeHighlight() {
     if (obj.highlight == false) {
         return;
     }
-    console.log('removed now');
     letters = document.querySelectorAll("letter");
    for (let i = obj.lettercounter - selectedText.length; i < obj.lettercounter; i++) {
     letters[i].classList.remove(letters[i].classList.item(1));
