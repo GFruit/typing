@@ -300,6 +300,7 @@ function startFlash(letter, next) {
 }
 
 function hideCaret() {
+    /*
     letter = document.querySelectorAll("letter")[obj.lettercounter];
     if (obj.lettercounter < obj.lettercount) {
         letter.style.borderLeft = "0.1px solid transparent";
@@ -307,17 +308,20 @@ function hideCaret() {
         letter = document.querySelectorAll("letter")[obj.lettercounter-1];
         letter.style.borderRight = "0.1px solid transparent";
     }
+    */
     stopFlash();
 }
 
 function showCaret(letter, next) {
     letter = document.querySelectorAll("letter")[obj.lettercounter];
+    /*
     if (obj.lettercounter < obj.lettercount) {
         letter.style.borderLeft = "0.1px solid " + caretColor;
     } else {
         letter = document.querySelectorAll("letter")[obj.lettercounter-1];
         letter.style.borderRight = "0.1px solid " + caretColor;
     }
+    */
     startFlash(letter, next);
 }
 
