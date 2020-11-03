@@ -22,6 +22,7 @@ var hand;
 var setRowLetters;
 var home_position;
 var tips = "inactive";
+var format = "mt";
 
 
 function isLetter(str) {
@@ -42,6 +43,15 @@ function setWordset () {
         wordlist = top370k;
     } else if (wordset == "Quotes") {
         wordlist = quotes;
+    }
+}
+
+function setFormat () {
+    f = document.getElementById('format').value;
+    if (f == "mt") {
+        format = "mt";
+    } else if (f == "ff") {
+        format = "ff";
     }
 }
 
@@ -297,7 +307,11 @@ function displayText () {
         } else {
             document.getElementById('status').innerHTML = len + " words found!";
         }
-        document.getElementById('result').innerHTML = filtered.join(' ');
+        if (format == "ff") {
+            document.getElementById('result').innerHTML = filtered.join('|');
+        } else if (format == "mt") {
+            document.getElementById('result').innerHTML = filtered.join(' ');
+        }
     }
 }
 

@@ -14,7 +14,7 @@ let obj = {
     wordcount: 0,
     highlight: false,
     previousOffset: -1,
-    previousLen: -1,
+    previousLen: 0,
     mistake: false,
     mistakeIdx: -1
 }
@@ -165,15 +165,12 @@ function setPreviousOffset(letter) {
 
 function checkOffset(x) {
     let letter = document.querySelectorAll("letter")[caret.currentPos];
-    console.log(letter.offsetTop);
     document.getElementById('typing-input').style.top = style.top + 'em';
     if (letter.offsetTop < obj.previousOffset) {
-        console.log('scroll up')
         style.top -= 3;
         pixel_per_em = Number(getComputedStyle(document.body, "").fontSize.match(/(\d*(\.\d*)?)px/)[1]);
         scrollBy(0, -3*pixel_per_em);
     } else if (letter.offsetTop > obj.previousOffset) {
-        console.log('scroll down')
         style.top += 3;
         //pixel_per_em = Number(getComputedStyle(document.body, "").fontSize.match(/(\d*(\.\d*)?)px/)[1]);
         //scrollBy(0, +3*pixel_per_em);
@@ -183,27 +180,60 @@ function checkOffset(x) {
 }
 
 function getValue() {
-    if (obj.highlight == true) {
-        removeHighlight();
-    }
-    caret.currentPos = document.getElementById('typing-input').selectionStart;
     input = document.getElementById('typing-input').value;
     let len = input.length;
+    addedChars = 0;
+    if (obj.highlight == true) {
+        removeHighlight();
+        addedChars = len - (obj.previousLen - obj.selectedText.length);
+    }
+    caret.currentPos = document.getElementById('typing-input').selectionStart;
+    if (len-addedChars <= obj.mistakeIdx || caret.currentPos < len) {
+        obj.mistake = false;
+        obj.mistakeIdx = obj.lettercount;
+    }
     flash.caretChange = true;
     stopFlash();
     startFlash();
     flash.caretChange = false;
-    for (let i = 0; i < obj.lettercount; i++) {
-        let letter = document.querySelectorAll("letter")[i];
-        if (letter.classList.item(0)) {
-            letter.classList.remove(letter.classList.item(0));
-        }
+
+    if ((len > obj.previousLen) && (len == caret.currentPos)) {
+        verifyInput(1, len, input);
+    } else if ((len < obj.previousLen) && (len == caret.currentPos)) {
+        verifyInput(2, len, input);
+    } else if ((len > obj.previousLen) && (len > caret.currentPos)) {
+        verifyInput(3, len, input);
+    } else if ((len < obj.previousLen) && (len > caret.currentPos)) {
+        verifyInput(4, len, input);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*
     obj.lettercounter = 0;
     obj.wordcounter = 0;
     for (let i = 0; i < len; i++) {
         let letter = document.querySelectorAll("letter")[i];
         typedLetter = input[i];
+        console.log(i);
+        console.log(obj.mistakeIdx);
         if (typedLetter == letter.innerHTML && i <= obj.mistakeIdx) {
             letter.classList.add("correct");
         } else {
@@ -230,14 +260,157 @@ function getValue() {
         }
         obj.lettercounter++;
     }
-    if (obj.lettercounter <= obj.mistakeIdx) {
-        obj.mistake = false;
-        obj.mistakeIdx = obj.lettercount;
-    }
+    */
     checkOffset();
     updateCaret();
     caret.previousPos = caret.currentPos;
     obj.previousLen = len;
+}
+
+//notes: case 1 and 2 work like a charm, case 3 and 4 don't work as expected
+function verifyInput(Case, len, input) {
+    if (Case == 1) {
+        setCounters(input, caret.previousPos);
+        let start = caret.previousPos;
+        let end = len;
+        for (let i = start; i < end; i++) {
+            let letter = document.querySelectorAll("letter")[i];
+            let typedLetter = input[i];
+            if (typedLetter == letter.innerHTML && i <= obj.mistakeIdx) {
+                letter.classList.add("correct");
+            } else {
+                if (letter.innerHTML == " ") {
+                    letter.classList.add("space-error");
+                } else {
+                    letter.classList.add("error");
+                }
+                if (obj.mistake == false) {
+                    previousletter = document.querySelectorAll("letter")[obj.lettercounter-1];
+                    word = document.querySelectorAll("word")[obj.wordcounter];
+                    previousword = document.querySelectorAll("word")[obj.wordcounter-1];
+                    addWrongLetter(letter);
+                    addWrongBigram(previousletter, letter);
+                    addWrongWord(letter, word);
+                    addWrongWordpairs(letter, previousword, word);
+                    obj.mistakeIdx = obj.lettercounter;
+                }
+                obj.mistake = true;
+            }
+            if (letter.innerHTML == ' ') {
+                obj.wordcounter++
+            }
+            obj.lettercounter++;
+        }
+    } else if (Case == 2) {
+        let start = caret.currentPos;
+        let end = obj.previousLen;
+        for (let i = start; i < end; i++) {
+            let letter = document.querySelectorAll("letter")[i];
+            letter.classList.remove(letter.classList.item(0));
+        }
+    } else if (Case == 3) {
+        setCounters(input, caret.previousPos);
+        let start = caret.previousPos;
+        let end = len;
+        for (let i = start; i < end; i++) {
+            let letter = document.querySelectorAll("letter")[i];
+            let typedLetter = input[i];
+            if (typedLetter == letter.innerHTML && i <= obj.mistakeIdx) {
+                if (letter.classList.contains("correct")) {
+                    continue;
+                } else {
+                    if (letter.classList.length > 0) {
+                        letter.classList.remove(...letter.classList);
+                    }
+                    letter.classList.add("correct");
+            
+                }
+            } else {
+                if (letter.innerHTML == " ") {
+                    if (letter.classList.contains("space-error")) {
+                        continue;
+                    } else {
+                        if (letter.classList.length > 0) {
+                            letter.classList.remove(...letter.classList);
+                        }
+                        letter.classList.add("space-error");
+                    }
+                } else {
+                    if (letter.classList.contains("error")) {
+                        continue;
+                    } else {
+                        if (letter.classList.length > 0) {
+                            letter.classList.remove(...letter.classList);
+                        }
+                        letter.classList.add("error");
+                    }
+                }
+                if (obj.mistake == false) {
+                    previousletter = document.querySelectorAll("letter")[obj.lettercounter-1];
+                    word = document.querySelectorAll("word")[obj.wordcounter];
+                    previousword = document.querySelectorAll("word")[obj.wordcounter-1];
+                    addWrongLetter(letter);
+                    addWrongBigram(previousletter, letter);
+                    addWrongWord(letter, word);
+                    addWrongWordpairs(letter, previousword, word);
+                    obj.mistakeIdx = obj.lettercounter;
+                }
+                obj.mistake = true;
+            }
+            if (letter.innerHTML == ' ') {
+                obj.wordcounter++
+            }
+            obj.lettercounter++;
+        }
+    } else if (Case == 4) {
+        let start = caret.currentPos;
+        let between = len;
+        let end = obj.previousLen;
+        for (let i = between; i < end; i++) {
+            let letter = document.querySelectorAll("letter")[i];
+            letter.classList.remove(letter.classList.item(0));
+        }
+        for (let i = start; i < between; i++) {
+            let letter = document.querySelectorAll("letter")[i];
+            let typedLetter = input[i];
+            if (typedLetter == letter.innerHTML && i <= obj.mistakeIdx) {
+                if (letter.classList.contains("correct")) {
+                    continue;
+                } else {
+                    if (letter.classList.length > 0) {
+                        letter.classList.remove(...letter.classList);
+                    }
+                    letter.classList.add("correct");
+                }
+            } else {
+                if (letter.innerHTML == " ") {
+                    if (letter.classList.contains("space-error")) {
+                        continue;
+                    } else {
+                        if (letter.classList.length > 0) {
+                            letter.classList.remove(...letter.classList);
+                        }
+                        letter.classList.add("space-error");
+                    }
+                } else {
+                    if (letter.classList.contains("error")) {
+                        continue;
+                    } else {
+                        if (letter.classList.length > 0) {
+                            letter.classList.remove(...letter.classList);
+                        }
+                        letter.classList.add("error");
+                    }
+                }
+            }
+        }
+    }
+}
+
+function setCounters(input, previousCaretPos) {
+    previousInput = input.slice(0, previousCaretPos)
+    obj.lettercounter = previousInput.length;
+    obj.wordcounter = (previousInput.match(/ /g) || []).length;
 }
 
 function stopFlash() {
@@ -332,6 +505,7 @@ function reset() {
     obj.mistake = false;
     obj.mistakeIdx = -1;
     obj.previousOffset = -1;
+    obj.previousLen = 0;
     caret.currentPos = 0;
     caret.previousPos = 0;
     document.getElementById('typing-input').value = "";
