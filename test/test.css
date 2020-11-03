@@ -1,5 +1,9 @@
 :root {
-    --caret-color: red;
+	--background: #313131;
+	--text: #F5E6C8;
+	--sub-color: #F66E0D;
+	--hover-color: #E72D2D;
+	--caret-color: white;
 }
 
 #typing-input:focus ~ #typingarea > #textdisplay > word > letter.correct{
@@ -25,21 +29,409 @@
 	animation-delay: 0.53s;
 }
 
-#rightcaret {
-	animation-name: rightCaretFlash;
-	animation-iteration-count: infinite;
-	animation-duration: 1.06s;
-	animation-delay: 0.53s;
-}
-
 @keyframes caretFlash {
 	0% {border-left-color: var(--caret-color)}
 	50% {border-left-color: rgba(255, 255, 255, 0)}
 	100% {border-left-color: var(--caret-color)}
 }
 
-@keyframes rightCaretFlash {
-	0% {border-right-color: var(--caret-color)}
-	50% {border-right-color: rgba(255, 255, 255, 0)}
-	100% {border-right-color: var(--caret-color)}
+* {
+	box-sizing: border-box;
+	font-family: monospace;
+	scroll-behavior: smooth;
+}
+
+.correct {
+	color: rgba(2, 148, 2, 0.336);
+}
+
+.error {
+	color: rgba(145, 0, 0, 0.336);
+}
+
+.space-error {
+	border-bottom: 1px solid rgba(145, 0, 0, 0.336);
+}
+
+.highlight {
+	background-color: #0076d727;
+}
+
+body {
+	background:hsl(0, 6%, 13%);
+	color: white;
+}
+
+.headerlink:link, .headerlink:visited {
+	color: white;
+	background-color: darkgrey;
+}
+.headerlink.active {
+	background-color: var(--sub-color);
+	
+}
+.headerlink:hover:not(.active) {
+	background-color:var(--hover-color);
+}
+ul {
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+li {
+	float: left;
+	width: 33%;
+}
+li a {
+	display: block;
+	padding: 8px;
+	text-align: center;
+	text-decoration: none;
+}
+
+
+#textdisplay {
+	color: rgba(180, 179, 179, 0.336);
+	margin-bottom: 10px;
+	margin: auto;
+	/*border: 3px solid rgb(82, 34, 34);*/
+	width: 80%;
+	text-align: center;
+	white-space: pre-wrap;
+	font-size: 2em;
+	line-height: 40px;
+}
+#refresh {
+	/*border: 3px solid black;*/
+	text-align: center;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+#refresh > input:focus {
+	background-color: var(--hover-color);
+}
+
+#typing-input {
+	position: absolute;
+	top: 25em;
+	left: 5px;
+	/*
+	opacity: 0.000001;
+	*/
+	border: none;
+	outline: none;
+	padding: 0px;
+}
+
+#typing-input:focus ~ #typingarea > #textdisplay > word > letter{
+	color: white;
+}
+
+body {
+	background: var(--background);
+	color: white;
+}
+
+h1 {
+	color: var(--sub-color);
+	text-align: center;
+	font-size: 3em;
+}
+
+#result {
+	width: 100%;
+	height: 20vh;
+	border: 0;
+	padding: 0;
+	outline: none;
+	background-color: var(--background);
+	color: var(--text);
+}
+
+#copy, #reset {
+	visibility: hidden;
+}
+
+
+
+.text, input[type="number"], select {
+	margin: 3px;
+	border-radius: 5px;
+	border-color: var(--sub-color);
+	border-width: 3px;
+	width: auto;
+	outline: none;
+}
+
+select:focus {
+	outline: none;
+}
+
+#min, #max {
+	max-width: 70px;
+}
+
+input[type="button"] {
+	border-radius: 20em;
+	font-size: 3em;
+	padding: 10px;
+	color: var(--text);
+	background-color: var(--sub-color);
+	outline: none;
+	border: none;
+	cursor: pointer;
+}
+
+#clearstatsbutton, #hidestatsbutton {
+	font-size: 1em;
+	border-radius: 20em;
+	padding: 5px;
+	width: 90px;
+	height: 25px;
+}
+
+input[type="button"]:hover {
+	background-color: var(--hover-color)
+}
+
+#buttons {
+	text-align: center;
+	clear: both;
+}
+
+form {
+	text-align: center;
+}
+
+#status {
+	text-align: center;
+}
+
+#result {
+	text-align: center;
+}
+
+.float {
+    float: left;
+    overflow-wrap: break-word;
+}
+
+#info {
+	font-size: 1em;
+	border-radius: 20em;
+	padding: 5px;
+	outline: none;
+	border: none;
+	background-color: var(--sub-color);
+	color: var(--text);
+	cursor: pointer;
+}
+
+#info:hover {
+	background-color: var(--hover-color)
+}
+
+#left {
+	width: 33%;
+	text-align:left;
+	display: none;
+}
+
+#right {
+	width: 33%;
+	text-align:left;
+	display: none;
+}
+
+#form {
+	width: 100%;
+	padding-left: 5%;
+	padding-right: 5%;
+}
+
+
+#link {
+	color: var(--sub-color);
+}
+
+#link:hover {
+	color: var(--hover-color);
+}
+
+
+.mark {
+	color: var(--sub-color);
+}
+
+@media screen and (min-width: 900px) {
+	#left {
+		padding-left: 10%;
+		text-align: left;
+	}
+	#right {
+		padding-right: 10%;
+		text-align: left;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	.text {
+		width: 70px;
+	}
+}
+
+/* Customize the label (the container) */
+.container {
+    position: relative;
+    padding-left: 26px;
+    margin-bottom: 12px;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+	user-select: none;
+  }
+  
+  /* Hide the browser's default checkbox */
+  .container input {
+    position: absolute;
+    opacity: 0;
+    height: 0;
+    width: 0;
+  }
+  
+  /* Create a custom checkbox */
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+	background-color: #F5E6C8;
+	cursor: pointer;
+  }
+  
+  /* On mouse-over, add a grey background color */
+  .container:hover .checkmark {
+    background-color: #f3d496;
+  }
+  
+  /* When the checkbox is checked, add a blue background */
+  .container input:checked ~ .checkmark {
+    background-color: var(--sub-color);
+  }
+
+  .container input:checked ~ .checkmark:hover {
+    background-color: var(--hover-color);
+  }
+  
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  /* Show the checkmark when checked */
+  .container input:checked ~ .checkmark:after {
+    display: block;
+  }
+  
+  /* Style the checkmark/indicator */
+  .container .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid #F5E6C8;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+
+  ::-webkit-scrollbar {
+	  width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+	background: var(--background);
+  }
+  ::-webkit-scrollbar-thumb {
+	background: var(--sub-color);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+	background: var(--hover-color);
+  }
+
+ .linkbutton {
+	background-color: var(--sub-color);
+	color: var(--text);
+	border: none;
+	border-radius: 20em;
+	font-size: 3em;
+	padding: 10px;
+	margin: auto;
+	text-decoration: none;
+	cursor: pointer;
+	display: inline-block;
+	width: 150px;
+  }
+
+ .linkbutton:hover {
+	background-color: var(--hover-color);
+}
+
+#analysis-container {
+	position: relative;
+	top: 50px;
+}
+
+#statsstatus {
+	text-align: center;
+	font-size: 2em;
+	margin-top: 50px;
+}
+
+#analysis-container > * {
+	top: 50px;
+	width: 25%;
+	text-align: center;
+	font-size: 2em;
+	white-space: pre;
+	float: left;
+}
+
+#infodiv, #clear-stats, #hidestats {
+	text-align: right;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+#main {
+	margin-top: 0px;
+}
+
+#modes {
+	text-align: center;
+}
+
+.modes > * {
+	cursor: pointer;
+	font-size: 2em;
+}
+
+.modes > *:hover {
+	color: var(--hover-color);
+}
+
+.noselect {
+	-webkit-touch-callout: none; /* iOS Safari */
+	  -webkit-user-select: none; /* Safari */
+	   -khtml-user-select: none; /* Konqueror HTML */
+		 -moz-user-select: none; /* Old versions of Firefox */
+		  -ms-user-select: none; /* Internet Explorer/Edge */
+			  user-select: none; /* Non-prefixed version, currently
+									supported by Chrome, Edge, Opera and Firefox */
 }

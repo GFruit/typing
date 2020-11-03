@@ -25,6 +25,7 @@ let obj = {
     previouslen: 0,
     previousOffset: -1,
     selectedText: "",
+    previouslySelected: "",
     selection: "",
     focusCounter: 0
 }
@@ -46,13 +47,21 @@ function keydown(e) {
     if (keyCode == 13) {
         refresh();
     }
+    if ([37, 38, 39, 40].includes(keyCode)) {
+        obj.selection = window.getSelection();
+        obj.selectedText = obj.selection.toString();
+        if (obj.selectedText.length == 1 && keyCode == 39) {
+            console.log('its 1 now');
+            console.log('so we can do deselection');
+            obj.previouslySelected = "";
+        }
+    }
 }
 
 function select() {
     obj.selection = window.getSelection();
-    selectedText = obj.selection.toString()
-    addHighlight(selectedText);
-
+    obj.selectedText = obj.selection.toString()
+    addHighlight(obj.selectedText);
 }
 
  function setWordset (value) { 
@@ -189,7 +198,7 @@ function checkOffset(x) {
 function getValue() {
     addedChars = 0;
     input = document.getElementById('typing-input').value;
-    len = input.length;
+    let len = input.length;
     if (obj.highlight == true) {
         removeHighlight();
         addedChars = len - (obj.previouslen - obj.selectedText.length);
@@ -462,7 +471,7 @@ function clearStats() {
     for (item in stats) {
         stats[item] = {};
     }
-    len = Object.keys(stats).length;
+    let len = Object.keys(stats).length;
     for (let i = 1; i <= len; i++) {
         document.getElementById("analysis-" + i).innerHTML = "";
     }
@@ -493,14 +502,13 @@ function hideStats() { //toggle stats visibility
     focusInput();
 }
 
-function addHighlight(selectedText) {
+function addHighlight() {
     hideCaret();
     letters = document.querySelectorAll("letter");
-    for (let i = obj.lettercounter - selectedText.length; i < obj.lettercounter; i++) {
+    for (let i = obj.lettercounter - obj.selectedText.length; i < obj.lettercounter; i++) {
         letters[i].classList.add("highlight");
     }
     obj.highlight = true;
-    obj.selectedText = selectedText;
 }
 
 function removeHighlight() {
@@ -508,8 +516,9 @@ function removeHighlight() {
         return;
     }
     letters = document.querySelectorAll("letter");
-   for (let i = obj.lettercounter - selectedText.length; i < obj.lettercounter; i++) {
-    letters[i].classList.remove(letters[i].classList.item(1));
+
+    for (let i = obj.lettercounter - obj.selectedText.length; i < obj.lettercounter; i++) {
+        letters[i].classList.remove(letters[i].classList.item(1));
     }
     obj.highlight = false;
 }
