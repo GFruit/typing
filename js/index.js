@@ -177,7 +177,6 @@ function checkOffset(x) {
     previousOffsetIdx = offsetList.indexOf(obj.previousOffset);
 
     if (offsetIdx < previousOffsetIdx) {
-        console.log('scroll up');
         let difference = previousOffsetIdx - offsetIdx;
         for (let i = 0; i < difference; i++) {
             style.top -= 3;
@@ -185,7 +184,6 @@ function checkOffset(x) {
             scrollBy(0, -3*pixel_per_em);
         }
     } else if (offsetIdx > previousOffsetIdx) {
-        console.log('scroll down');
         let difference = offsetIdx - previousOffsetIdx;
         for (let i = 0; i < difference; i++) {
             style.top += 3;
@@ -250,6 +248,12 @@ function getValue() {
         addedChars = len - (obj.previousLen - obj.selectedText.length);
     }
     caret.currentPos = document.getElementById('typing-input').selectionStart;
+    /*
+    console.log('================')
+    console.log(len-addedChars);
+    console.log(obj.mistakeIdx);
+    console.log('================')
+    */
     if (len-addedChars <= obj.mistakeIdx || caret.currentPos < len) {
         obj.mistake = false;
         obj.mistakeIdx = obj.lettercount;
@@ -258,15 +262,19 @@ function getValue() {
     stopFlash();
     startFlash();
     flash.caretChange = false;
-
-    if ((len > obj.previousLen) && (len == caret.currentPos)) {
-        verifyInput(1, len, input);
-    } else if ((len < obj.previousLen) && (len == caret.currentPos)) {
-        verifyInput(2, len, input);
-    } else if ((len > obj.previousLen) && (len > caret.currentPos)) {
-        verifyInput(3, len, input);
-    } else if ((len < obj.previousLen) && (len > caret.currentPos)) {
-        verifyInput(4, len, input);
+    //current bug: unexpected behaviour when making a mistake and fixing it with highlight and adding letters
+    if (addedChars == 0) {
+        if ((len > obj.previousLen) && (len == caret.currentPos)) {
+            verifyInput(1, len, input);
+        } else if ((len < obj.previousLen) && (len == caret.currentPos)) {
+            verifyInput(2, len, input);
+        } else if ((len > obj.previousLen) && (len > caret.currentPos)) {
+            verifyInput(3, len, input);
+        } else if ((len < obj.previousLen) && (len > caret.currentPos)) {
+            verifyInput(4, len, input);
+        }
+    } else {
+        verifyInput(5, len, input)
     }
 
 
@@ -368,7 +376,10 @@ function verifyInput(Case, len, input) {
         let end = obj.previousLen;
         for (let i = start; i < end; i++) {
             let letter = document.querySelectorAll("letter")[i];
-            letter.classList.remove(letter.classList.item(0));
+            //letter.classList.remove(letter.classList.item(0));
+            if (letter.classList.length > 0) {
+                letter.classList.remove(...letter.classList);
+            }
         }
     } else if (Case == 3) {
         let start = caret.previousPos;
@@ -414,7 +425,10 @@ function verifyInput(Case, len, input) {
         let end = obj.previousLen;
         for (let i = between; i < end; i++) {
             let letter = document.querySelectorAll("letter")[i];
-            letter.classList.remove(letter.classList.item(0));
+            //letter.classList.remove(letter.classList.item(0));
+            if (letter.classList.length > 0) {
+                letter.classList.remove(...letter.classList);
+            }
         }
         for (let i = start; i < between; i++) {
             let letter = document.querySelectorAll("letter")[i];
@@ -449,6 +463,54 @@ function verifyInput(Case, len, input) {
                     }
                 }
             }
+        }
+    } else if (Case == 5) {
+        console.log('case 5');
+        let start = caret.previousPos;
+        let end = obj.previousLen;
+        if (start <= obj.mistakeIdx) {
+            obj.mistake = false;
+            obj.mistakeIdx = obj.lettercount;
+        }
+        for (let i = start; i < end; i++) {
+            let letter = document.querySelectorAll("letter")[i];
+            //letter.classList.remove(letter.classList.item(0));
+            if (letter.classList.length > 0) {
+                letter.classList.remove(...letter.classList);
+            }
+        }
+        setCounters(input, caret.previousPos);
+        start = caret.previousPos;
+        end = len;
+        console.log(start);
+        console.log(end);
+        for (let i = start; i < end; i++) {
+            let letter = document.querySelectorAll("letter")[i];
+            let typedLetter = input[i];
+            if (typedLetter == letter.innerHTML && i <= obj.mistakeIdx) {
+                letter.classList.add("correct");
+            } else {
+                if (letter.innerHTML == " ") {
+                    letter.classList.add("space-error");
+                } else {
+                    letter.classList.add("error");
+                }
+                if (obj.mistake == false) {
+                    previousletter = document.querySelectorAll("letter")[obj.lettercounter-1];
+                    word = document.querySelectorAll("word")[obj.wordcounter];
+                    previousword = document.querySelectorAll("word")[obj.wordcounter-1];
+                    addWrongLetter(letter);
+                    addWrongBigram(previousletter, letter);
+                    addWrongWord(letter, word);
+                    addWrongWordpairs(letter, previousword, word);
+                    obj.mistakeIdx = obj.lettercounter;
+                }
+                obj.mistake = true;
+            }
+            if (letter.innerHTML == ' ') {
+                obj.wordcounter++
+            }
+            obj.lettercounter++;
         }
     }
 }
@@ -487,8 +549,8 @@ function removeHighlight() {
     letters = document.querySelectorAll("letter");
 
     for (let i = 0; i < obj.lettercount; i++) {
-        if (letters[i].classList.item(1)) {
-            letters[i].classList.remove(letters[i].classList.item(1));
+        if (letters[i].classList.contains("highlight")) {
+            letters[i].classList.remove("highlight");
         }
     }
     obj.highlight = false;
