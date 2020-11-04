@@ -112,7 +112,7 @@ li a {
 }
 
 #typing-input:focus ~ #typingarea > #textdisplay letter.highlight {
-	background-color: #0078D7;
+	background-color: #66edff44;
 }
 
 body {
