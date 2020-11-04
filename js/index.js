@@ -382,12 +382,13 @@ function verifyInput(Case, len, input) {
             }
         }
     } else if (Case == 3) {
+        setCounters(input, caret.previousPos);
         let start = caret.previousPos;
         let end = len;
         for (let i = start; i < end; i++) {
             let letter = document.querySelectorAll("letter")[i];
             let typedLetter = input[i];
-            if (typedLetter == letter.innerHTML) {
+            if (typedLetter == letter.innerHTML && i <= obj.mistakeIdx) {
                 if (letter.classList.contains("correct")) {
                     continue;
                 } else {
@@ -417,7 +418,22 @@ function verifyInput(Case, len, input) {
                         letter.classList.add("error");
                     }
                 }
+                if (obj.mistake == false) {
+                    previousletter = document.querySelectorAll("letter")[obj.lettercounter-1];
+                    word = document.querySelectorAll("word")[obj.wordcounter];
+                    previousword = document.querySelectorAll("word")[obj.wordcounter-1];
+                    addWrongLetter(letter);
+                    addWrongBigram(previousletter, letter);
+                    addWrongWord(letter, word);
+                    addWrongWordpairs(letter, previousword, word);
+                    obj.mistakeIdx = obj.lettercounter;
+                }
+                obj.mistake = true;
             }
+            if (letter.innerHTML == ' ') {
+                obj.wordcounter++
+            }
+            obj.lettercounter++;
         }
     } else if (Case == 4) {
         let start = caret.currentPos;
