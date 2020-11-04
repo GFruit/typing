@@ -16,8 +16,13 @@ let obj = {
     previousOffset: -1,
     previousLen: 0,
     mistake: false,
-    mistakeIdx: -1
+    mistakeIdx: -1,
+    scrolldowncounter: 0,
+    scrollupcounter: 0
 }
+
+let offsetList = [];
+
 let flash = {
     caretChange: false
 }
@@ -165,16 +170,73 @@ function setPreviousOffset(letter) {
 
 function checkOffset(x) {
     let letter = document.querySelectorAll("letter")[caret.currentPos];
+    if (!(offsetList.includes(letter.offsetTop))) {
+        offsetList.push(letter.offsetTop)
+    }
+    offsetIdx = offsetList.indexOf(letter.offsetTop);
+    previousOffsetIdx = offsetList.indexOf(obj.previousOffset);
+
+    if (offsetIdx < previousOffsetIdx) {
+        console.log('scroll up');
+        let difference = previousOffsetIdx - offsetIdx;
+        for (let i = 0; i < difference; i++) {
+            style.top -= 3;
+            pixel_per_em = Number(getComputedStyle(document.body, "").fontSize.match(/(\d*(\.\d*)?)px/)[1]);
+            scrollBy(0, -3*pixel_per_em);
+        }
+    } else if (offsetIdx > previousOffsetIdx) {
+        console.log('scroll down');
+        let difference = offsetIdx - previousOffsetIdx;
+        for (let i = 0; i < difference; i++) {
+            style.top += 3;
+            //pixel_per_em = Number(getComputedStyle(document.body, "").fontSize.match(/(\d*(\.\d*)?)px/)[1]);
+            //scrollBy(0, +3*pixel_per_em);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*
     document.getElementById('typing-input').style.top = style.top + 'em';
-    if (letter.offsetTop < obj.previousOffset) {
+    if (letter.offsetTop < obj.previousOffset && obj.scrollupcounter <= obj.scrolldowncounter) {
         style.top -= 3;
         pixel_per_em = Number(getComputedStyle(document.body, "").fontSize.match(/(\d*(\.\d*)?)px/)[1]);
         scrollBy(0, -3*pixel_per_em);
+        obj.scrollupcounter += 1
     } else if (letter.offsetTop > obj.previousOffset) {
         style.top += 3;
+        obj.scrolldowncounter += 1
         //pixel_per_em = Number(getComputedStyle(document.body, "").fontSize.match(/(\d*(\.\d*)?)px/)[1]);
         //scrollBy(0, +3*pixel_per_em);
     }
+    */
     obj.previousOffset = letter.offsetTop;
     document.getElementById('typing-input').style.top = style.top + 'em';
 }
@@ -508,6 +570,9 @@ function reset() {
     obj.previousLen = 0;
     caret.currentPos = 0;
     caret.previousPos = 0;
+    obj.scrolldowncounter = 0;
+    obj.scrollupcounter = 0;
+    offsetList = [];
     document.getElementById('typing-input').value = "";
 }
 
