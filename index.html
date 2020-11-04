@@ -15,8 +15,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 <meta name="description" content="Take typing tests to find out your most mistyped letters, bigrams, words, and wordpairs.">
-<link rel="stylesheet" href="styles\styles.css">
-<link rel='icon' href="keyboard.ico" type='image-x-icon'/>
+<link rel="stylesheet" href="test.css">
 <title>Typing Test</title>
 </head>
 <body onload="setWordset('Top 200')" onresize="setPreviousOffset()">
@@ -46,7 +45,7 @@
     </ul>
   </div>
   <input type="text" id="typing-input" autocomplete="off" spellcheck="false"
-  onblur="hideCaret();removeHighlight()" onfocus="showCaret();removeHighlight()">
+  onblur="stopFlash();removeHighlight()" onfocus="startFlash();removeHighlight()">
   <div id="refresh">
     <input type="button" value="refresh" onclick="refresh()">
   </div>
@@ -61,8 +60,8 @@
     <div id="analysis-4" class="analysis-item"></div>
   </div>
   </div>
-  <script src="js/words.min.js"></script>
-  <script src="js/quotes.js"></script>
-  <script src="js/index.js"></script>
+  <script src="../js/words.min.js"></script>
+  <script src="../js/quotes.js"></script>
+  <script src="test.js"></script>
 </body>
 </html>
