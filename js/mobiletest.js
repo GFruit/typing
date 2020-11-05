@@ -506,6 +506,7 @@ function verifyInput(Case, len, input) {
                 } else {
                     letter.classList.add("error");
                 }
+            }
         }
     }
 }
