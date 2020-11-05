@@ -8,6 +8,7 @@ let stats = {
 let hide = false;
 
 let obj = {
+    itemcounter: 0,
     lettercounter: 0,
     lettercount: 0,
     wordcounter: 0,
@@ -112,6 +113,7 @@ function shuffle(array) {
         stats[item] = JSON.parse(result);
     }
     obj.itemcounter += 1
+    console.log(obj.itemcounter);
     if (obj.itemcounter == 4) {
         displayStats();
         updateStatus();
