@@ -267,7 +267,7 @@ function getValue() {
     startFlash();
     flash.caretChange = false;
     //current bug: unexpected behaviour when making a mistake and fixing it with highlight and adding letters
-    if (obj.mobile == true) {
+    if (true) {
         verifyInput(6, len, input);
     } else if (addedChars == 0) {
         if ((len > obj.previousLen) && (len == caret.currentPos)) {
@@ -489,12 +489,15 @@ function verifyInput(Case, len, input) {
         }
     } else if (Case == 6) {
         let start = 0;
-        let end = obj.lettercount;
+        let end = obj.previousLen;
         for (let i = start; i < end; i++) {
+            let letter = document.querySelectorAll("letter")[i];
             if (letter.classList.length > 0) {
                 letter.classList.remove(...letter.classList);
             }
         }
+        start = 0;
+        end = len;
         for (let i = start; i < end; i++) {
             let letter = document.querySelectorAll("letter")[i];
             let typedLetter = input[i];
