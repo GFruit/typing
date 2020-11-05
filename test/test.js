@@ -8,6 +8,7 @@ let stats = {
 let hide = false;
 
 let obj = {
+    itemcounter: 0,
     lettercounter: 0,
     lettercount: 0,
     wordcounter: 0,
@@ -36,6 +37,14 @@ let caret = {
 let style = {
     top: 25
 }
+
+if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+    // true for mobile device
+    obj.mobile = true;
+  }else{
+    // false for not mobile device
+    obj.mobile = false;
+  }
 
 document.getElementById('typing-input').addEventListener("input", getValue);
 document.addEventListener("selectionchange", selectionChange);
@@ -177,21 +186,30 @@ function checkOffset(x) {
     previousOffsetIdx = offsetList.indexOf(obj.previousOffset);
 
     if (offsetIdx < previousOffsetIdx) {
-        console.log('scroll up');
         let difference = previousOffsetIdx - offsetIdx;
+        console.log(difference);
+        style.top -= 3*difference;
+        pixel_per_em = Number(getComputedStyle(document.body, "").fontSize.match(/(\d*(\.\d*)?)px/)[1]);
+        scrollBy(0, -3*pixel_per_em*difference);
+        /*
         for (let i = 0; i < difference; i++) {
             style.top -= 3;
             pixel_per_em = Number(getComputedStyle(document.body, "").fontSize.match(/(\d*(\.\d*)?)px/)[1]);
             scrollBy(0, -3*pixel_per_em);
         }
+        */
     } else if (offsetIdx > previousOffsetIdx) {
-        console.log('scroll down');
         let difference = offsetIdx - previousOffsetIdx;
+        style.top += 3*difference;
+        pixel_per_em = Number(getComputedStyle(document.body, "").fontSize.match(/(\d*(\.\d*)?)px/)[1]);
+        scrollBy(0, 3*pixel_per_em*difference);
+        /*
         for (let i = 0; i < difference; i++) {
             style.top += 3;
-            //pixel_per_em = Number(getComputedStyle(document.body, "").fontSize.match(/(\d*(\.\d*)?)px/)[1]);
-            //scrollBy(0, +3*pixel_per_em);
+            pixel_per_em = Number(getComputedStyle(document.body, "").fontSize.match(/(\d*(\.\d*)?)px/)[1]);
+            scrollBy(0, +3*pixel_per_em);
         }
+        */
     }
 
 
@@ -258,71 +276,22 @@ function getValue() {
     stopFlash();
     startFlash();
     flash.caretChange = false;
-
-    if ((len > obj.previousLen) && (len == caret.currentPos)) {
-        verifyInput(1, len, input);
-    } else if ((len < obj.previousLen) && (len == caret.currentPos)) {
-        verifyInput(2, len, input);
-    } else if ((len > obj.previousLen) && (len > caret.currentPos)) {
-        verifyInput(3, len, input);
-    } else if ((len < obj.previousLen) && (len > caret.currentPos)) {
-        verifyInput(4, len, input);
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /*
-    obj.lettercounter = 0;
-    obj.wordcounter = 0;
-    for (let i = 0; i < len; i++) {
-        let letter = document.querySelectorAll("letter")[i];
-        typedLetter = input[i];
-        console.log(i);
-        console.log(obj.mistakeIdx);
-        if (typedLetter == letter.innerHTML && i <= obj.mistakeIdx) {
-            letter.classList.add("correct");
-        } else {
-            if (letter.innerHTML == " ") {
-                letter.classList.add("space-error");
-            } else {
-                letter.classList.add("error");
-            }
-
-            if (obj.mistake == false) {
-                previousletter = document.querySelectorAll("letter")[obj.lettercounter-1];
-                word = document.querySelectorAll("word")[obj.wordcounter];
-                previousword = document.querySelectorAll("word")[obj.wordcounter-1];
-                addWrongLetter(letter);
-                addWrongBigram(previousletter, letter);
-                addWrongWord(letter, word);
-                addWrongWordpairs(letter, previousword, word);
-                obj.mistakeIdx = obj.lettercounter;
-            }
-            obj.mistake = true;
+    //current bug: unexpected behaviour when making a mistake and fixing it with highlight and adding letters
+    if (obj.mobile == true) {
+        verifyInput(6, len, input);
+    } else if (addedChars == 0) {
+        if ((len > obj.previousLen) && (len == caret.currentPos)) {
+            verifyInput(1, len, input);
+        } else if ((len < obj.previousLen) && (len == caret.currentPos)) {
+            verifyInput(2, len, input);
+        } else if ((len > obj.previousLen) && (len > caret.currentPos)) {
+            verifyInput(3, len, input);
+        } else if ((len < obj.previousLen) && (len > caret.currentPos)) {
+            verifyInput(4, len, input);
         }
-        if (letter.innerHTML == ' ') {
-            obj.wordcounter++
-        }
-        obj.lettercounter++;
+    } else {
+        verifyInput(5, len, input)
     }
-    */
     checkOffset();
     updateCaret();
     caret.previousPos = caret.currentPos;
@@ -368,7 +337,10 @@ function verifyInput(Case, len, input) {
         let end = obj.previousLen;
         for (let i = start; i < end; i++) {
             let letter = document.querySelectorAll("letter")[i];
-            letter.classList.remove(letter.classList.item(0));
+            //letter.classList.remove(letter.classList.item(0));
+            if (letter.classList.length > 0) {
+                letter.classList.remove(...letter.classList);
+            }
         }
     } else if (Case == 3) {
         setCounters(input, caret.previousPos);
@@ -379,6 +351,7 @@ function verifyInput(Case, len, input) {
             let typedLetter = input[i];
             if (typedLetter == letter.innerHTML && i <= obj.mistakeIdx) {
                 if (letter.classList.contains("correct")) {
+                    incrementCounters(letter);
                     continue;
                 } else {
                     if (letter.classList.length > 0) {
@@ -390,6 +363,7 @@ function verifyInput(Case, len, input) {
             } else {
                 if (letter.innerHTML == " ") {
                     if (letter.classList.contains("space-error")) {
+                        incrementCounters(letter);
                         continue;
                     } else {
                         if (letter.classList.length > 0) {
@@ -399,6 +373,7 @@ function verifyInput(Case, len, input) {
                     }
                 } else {
                     if (letter.classList.contains("error")) {
+                        incrementCounters(letter);
                         continue;
                     } else {
                         if (letter.classList.length > 0) {
@@ -407,7 +382,7 @@ function verifyInput(Case, len, input) {
                         letter.classList.add("error");
                     }
                 }
-                if (obj.mistake == false) {
+                if (obj.mistake == false && (i < caret.currentPos)) {
                     previousletter = document.querySelectorAll("letter")[obj.lettercounter-1];
                     word = document.querySelectorAll("word")[obj.wordcounter];
                     previousword = document.querySelectorAll("word")[obj.wordcounter-1];
@@ -430,7 +405,10 @@ function verifyInput(Case, len, input) {
         let end = obj.previousLen;
         for (let i = between; i < end; i++) {
             let letter = document.querySelectorAll("letter")[i];
-            letter.classList.remove(letter.classList.item(0));
+            //letter.classList.remove(letter.classList.item(0));
+            if (letter.classList.length > 0) {
+                letter.classList.remove(...letter.classList);
+            }
         }
         for (let i = start; i < between; i++) {
             let letter = document.querySelectorAll("letter")[i];
@@ -466,6 +444,92 @@ function verifyInput(Case, len, input) {
                 }
             }
         }
+    } else if (Case == 5) {
+        let start = caret.previousPos;
+        let end = obj.previousLen;
+        if (start <= obj.mistakeIdx) {
+            obj.mistake = false;
+            obj.mistakeIdx = obj.lettercount;
+        }
+        for (let i = start; i < end; i++) {
+            let letter = document.querySelectorAll("letter")[i];
+            //letter.classList.remove(letter.classList.item(0));
+            if (letter.classList.length > 0) {
+                letter.classList.remove(...letter.classList);
+            }
+        }
+        setCounters(input, caret.previousPos);
+        start = caret.previousPos;
+        end = len;
+        for (let i = start; i < end; i++) {
+            let letter = document.querySelectorAll("letter")[i];
+            let typedLetter = input[i];
+            if (typedLetter == letter.innerHTML && i <= obj.mistakeIdx) {
+                letter.classList.add("correct");
+            } else {
+                if (letter.innerHTML == " ") {
+                    letter.classList.add("space-error");
+                } else {
+                    letter.classList.add("error");
+                }
+                if (obj.mistake == false) {
+                    previousletter = document.querySelectorAll("letter")[obj.lettercounter-1];
+                    word = document.querySelectorAll("word")[obj.wordcounter];
+                    previousword = document.querySelectorAll("word")[obj.wordcounter-1];
+                    addWrongLetter(letter);
+                    addWrongBigram(previousletter, letter);
+                    addWrongWord(letter, word);
+                    addWrongWordpairs(letter, previousword, word);
+                    obj.mistakeIdx = obj.lettercounter;
+                }
+                obj.mistake = true;
+            }
+            if (letter.innerHTML == ' ') {
+                obj.wordcounter++
+            }
+            obj.lettercounter++;
+        }
+    } else if (Case == 6) {
+        obj.lettercounter = 0;
+        obj.wordcounter = 0;
+        let start = 0;
+        let end = obj.previousLen;
+        for (let i = start; i < end; i++) {
+            let letter = document.querySelectorAll("letter")[i];
+            if (letter.classList.length > 0) {
+                letter.classList.remove(...letter.classList);
+            }
+        }
+        start = 0;
+        end = len;
+        for (let i = start; i < end; i++) {
+            let letter = document.querySelectorAll("letter")[i];
+            let typedLetter = input[i];
+            if (typedLetter == letter.innerHTML && i <= obj.mistakeIdx) {
+                letter.classList.add("correct");
+            } else {
+                if (letter.innerHTML == " ") {
+                    letter.classList.add("space-error");
+                } else {
+                    letter.classList.add("error");
+                }
+                if (obj.mistake == false) {
+                    previousletter = document.querySelectorAll("letter")[obj.lettercounter-1];
+                    word = document.querySelectorAll("word")[obj.wordcounter];
+                    previousword = document.querySelectorAll("word")[obj.wordcounter-1];
+                    addWrongLetter(letter);
+                    addWrongBigram(previousletter, letter);
+                    addWrongWord(letter, word);
+                    addWrongWordpairs(letter, previousword, word);
+                    obj.mistakeIdx = obj.lettercounter;
+                }
+                obj.mistake = true;
+            }
+            if (letter.innerHTML == ' ') {
+                obj.wordcounter++
+            }
+            obj.lettercounter++;
+        }
     }
 }
 
@@ -473,6 +537,13 @@ function setCounters(input, previousCaretPos) {
     previousInput = input.slice(0, previousCaretPos)
     obj.lettercounter = previousInput.length;
     obj.wordcounter = (previousInput.match(/ /g) || []).length;
+}
+
+function incrementCounters(letter) {
+    if (letter.innerHTML == ' ') {
+        obj.wordcounter++
+    }
+    obj.lettercounter++;
 }
 
 function stopFlash() {
@@ -503,8 +574,8 @@ function removeHighlight() {
     letters = document.querySelectorAll("letter");
 
     for (let i = 0; i < obj.lettercount; i++) {
-        if (letters[i].classList.item(1)) {
-            letters[i].classList.remove(letters[i].classList.item(1));
+        if (letters[i].classList.contains("highlight")) {
+            letters[i].classList.remove("highlight");
         }
     }
     obj.highlight = false;

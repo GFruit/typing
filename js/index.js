@@ -187,18 +187,28 @@ function checkOffset(x) {
 
     if (offsetIdx < previousOffsetIdx) {
         let difference = previousOffsetIdx - offsetIdx;
+        style.top -= 3*difference;
+        pixel_per_em = Number(getComputedStyle(document.body, "").fontSize.match(/(\d*(\.\d*)?)px/)[1]);
+        scrollBy(0, -3*pixel_per_em*difference);
+        /*
         for (let i = 0; i < difference; i++) {
             style.top -= 3;
             pixel_per_em = Number(getComputedStyle(document.body, "").fontSize.match(/(\d*(\.\d*)?)px/)[1]);
             scrollBy(0, -3*pixel_per_em);
         }
+        */
     } else if (offsetIdx > previousOffsetIdx) {
         let difference = offsetIdx - previousOffsetIdx;
+        style.top += 3*difference;
+        //pixel_per_em = Number(getComputedStyle(document.body, "").fontSize.match(/(\d*(\.\d*)?)px/)[1]);
+        //scrollBy(0, 3*pixel_per_em*difference);
+        /*
         for (let i = 0; i < difference; i++) {
             style.top += 3;
-            //pixel_per_em = Number(getComputedStyle(document.body, "").fontSize.match(/(\d*(\.\d*)?)px/)[1]);
-            //scrollBy(0, +3*pixel_per_em);
+            pixel_per_em = Number(getComputedStyle(document.body, "").fontSize.match(/(\d*(\.\d*)?)px/)[1]);
+            scrollBy(0, +3*pixel_per_em);
         }
+        */
     }
 
 
