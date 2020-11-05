@@ -87,11 +87,10 @@ li a {
 	position: absolute;
 	top: 25em;
 	left: 5px;
-	width: 0.01px;
-	height: 0.01px;
+	/*
+	opacity: 0.000001;
+	*/
 	width: 100%;
-	background-color: var(--background);
-	color: var(--background);
 	border: none;
 	outline: none;
 	padding: 0px;
@@ -114,7 +113,7 @@ li a {
 }
 
 #typing-input:focus ~ #typingarea > #textdisplay letter.highlight {
-	background-color: #0078D7;
+	background-color: #66edff44;
 }
 
 body {
