@@ -121,7 +121,6 @@ function shuffle(array) {
         stats[item] = JSON.parse(result);
     }
     obj.itemcounter += 1
-    console.log(obj.itemcounter);
     if (obj.itemcounter == 4) {
         displayStats();
         updateStatus();
@@ -373,14 +372,9 @@ function verifyInput(Case, len, input) {
                     }
                 }
                 if (obj.mistake == false && (i < caret.currentPos)) {
-                    console.log(letter.innerHTML);
                     previousletter = document.querySelectorAll("letter")[obj.lettercounter-1];
                     word = document.querySelectorAll("word")[obj.wordcounter];
                     previousword = document.querySelectorAll("word")[obj.wordcounter-1];
-                    /*
-                    console.log(previousletter.innerHTML);
-                    console.log(letter.innerHTML);
-                    */
                     addWrongLetter(letter);
                     addWrongBigram(previousletter, letter);
                     addWrongWord(letter, word);
@@ -440,7 +434,6 @@ function verifyInput(Case, len, input) {
             }
         }
     } else if (Case == 5) {
-        console.log('case 5');
         let start = caret.previousPos;
         let end = obj.previousLen;
         if (start <= obj.mistakeIdx) {
@@ -457,8 +450,6 @@ function verifyInput(Case, len, input) {
         setCounters(input, caret.previousPos);
         start = caret.previousPos;
         end = len;
-        console.log(start);
-        console.log(end);
         for (let i = start; i < end; i++) {
             let letter = document.querySelectorAll("letter")[i];
             let typedLetter = input[i];
@@ -488,6 +479,8 @@ function verifyInput(Case, len, input) {
             obj.lettercounter++;
         }
     } else if (Case == 6) {
+        obj.lettercounter = 0;
+        obj.wordcounter = 0;
         let start = 0;
         let end = obj.previousLen;
         for (let i = start; i < end; i++) {
@@ -509,7 +502,22 @@ function verifyInput(Case, len, input) {
                 } else {
                     letter.classList.add("error");
                 }
+                if (obj.mistake == false) {
+                    previousletter = document.querySelectorAll("letter")[obj.lettercounter-1];
+                    word = document.querySelectorAll("word")[obj.wordcounter];
+                    previousword = document.querySelectorAll("word")[obj.wordcounter-1];
+                    addWrongLetter(letter);
+                    addWrongBigram(previousletter, letter);
+                    addWrongWord(letter, word);
+                    addWrongWordpairs(letter, previousword, word);
+                    obj.mistakeIdx = obj.lettercounter;
+                }
+                obj.mistake = true;
             }
+            if (letter.innerHTML == ' ') {
+                obj.wordcounter++
+            }
+            obj.lettercounter++;
         }
     }
 }
