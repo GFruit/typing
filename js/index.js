@@ -38,6 +38,14 @@ let style = {
     top: 25
 }
 
+if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+    // true for mobile device
+    obj.mobile = true;
+  }else{
+    // false for not mobile device
+    obj.mobile = false;
+  }
+
 document.getElementById('typing-input').addEventListener("input", getValue);
 document.addEventListener("selectionchange", selectionChange);
 document.getElementById('typing-input').addEventListener("keydown", keydown);
@@ -250,12 +258,6 @@ function getValue() {
         addedChars = len - (obj.previousLen - obj.selectedText.length);
     }
     caret.currentPos = document.getElementById('typing-input').selectionStart;
-    /*
-    console.log('================')
-    console.log(len-addedChars);
-    console.log(obj.mistakeIdx);
-    console.log('================')
-    */
     if (len-addedChars <= obj.mistakeIdx || caret.currentPos < len) {
         obj.mistake = false;
         obj.mistakeIdx = obj.lettercount;
@@ -265,7 +267,9 @@ function getValue() {
     startFlash();
     flash.caretChange = false;
     //current bug: unexpected behaviour when making a mistake and fixing it with highlight and adding letters
-    if (addedChars == 0) {
+    if (obj.mobile == true) {
+        verifyInput(6, len, input);
+    } else if (addedChars == 0) {
         if ((len > obj.previousLen) && (len == caret.currentPos)) {
             verifyInput(1, len, input);
         } else if ((len < obj.previousLen) && (len == caret.currentPos)) {
@@ -278,61 +282,6 @@ function getValue() {
     } else {
         verifyInput(5, len, input)
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /*
-    obj.lettercounter = 0;
-    obj.wordcounter = 0;
-    for (let i = 0; i < len; i++) {
-        let letter = document.querySelectorAll("letter")[i];
-        typedLetter = input[i];
-        console.log(i);
-        console.log(obj.mistakeIdx);
-        if (typedLetter == letter.innerHTML && i <= obj.mistakeIdx) {
-            letter.classList.add("correct");
-        } else {
-            if (letter.innerHTML == " ") {
-                letter.classList.add("space-error");
-            } else {
-                letter.classList.add("error");
-            }
-
-            if (obj.mistake == false) {
-                previousletter = document.querySelectorAll("letter")[obj.lettercounter-1];
-                word = document.querySelectorAll("word")[obj.wordcounter];
-                previousword = document.querySelectorAll("word")[obj.wordcounter-1];
-                addWrongLetter(letter);
-                addWrongBigram(previousletter, letter);
-                addWrongWord(letter, word);
-                addWrongWordpairs(letter, previousword, word);
-                obj.mistakeIdx = obj.lettercounter;
-            }
-            obj.mistake = true;
-        }
-        if (letter.innerHTML == ' ') {
-            obj.wordcounter++
-        }
-        obj.lettercounter++;
-    }
-    */
     checkOffset();
     updateCaret();
     caret.previousPos = caret.currentPos;
@@ -537,6 +486,30 @@ function verifyInput(Case, len, input) {
                 obj.wordcounter++
             }
             obj.lettercounter++;
+        }
+    } else if (Case == 6) {
+        let start = 0;
+        let end = obj.previousLen;
+        for (let i = start; i < end; i++) {
+            let letter = document.querySelectorAll("letter")[i];
+            if (letter.classList.length > 0) {
+                letter.classList.remove(...letter.classList);
+            }
+        }
+        start = 0;
+        end = len;
+        for (let i = start; i < end; i++) {
+            let letter = document.querySelectorAll("letter")[i];
+            let typedLetter = input[i];
+            if (typedLetter == letter.innerHTML && i <= obj.mistakeIdx) {
+                letter.classList.add("correct");
+            } else {
+                if (letter.innerHTML == " ") {
+                    letter.classList.add("space-error");
+                } else {
+                    letter.classList.add("error");
+                }
+            }
         }
     }
 }

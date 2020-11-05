@@ -267,7 +267,7 @@ function getValue() {
     startFlash();
     flash.caretChange = false;
     //current bug: unexpected behaviour when making a mistake and fixing it with highlight and adding letters
-    if (true) {
+    if (obj.mobile == true) {
         verifyInput(6, len, input);
     } else if (addedChars == 0) {
         if ((len > obj.previousLen) && (len == caret.currentPos)) {
