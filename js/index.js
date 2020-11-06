@@ -321,6 +321,9 @@ function verifyInput(Case, len, input) {
                 //Disabling for now because it doesn't work as intended (counts more mistakes after the first one)
                 //also it's hard to fix because I can't base the mistake on the position of the caret, because
                 //that might change with arrow keys while there's no input changes
+                //also hard to define what should be made red if you insert letters while obj.mistake = true
+                //only the following letters or every wrong input (that might make it more confusing when trying to fix the wrong letter)
+                //so I think overall the best solution is to not count it right now
                 */
             }
             if (letter.innerHTML == ' ') {
