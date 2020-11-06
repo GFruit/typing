@@ -288,37 +288,21 @@ function verifyInput(Case, len, input) {
             let letter = document.querySelectorAll("letter")[i];
             let typedLetter = input[i];
             if (typedLetter == letter.innerHTML && i <= obj.mistakeIdx) {
-                if (letter.classList.contains("correct")) {
-                    incrementCounters(letter);
-                    continue;
+                if (letter.classList.length > 0) {
+                    letter.classList.remove(...letter.classList);
+                }
+                letter.classList.add("correct");
+            } else {
+                if (letter.innerHTML == " ") {
+                    if (letter.classList.length > 0) {
+                        letter.classList.remove(...letter.classList);
+                    }
+                    letter.classList.add("space-error");
                 } else {
                     if (letter.classList.length > 0) {
                         letter.classList.remove(...letter.classList);
                     }
-                    letter.classList.add("correct");
-            
-                }
-            } else {
-                if (letter.innerHTML == " ") {
-                    if (letter.classList.contains("space-error")) {
-                        incrementCounters(letter);
-                        continue;
-                    } else {
-                        if (letter.classList.length > 0) {
-                            letter.classList.remove(...letter.classList);
-                        }
-                        letter.classList.add("space-error");
-                    }
-                } else {
-                    if (letter.classList.contains("error")) {
-                        incrementCounters(letter);
-                        continue;
-                    } else {
-                        if (letter.classList.length > 0) {
-                            letter.classList.remove(...letter.classList);
-                        }
-                        letter.classList.add("error");
-                    }
+                    letter.classList.add("error");
                 }
                 if (obj.mistake == false && (i < caret.currentPos)) {
                     previousletter = document.querySelectorAll("letter")[obj.lettercounter-1];
@@ -351,33 +335,21 @@ function verifyInput(Case, len, input) {
             let letter = document.querySelectorAll("letter")[i];
             let typedLetter = input[i];
             if (typedLetter == letter.innerHTML && i <= obj.mistakeIdx) {
-                if (letter.classList.contains("correct")) {
-                    continue;
+                if (letter.classList.length > 0) {
+                    letter.classList.remove(...letter.classList);
+                }
+                letter.classList.add("correct");
+            } else {
+                if (letter.innerHTML == " ") {
+                    if (letter.classList.length > 0) {
+                        letter.classList.remove(...letter.classList);
+                    }
+                    letter.classList.add("space-error");
                 } else {
                     if (letter.classList.length > 0) {
                         letter.classList.remove(...letter.classList);
                     }
-                    letter.classList.add("correct");
-                }
-            } else {
-                if (letter.innerHTML == " ") {
-                    if (letter.classList.contains("space-error")) {
-                        continue;
-                    } else {
-                        if (letter.classList.length > 0) {
-                            letter.classList.remove(...letter.classList);
-                        }
-                        letter.classList.add("space-error");
-                    }
-                } else {
-                    if (letter.classList.contains("error")) {
-                        continue;
-                    } else {
-                        if (letter.classList.length > 0) {
-                            letter.classList.remove(...letter.classList);
-                        }
-                        letter.classList.add("error");
-                    }
+                    letter.classList.add("error");
                 }
             }
         }
@@ -473,13 +445,6 @@ function setCounters(input, previousCaretPos) {
     previousInput = input.slice(0, previousCaretPos)
     obj.lettercounter = previousInput.length;
     obj.wordcounter = (previousInput.match(/ /g) || []).length;
-}
-
-function incrementCounters(letter) {
-    if (letter.innerHTML == ' ') {
-        obj.wordcounter++
-    }
-    obj.lettercounter++;
 }
 
 function stopFlash() {
