@@ -304,6 +304,7 @@ function verifyInput(Case, len, input) {
                     }
                     letter.classList.add("error");
                 }
+                
                 /*
                 if (obj.mistake == false && (i < caret.currentPos)) { //only count mistakes on stuff that was added, as opposed to stuff that is wrong as a result of the insertion
                     previousletter = document.querySelectorAll("letter")[obj.lettercounter-1];
@@ -317,7 +318,9 @@ function verifyInput(Case, len, input) {
                 }
                 obj.mistake = true;
 
-                Disabling for now because it doesn't work as intended (counts more mistakes after the first one)
+                //Disabling for now because it doesn't work as intended (counts more mistakes after the first one)
+                //also it's hard to fix because I can't base the mistake on the position of the caret, because
+                //that might change with arrow keys while there's no input changes
                 */
             }
             if (letter.innerHTML == ' ') {
