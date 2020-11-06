@@ -421,7 +421,7 @@ function verifyInput(Case, len, input) {
         }
         start = 0;
         //end = len;
-        end = obj.lettercount;
+        end = len;
         for (let i = start; i < end; i++) {
             let letter = document.querySelectorAll("letter")[i];
             let typedLetter = input[i];
