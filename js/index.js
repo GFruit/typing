@@ -190,70 +190,12 @@ function checkOffset(x) {
         style.top -= 3*difference;
         pixel_per_em = Number(getComputedStyle(document.body, "").fontSize.match(/(\d*(\.\d*)?)px/)[1]);
         scrollBy(0, -3*pixel_per_em*difference);
-        /*
-        for (let i = 0; i < difference; i++) {
-            style.top -= 3;
-            pixel_per_em = Number(getComputedStyle(document.body, "").fontSize.match(/(\d*(\.\d*)?)px/)[1]);
-            scrollBy(0, -3*pixel_per_em);
-        }
-        */
     } else if (offsetIdx > previousOffsetIdx) {
         let difference = offsetIdx - previousOffsetIdx;
         style.top += 3*difference;
         //pixel_per_em = Number(getComputedStyle(document.body, "").fontSize.match(/(\d*(\.\d*)?)px/)[1]);
         //scrollBy(0, 3*pixel_per_em*difference);
-        /*
-        for (let i = 0; i < difference; i++) {
-            style.top += 3;
-            pixel_per_em = Number(getComputedStyle(document.body, "").fontSize.match(/(\d*(\.\d*)?)px/)[1]);
-            scrollBy(0, +3*pixel_per_em);
-        }
-        */
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /*
-    document.getElementById('typing-input').style.top = style.top + 'em';
-    if (letter.offsetTop < obj.previousOffset && obj.scrollupcounter <= obj.scrolldowncounter) {
-        style.top -= 3;
-        pixel_per_em = Number(getComputedStyle(document.body, "").fontSize.match(/(\d*(\.\d*)?)px/)[1]);
-        scrollBy(0, -3*pixel_per_em);
-        obj.scrollupcounter += 1
-    } else if (letter.offsetTop > obj.previousOffset) {
-        style.top += 3;
-        obj.scrolldowncounter += 1
-        //pixel_per_em = Number(getComputedStyle(document.body, "").fontSize.match(/(\d*(\.\d*)?)px/)[1]);
-        //scrollBy(0, +3*pixel_per_em);
-    }
-    */
     obj.previousOffset = letter.offsetTop;
     document.getElementById('typing-input').style.top = style.top + 'em';
 }
@@ -275,7 +217,6 @@ function getValue() {
     stopFlash();
     startFlash();
     flash.caretChange = false;
-    //current bug: unexpected behaviour when making a mistake and fixing it with highlight and adding letters
     if (obj.mobile == true) {
         verifyInput(6, len, input);
     } else if (addedChars == 0) {
@@ -297,7 +238,6 @@ function getValue() {
     obj.previousLen = len;
 }
 
-//notes: case 1 and 2 work like a charm, case 3 and 4 don't work as expected
 function verifyInput(Case, len, input) {
     if (Case == 1) {
         setCounters(input, caret.previousPos);
@@ -336,7 +276,6 @@ function verifyInput(Case, len, input) {
         let end = obj.previousLen;
         for (let i = start; i < end; i++) {
             let letter = document.querySelectorAll("letter")[i];
-            //letter.classList.remove(letter.classList.item(0));
             if (letter.classList.length > 0) {
                 letter.classList.remove(...letter.classList);
             }
@@ -404,7 +343,6 @@ function verifyInput(Case, len, input) {
         let end = obj.previousLen;
         for (let i = between; i < end; i++) {
             let letter = document.querySelectorAll("letter")[i];
-            //letter.classList.remove(letter.classList.item(0));
             if (letter.classList.length > 0) {
                 letter.classList.remove(...letter.classList);
             }
@@ -452,7 +390,6 @@ function verifyInput(Case, len, input) {
         }
         for (let i = start; i < end; i++) {
             let letter = document.querySelectorAll("letter")[i];
-            //letter.classList.remove(letter.classList.item(0));
             if (letter.classList.length > 0) {
                 letter.classList.remove(...letter.classList);
             }
@@ -664,7 +601,7 @@ function displayStats() {
             sortable[i] = sortable[i][0] + ' ' + sortable[i][1];
         }
 
-        document.getElementById("analysis-" + i).innerHTML = sortable.join('<br>');
+        document.getElementById("analysis-" + i).innerHTML = item + '<br><br>' + sortable.join('<br>');
         i++
     }
 }
