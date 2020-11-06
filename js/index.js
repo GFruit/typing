@@ -304,7 +304,8 @@ function verifyInput(Case, len, input) {
                     }
                     letter.classList.add("error");
                 }
-                if (obj.mistake == false && (i < caret.currentPos)) {
+                /*
+                if (obj.mistake == false && (i < caret.currentPos)) { //only count mistakes on stuff that was added, as opposed to stuff that is wrong as a result of the insertion
                     previousletter = document.querySelectorAll("letter")[obj.lettercounter-1];
                     word = document.querySelectorAll("word")[obj.wordcounter];
                     previousword = document.querySelectorAll("word")[obj.wordcounter-1];
@@ -315,6 +316,9 @@ function verifyInput(Case, len, input) {
                     obj.mistakeIdx = obj.lettercounter;
                 }
                 obj.mistake = true;
+
+                Disabling for now because it doesn't work as intended (counts more mistakes after the first one)
+                */
             }
             if (letter.innerHTML == ' ') {
                 obj.wordcounter++
