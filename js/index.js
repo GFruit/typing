@@ -411,7 +411,8 @@ function verifyInput(Case, len, input) {
         obj.lettercounter = 0;
         obj.wordcounter = 0;
         let start = 0;
-        let end = obj.previousLen;
+        //let end = obj.previousLen;
+        let end = obj.lettercount;
         for (let i = start; i < end; i++) {
             let letter = document.querySelectorAll("letter")[i];
             if (letter.classList.length > 0) {
@@ -419,7 +420,8 @@ function verifyInput(Case, len, input) {
             }
         }
         start = 0;
-        end = len;
+        //end = len;
+        end = obj.lettercount;
         for (let i = start; i < end; i++) {
             let letter = document.querySelectorAll("letter")[i];
             let typedLetter = input[i];
