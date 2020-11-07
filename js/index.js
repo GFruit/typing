@@ -425,7 +425,7 @@ function verifyInput(Case, len, input) {
         for (let i = start; i < end; i++) {
             let letter = document.querySelectorAll("letter")[i];
             let typedLetter = input[i];
-            if (typedLetter == letter.innerHTML && i <= obj.mistakeIdx) {
+            if (typedLetter == letter.innerHTML /*&& i <= obj.mistakeIdx*/) {
                 letter.classList.add("correct");
             } else {
                 if (letter.innerHTML == " ") {
