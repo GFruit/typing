@@ -433,6 +433,7 @@ function verifyInput(Case, len, input) {
                 } else {
                     letter.classList.add("error");
                 }
+                /*
                 if (obj.mistake == false) {
                     previousletter = document.querySelectorAll("letter")[obj.lettercounter-1];
                     word = document.querySelectorAll("word")[obj.wordcounter];
@@ -444,6 +445,7 @@ function verifyInput(Case, len, input) {
                     obj.mistakeIdx = obj.lettercounter;
                 }
                 obj.mistake = true;
+                */
             }
             if (letter.innerHTML == ' ') {
                 obj.wordcounter++
