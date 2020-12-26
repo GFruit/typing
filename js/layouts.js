@@ -184,7 +184,8 @@ const layouts = {
                   "b", "m"],
         index :  ["p", "y",
                 "u", "i",
-                "k", "x","f", "g",
+                "k", "x",
+                "f", "g",
                 "d", "h",
                 "b", "m"],      
 
@@ -221,6 +222,63 @@ const layouts = {
             "a","l",
             "s",
             "z"
+               ]
+    },
+    azerty : {
+        left_hand :    ["a", "z", "e", "r", "t",
+                        "q", "s", "d", "f", "g",
+                        "w", "x", "c", "v", "b"],
+        right_hand :   ["y", "u", "i", "o", "p",
+                        "h", "j", "k", "l", "m",
+                        "n"],
+        top_row  :      ["a", "z", "e", "r", "t", "y", "u", "i", "o", "p"],
+        home_row :      ["q", "s", "d", "f", "g", "h", "j", "k", "l", "m"],
+        bottom_row :    ["w", "x", "c", "v", "b", "n"],
+
+        home_position:  ["q", "s", "d", "f", "j", "k", "l", "m"],
+
+        lindex : ["r", "t",
+                  "f", "g",
+                  "v", "b"],
+        rindex : ["y", "u",
+                  "h", "j",
+                  "n"],
+        index :  ["r", "t",
+                "f", "g",
+                "v", "b","y", "u",
+                "h", "j",
+                "n"],      
+
+        lmiddle :["e",
+                  "d",
+                  "c"],
+        rmiddle :["i",
+                  "k"],
+        middle : ["e",
+                "d", "c",
+                "i",
+                "k"],
+
+        lring :  ["z",
+                  "s",
+                  "x"],
+        rring :  ["o",
+                  "l"],
+        ring : [
+            "z",
+            "s","x",
+            "o",
+            "l"],
+
+        lpinky : ["a",
+                  "q",
+                  "w"  ],
+        rpinky : ["p",
+                  "m"],
+        pinky : [
+            "a","q",
+            "w",
+            "p", "m"
                ]
     }
 }

@@ -39,8 +39,8 @@ function setWordset () {
         wordlist = words.top10k;
     } else if (wordset == "Top 30k") {
         wordlist = words.top30k;
-    } else if (wordset == "Top 370k") {
-        wordlist = top370k;
+    } else if (wordset == "Top 450k") {
+        wordlist = top450k;
     } else if (wordset == "Quotes") {
         wordlist = quotes;
     }
@@ -211,6 +211,27 @@ function setLayout () {
         middle = layouts.dvorak.middle;
         ring =  layouts.dvorak.ring;
         pinky = layouts.dvorak.pinky;   
+    }
+    else if (layout == "Azerty") {
+        left_hand = layouts.azerty.left_hand;
+        right_hand = layouts.azerty.right_hand;
+        top_row = layouts.azerty.top_row;
+        home_row = layouts.azerty.home_row;
+        home_position = layouts.azerty.home_position;
+        bottom_row = layouts.azerty.bottom_row;
+        lindex = layouts.azerty.lindex;
+        lmiddle = layouts.azerty.lmiddle;
+        lring =  layouts.azerty.lring;
+        lpinky = layouts.azerty.lpinky; 
+        rindex = layouts.azerty.rindex;
+        rmiddle = layouts.azerty.rmiddle;
+        rring =  layouts.azerty.rring;
+        rpinky = layouts.azerty.rpinky;
+
+        index = layouts.azerty.index;
+        middle = layouts.azerty.middle;
+        ring =  layouts.azerty.ring;
+        pinky = layouts.azerty.pinky;
     }
 
 }
@@ -1210,14 +1231,14 @@ function showTips() {
     }
 }
 
-function load370k() {
+function load450k() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            top370k = this.responseText;
-            top370k = JSON.parse(top370k);
+            top450k = this.responseText;
+            top450k = JSON.parse(top450k);
         }
     }
-    xhttp.open("GET", "js/370k.json", true);
+    xhttp.open("GET", "js/450k.json", true);
     xhttp.send();
 }
