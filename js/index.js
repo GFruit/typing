@@ -1,11 +1,20 @@
 let stats = {
-    wrong_letters : {},
-    wrong_bigrams : {},
-    wrong_words : {},
-    wrong_wordpairs : {}
+    wrong : {
+        letters : {},
+        bigrams : {},
+        words : {},
+        wordpairs : {}
+    },
+    correct : {
+        letters : {},
+        bigrams : {},
+        words: {},
+        wordpairs : {}
+    }
 }
 
 let hide = false;
+ 
 
 let obj = {
     itemcounter: 0,
@@ -19,7 +28,8 @@ let obj = {
     mistake: false,
     mistakeIdx: -1,
     scrolldowncounter: 0,
-    scrollupcounter: 0
+    scrollupcounter: 0,
+    statsDisplay: 'errors'
 }
 
 let offsetList = [];
@@ -97,6 +107,19 @@ function setWordset (value) {
     focusInput();
 }
 
+function toggleStats(statsDisplay) {
+    obj.statsDisplay = statsDisplay;
+    if (statsDisplay == "errors") {
+        document.getElementById('errors').style.color = "#F66E0D";
+        document.getElementById('accuracy').style.color = "white";
+    } else if (statsDisplay == "accuracy") {
+        document.getElementById('errors').style.color = "white";
+        document.getElementById('accuracy').style.color = "#F66E0D";
+    }
+    displayStats();
+    focusInput();
+}
+
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
   
@@ -119,6 +142,7 @@ function shuffle(array) {
     if (response != undefined) {
         const result = await response.text();
         stats[item] = JSON.parse(result);
+        console.log(stats[item])
     }
     obj.itemcounter += 1
     if (obj.itemcounter == 4) {
@@ -241,6 +265,10 @@ function getValue() {
 function verifyInput(Case, len, input) {
     if (Case == 1) {
         setCounters(input, caret.previousPos);
+        previousletter = document.querySelectorAll("letter")[obj.lettercounter-1];
+        nextletter = document.querySelectorAll("letter")[obj.lettercounter+1];
+        word = document.querySelectorAll("word")[obj.wordcounter];
+        previousword = document.querySelectorAll("word")[obj.wordcounter-1];
         let start = caret.previousPos;
         let end = len;
         for (let i = start; i < end; i++) {
@@ -248,6 +276,10 @@ function verifyInput(Case, len, input) {
             let typedLetter = input[i];
             if (typedLetter == letter.innerHTML && i <= obj.mistakeIdx) {
                 letter.classList.add("correct");
+                countCorrectLetters(letter.innerHTML);
+                countCorrectBigrams(previousletter, letter.innerHTML);
+                countCorrectWords(nextletter.innerHTML, word);
+                countCorrectWordpairs(nextletter.innerHTML, previousword, word);
             } else {
                 if (letter.innerHTML == " ") {
                     letter.classList.add("space-error");
@@ -255,9 +287,6 @@ function verifyInput(Case, len, input) {
                     letter.classList.add("error");
                 }
                 if (obj.mistake == false) {
-                    previousletter = document.querySelectorAll("letter")[obj.lettercounter-1];
-                    word = document.querySelectorAll("word")[obj.wordcounter];
-                    previousword = document.querySelectorAll("word")[obj.wordcounter-1];
                     addWrongLetter(letter);
                     addWrongBigram(previousletter, letter);
                     addWrongWord(letter, word);
@@ -455,6 +484,58 @@ function verifyInput(Case, len, input) {
     }
 }
 
+function countCorrectLetters(letter) {
+    if (stats.correct.letters[letter]) {
+        stats.correct.letters[letter] += 1
+    } else {
+        stats.correct.letters[letter] = 1
+    }
+}
+
+function countCorrectBigrams(previousLetter, currentLetter) {
+    if (obj.lettercounter > 0) {
+        let bigram = previousLetter.innerHTML + currentLetter
+        if (stats.correct.bigrams[bigram]) {
+            stats.correct.bigrams[bigram] += 1
+        } else {
+            stats.correct.bigrams[bigram] = 1
+        }
+    }
+}
+
+function countCorrectWords(nextLetter, currentWordTag) {
+    if (nextLetter == ' ') {
+        let word = "";
+        for (letterTag of currentWordTag.childNodes) {
+            word += letterTag.innerHTML;
+        }
+        if (stats.correct.words[word]) {
+            stats.correct.words[word] += 1;
+        } else {
+            stats.correct.words[word] = 1;
+        }
+    }
+}
+
+function countCorrectWordpairs(nextLetter, previousWordTag, currentWordTag) {
+    if (nextLetter == ' ' && obj.wordcounter > 0) {
+        let previousWord = "";
+        let currentWord = "";
+        for (letterTag of currentWordTag.childNodes) {
+            currentWord += letterTag.innerHTML;
+        }
+        for (letterTag of previousWordTag.childNodes) {
+            previousWord += letterTag.innerHTML;
+        }
+        let wordpair = previousWord + ' ' + currentWord
+        if (stats.correct.wordpairs[wordpair]) {
+            stats.correct.wordpairs[wordpair] += 1;
+        } else {
+            stats.correct.wordpairs[wordpair] = 1;
+        }
+    }
+}
+
 function setCounters(input, previousCaretPos) {
     previousInput = input.slice(0, previousCaretPos)
     obj.lettercounter = previousInput.length;
@@ -563,34 +644,99 @@ function reset() {
 }
 
 function displayStats() {
-    var i = 1;
-    for (item in stats) {
-        var sortable = [];
-        for (letter in stats[item]) {
-	    var displayletter = letter;
-	    if (i == 2 && letter.includes(" ")) {
-		displayletter = letter.replace(" ", "_");
-	    }
-            sortable.push([displayletter, stats[item][letter]])
+    if (obj.statsDisplay == 'errors') {
+        let i = 1;
+        for (item in stats.wrong) {
+            var sortable = [];
+            for (ngram in stats.wrong[item]) {
+                var displayNgram = ngram;
+                if (i == 2 && ngram.includes(" ")) {
+                displayNgram = ngram.replace(" ", "_");
+                }
+                sortable.push([displayNgram, stats.wrong[item][ngram]])
+            }
+
+            sortable.sort(function(a, b) {return b[1] - a[1]})
+
+            for (let i = 0; i < sortable.length; i++) {
+                sortable[i] = sortable[i][0] + ' ' + sortable[i][1];
+            }
+
+            document.getElementById("analysis-" + i).innerHTML = item + '<br><br>' + sortable.join('<br>');
+            i++
         }
+    } else if (obj.statsDisplay == 'accuracy') {
+        let i = 1;
+        let accuracy = {
+            letters: {},
+            bigrams: {},
+            words: {},
+            wordpairs: {}
+        }; //item : correctly typed / incorrectly typed + correctly typed
+        for (item in stats.wrong) {
+            for (ngram in stats.wrong[item]) {
+                let incorrect = stats.wrong[item][ngram] //incorrect = how many mistakes on ngram
+                let correct;
+                if (stats.correct[item][ngram]) {
+                    correct = stats.correct[item][ngram] //correct = how many correct times that ngram was typed
+                } else {
+                    correct = 0 //correct = how many correct times that ngram was typed
+                }
+                let acc = ( ( correct / (incorrect + correct) ) * 100 )
 
-        sortable.sort(function(a, b) {return b[1] - a[1]})
+                if (acc >= 99.5) {
+                    acc = acc.toFixed(2);
+                } else {
+                    acc = acc.toFixed(0);
+                }
 
-        for (let i = 0; i < sortable.length; i++) {
-            sortable[i] = sortable[i][0] + ' ' + sortable[i][1];
+                accuracy[item][ngram] = acc;
+            }
         }
+        /* NOTE: hide 100% accuracy, since it takes up too much space, and it's better to know your mistakes, than words with 100% acc.
+        for (item in stats.correct) { //in case an item has 100% accuracy
+            for (ngram in stats.correct[item]) {
+                if (accuracy[item][ngram]) {
+                    continue
+                } else {
+                    let incorrect = 0
+                    let correct = stats.correct[item][ngram]
+                    let acc = ( ( correct / (incorrect + correct) ) * 100 ).toFixed(0)
+                    accuracy[item][ngram] = acc;
+                }
+            }
+        }
+        */
+        for (item in accuracy) {
+            var sortable = [];
+            for (ngram in accuracy[item]) {
+                var displayNgram = ngram;
+                if (i == 2 && ngram.includes(" ")) {
+                displayNgram = ngram.replace(" ", "_");
+                }
+                sortable.push([displayNgram, accuracy[item][ngram]])
+            }
 
-        document.getElementById("analysis-" + i).innerHTML = item + '<br><br>' + sortable.join('<br>');
-        i++
+            sortable.sort(function(a, b) {return a[1] - b[1]})
+
+            for (let i = 0; i < sortable.length; i++) {
+                sortable[i] = sortable[i][0] + ' ' + sortable[i][1] + '%';
+            }
+
+            document.getElementById("analysis-" + i).innerHTML = item + '<br><br>' + sortable.join('<br>');
+            i++
+        }
     }
 }
 
 function updateStatus() {
-    if (Object.keys(stats.wrong_letters) == false && Object.keys(stats.wrong_bigrams) == false && Object.keys(stats.wrong_words) == false && Object.keys(stats.wrong_wordpairs) == false) {
-        document.getElementById('statsstatus').innerHTML = "No Data Found!";
-    } else {
-        document.getElementById('statsstatus').innerHTML = "";
+    let status = "No Data Found!";
+    for (let item in stats) {
+        if (Object.keys(stats[item])) {
+            status = "";
+        }
     }
+    document.getElementById('statsstatus').innerHTML = status;
 }
 
 function clearStats() {
@@ -606,10 +752,12 @@ function clearStats() {
         })
     }
     for (item in stats) {
-        stats[item] = {};
+        for (ngram in stats[item]) {
+            stats[item][ngram] = {};
+        }
     }
-    let len = Object.keys(stats).length;
-    for (let i = 1; i <= len; i++) {
+
+    for (let i = 1; i <= 4; i++) {
         document.getElementById("analysis-" + i).innerHTML = "";
     }
     focusInput();
@@ -634,19 +782,19 @@ function hideStats() { //toggle stats visibility
 
 function addWrongLetter(letter) {
     letter = letter.innerHTML;
-    if (letter in stats.wrong_letters) {
-        stats.wrong_letters[letter] += 1;
+    if (letter in stats.wrong.letters) {
+        stats.wrong.letters[letter] += 1;
     } else {
-        stats.wrong_letters[letter] = 1;
+        stats.wrong.letters[letter] = 1;
     }
 }
 function addWrongBigram(previousletter, current) {
     if (obj.lettercounter > 0) {
         var bigram = previousletter.innerHTML + current.innerHTML;
-        if (bigram in stats.wrong_bigrams) {
-            stats.wrong_bigrams[bigram] += 1;
+        if (bigram in stats.wrong.bigrams) {
+            stats.wrong.bigrams[bigram] += 1;
         } else {
-            stats.wrong_bigrams[bigram] = 1;
+            stats.wrong.bigrams[bigram] = 1;
         }
     }
 }
@@ -658,10 +806,10 @@ function addWrongWord(letter, wordTag) {
     for (letterTag of wordTag.childNodes) {
         word += letterTag.innerHTML;
     }
-    if (word in stats.wrong_words) {
-        stats.wrong_words[word] += 1;
+    if (word in stats.wrong.words) {
+        stats.wrong.words[word] += 1;
     } else {
-        stats.wrong_words[word] = 1;
+        stats.wrong.words[word] = 1;
     }
 }
 function addWrongWordpairs(letter, previouswordTag, wordTag) {
@@ -679,10 +827,10 @@ function addWrongWordpairs(letter, previouswordTag, wordTag) {
 
     wordpair = previous + ' ' + word;
     
-    if (wordpair in stats.wrong_wordpairs) {
-        stats.wrong_wordpairs[wordpair] += 1;
+    if (wordpair in stats.wrong.wordpairs) {
+        stats.wrong.wordpairs[wordpair] += 1;
     } else {
-        stats.wrong_wordpairs[wordpair] = 1;
+        stats.wrong.wordpairs[wordpair] = 1;
     }
     
 }

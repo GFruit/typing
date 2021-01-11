@@ -400,16 +400,17 @@ form {
 	margin-top: 0px;
 }
 
-#modes {
+#modes, #toggleStats {
 	text-align: center;
+	margin: 50px 0;
 }
 
-.modes > * {
+.modes > *, .toggleStats > * {
 	cursor: pointer;
 	font-size: 2em;
 }
 
-.modes > *:hover {
+.modes > *:hover, .toggleStats > *:hover {
 	color: var(--hover-color);
 }
 

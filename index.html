@@ -20,7 +20,7 @@
 <link rel='icon' href="keyboard.ico" type='image-x-icon'/>
 <title>Typing Test</title>
 </head>
-<body onload="setWordset('Top 200')" onresize="setPreviousOffset()">
+<body onload="setWordset('Top 200');toggleStats('errors')" onresize="setPreviousOffset()">
   <header>
     <nav>
       <ul>
@@ -46,6 +46,7 @@
       <div style="clear: both;"></div>
     </ul>
   </div>
+  <hr>
   <input type="text" id="typing-input" autocomplete="off" spellcheck="false"
   onblur="stopFlash();removeHighlight()" onfocus="startFlash();removeHighlight()">
   <div id="refresh">
@@ -53,6 +54,14 @@
   </div>
   <div id="typingarea" class="noselect">
     <div id="textdisplay" onclick="focusInput()"></div>
+  </div>
+  <hr>
+  <div id="toggleStats">
+    <ul class="noselect">
+      <li class="toggleStats" id="errors"><span onclick="toggleStats('errors')">errors</span></li>
+      <li class="toggleStats" id="accuracy"><span onclick="toggleStats('accuracy')">accuracy</span></li>
+      <div style="clear: both;"></div>
+    </ul>
   </div>
   <div id="statsstatus"></div>
   <div id=analysis-container>
