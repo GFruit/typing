@@ -142,7 +142,6 @@ function shuffle(array) {
     if (response != undefined) {
         const result = await response.text();
         stats[item] = JSON.parse(result);
-        console.log(stats[item])
     }
     obj.itemcounter += 1
     if (obj.itemcounter == 4) {
