@@ -10,6 +10,12 @@ let stats = {
         bigrams : {},
         words: {},
         wordpairs : {}
+    },
+    time : {
+        letters : {},
+        bigrams : {},
+        words: {},
+        wordpairs : {}
     }
 }
 
@@ -29,7 +35,34 @@ let obj = {
     mistakeIdx: -1,
     scrolldowncounter: 0,
     scrollupcounter: 0,
-    statsDisplay: 'errors'
+    statsDisplay: 'errors',
+    cooldown: 0
+}
+
+let times = {
+    letters : {
+        startTime : 0,
+        endTime : 0
+    },
+    bigrams : {
+        startTime1 : 0,
+        endTime1 : 0,
+        startTime2 : 0,
+        endTime2 : 0,
+        cooldown : 0
+    },
+    words: {
+        startTime : 0,
+        endTime : 0
+    },
+    wordpairs : {
+        startTime1 : 0,
+        endTime1 : 0,
+        startTime2 : 0,
+        endTime2 : 0,
+        cooldown : 0
+    }
+    
 }
 
 let offsetList = [];
@@ -112,9 +145,15 @@ function toggleStats(statsDisplay) {
     if (statsDisplay == "errors") {
         document.getElementById('errors').style.color = "#F66E0D";
         document.getElementById('accuracy').style.color = "white";
+        document.getElementById('speed').style.color = "white";
     } else if (statsDisplay == "accuracy") {
         document.getElementById('errors').style.color = "white";
         document.getElementById('accuracy').style.color = "#F66E0D";
+        document.getElementById('speed').style.color = "white";
+    } else if (statsDisplay == "speed") {
+        document.getElementById('errors').style.color = "white";
+        document.getElementById('accuracy').style.color = "white";
+        document.getElementById('speed').style.color = "#F66E0D";
     }
     displayStats();
     focusInput();
@@ -277,7 +316,7 @@ function verifyInput(Case, len, input) {
                 letter.classList.add("correct");
                 countCorrectLetters(letter.innerHTML);
                 countCorrectBigrams(previousletter, letter.innerHTML);
-                countCorrectWords(nextletter.innerHTML, word);
+                countCorrectWords(letter.innerHTML, nextletter.innerHTML, word);
                 countCorrectWordpairs(nextletter.innerHTML, previousword, word);
             } else {
                 if (letter.innerHTML == " ") {
@@ -302,12 +341,20 @@ function verifyInput(Case, len, input) {
     } else if (Case == 2) {
         let start = caret.currentPos;
         let end = obj.previousLen;
+
+        let letter = document.querySelectorAll("letter")[start]; 
+        if (letter.classList.contains("correct")) {
+            times.letters.startTime = startTimer()
+        }
+
+
         for (let i = start; i < end; i++) {
             let letter = document.querySelectorAll("letter")[i];
             if (letter.classList.length > 0) {
                 letter.classList.remove(...letter.classList);
             }
         }
+
     } else if (Case == 3) {
         setCounters(input, caret.previousPos);
         let start = caret.previousPos;
@@ -484,6 +531,11 @@ function verifyInput(Case, len, input) {
 }
 
 function countCorrectLetters(letter) {
+    if (obj.lettercounter > 0) {
+        times.letters.endTime = stopTimer()
+        calculateTimes(times.letters.startTime, times.letters.endTime, "letters", letter)
+    }
+    times.letters.startTime = startTimer()
     if (stats.correct.letters[letter]) {
         stats.correct.letters[letter] += 1
     } else {
@@ -491,28 +543,60 @@ function countCorrectLetters(letter) {
     }
 }
 
+//NOTE: first ngram is omitted in WPM calculation to make it more accurate, but it's not omitted in "correct words" counter
+//but "correct words" counter is used for WPM calculation which leads to WPM calculation being inaccurate again.
+//This could be fixed by omitting the first word for "correct words" counter too, just like in WPM calculation.
 function countCorrectBigrams(previousLetter, currentLetter) {
     if (obj.lettercounter > 0) {
         let bigram = previousLetter.innerHTML + currentLetter
-        if (stats.correct.bigrams[bigram]) {
-            stats.correct.bigrams[bigram] += 1
-        } else {
-            stats.correct.bigrams[bigram] = 1
+
+        if (times.bigrams.cooldown == 0) {
+            times.bigrams.startTime1 = startTimer();
+            times.bigrams.cooldown = 2;
+            if (obj.lettercounter > 1) {
+                times.bigrams.endTime2 = stopTimer();
+                calculateTimes(times.bigrams.startTime2, times.bigrams.endTime2, "bigrams", bigram)
+            }
+        }
+        if (times.bigrams.cooldown == 1) {
+            times.bigrams.startTime2 = startTimer();
+            times.bigrams.endTime1 = stopTimer();
+            calculateTimes(times.bigrams.startTime1, times.bigrams.endTime1, "bigrams", bigram)
+        }
+
+        times.bigrams.cooldown--;
+
+        if (obj.lettercounter > 1) {
+            if (stats.correct.bigrams[bigram]) {
+                stats.correct.bigrams[bigram] += 1
+            } else {
+                stats.correct.bigrams[bigram] = 1
+            }
         }
     }
 }
 
-function countCorrectWords(nextLetter, currentWordTag) {
-    if (nextLetter == ' ') {
-        let word = "";
-        for (letterTag of currentWordTag.childNodes) {
-            word += letterTag.innerHTML;
-        }
-        if (stats.correct.words[word]) {
-            stats.correct.words[word] += 1;
-        } else {
-            stats.correct.words[word] = 1;
-        }
+function countCorrectWords(letter, nextLetter, currentWordTag) {
+    if (obj.lettercounter > 0) { //to not get error with previousLetter
+        if (nextLetter == ' ') {
+            let word = "";
+            for (letterTag of currentWordTag.childNodes) {
+                word += letterTag.innerHTML;
+            }
+    
+            if (obj.wordcounter > 0) {
+                times.words.endTime = stopTimer();
+                calculateTimes(times.words.startTime, times.words.endTime, "words", word)
+            }
+    
+            if (stats.correct.words[word]) {
+                stats.correct.words[word] += 1;
+            } else {
+                stats.correct.words[word] = 1;
+            }
+        } else if (letter == ' ') {
+            times.words.startTime = startTimer();
+        } 
     }
 }
 
@@ -527,11 +611,55 @@ function countCorrectWordpairs(nextLetter, previousWordTag, currentWordTag) {
             previousWord += letterTag.innerHTML;
         }
         let wordpair = previousWord + ' ' + currentWord
-        if (stats.correct.wordpairs[wordpair]) {
-            stats.correct.wordpairs[wordpair] += 1;
-        } else {
-            stats.correct.wordpairs[wordpair] = 1;
+
+        if (times.wordpairs.cooldown == 0) {
+            times.wordpairs.startTime1 = startTimer();
+            times.wordpairs.cooldown = 2;
+            if (obj.wordcounter > 1) {
+                times.wordpairs.endTime2 = stopTimer();
+                calculateTimes(times.wordpairs.startTime2, times.wordpairs.endTime2, "wordpairs", wordpair)
+            }
         }
+        if (times.wordpairs.cooldown == 1) {
+            times.wordpairs.startTime2 = startTimer();
+            times.wordpairs.endTime1 = stopTimer();
+            calculateTimes(times.wordpairs.startTime1, times.wordpairs.endTime1, "wordpairs", wordpair)
+        }
+
+        times.wordpairs.cooldown--;
+
+
+        if (obj.wordcounter > 1) {
+            if (stats.correct.wordpairs[wordpair]) {
+                stats.correct.wordpairs[wordpair] += 1;
+            } else {
+                stats.correct.wordpairs[wordpair] = 1;
+            }
+        }
+    }
+}
+
+function startTimer() {
+    let d = new Date();
+    startTime = d.getTime();
+    return startTime;
+}
+
+function stopTimer() {
+    let d = new Date();
+    endTime = d.getTime();
+    return endTime;
+}
+
+function calculateTimes(startTime, endTime, item, ngram) {
+    totalTime = ( ( endTime - startTime ) / 1000 );
+
+    console.log('added the ngram: ' + ngram + ' to the times.');
+
+    if (stats.time[item][ngram]) {
+        stats.time[item][ngram] += totalTime
+    } else {
+        stats.time[item][ngram] = totalTime
     }
 }
 
@@ -725,6 +853,46 @@ function displayStats() {
             document.getElementById("analysis-" + i).innerHTML = item + '<br><br>' + sortable.join('<br>');
             i++
         }
+    } else if (obj.statsDisplay == 'speed') {
+        let i = 1;
+        let speed = {
+            letters: {},
+            bigrams: {},
+            words: {},
+            wordpairs: {}
+        };
+        for (item in stats.time) {
+            for (ngram in stats.time[item]) {
+                let words = ( stats.correct[item][ngram] * ngram.length ) / 5;
+                let minutes = stats.time[item][ngram] / 60
+
+                wpm = words / minutes
+
+                wpm = wpm.toFixed(0);
+
+                speed[item][ngram] = parseInt(wpm);
+            }
+        }
+        for (item in speed) {
+            var sortable = []
+            for (ngram in speed[item]) {
+                var displayNgram = ngram;
+                if (i == 2 && ngram.includes(" ")) {
+                displayNgram = ngram.replace(" ", "_");
+                }
+                sortable.push([displayNgram, speed[item][ngram]])
+            }
+
+            sortable.sort(function(a, b) {return a[1] - b[1]})
+
+            for (let i = 0; i < sortable.length; i++) {
+                sortable[i] = sortable[i][0] + ' ' + sortable[i][1] + 'WPM';
+            }
+
+
+            document.getElementById("analysis-" + i).innerHTML = item + '<br><br>' + sortable.join('<br>');
+            i++;
+        }
     }
 }
 
@@ -781,7 +949,7 @@ function hideStats() { //toggle stats visibility
 
 function addWrongLetter(letter) {
     letter = letter.innerHTML;
-    if (letter in stats.wrong.letters) {
+    if (stats.wrong.letters[letter]) {
         stats.wrong.letters[letter] += 1;
     } else {
         stats.wrong.letters[letter] = 1;
@@ -790,7 +958,7 @@ function addWrongLetter(letter) {
 function addWrongBigram(previousletter, current) {
     if (obj.lettercounter > 0) {
         var bigram = previousletter.innerHTML + current.innerHTML;
-        if (bigram in stats.wrong.bigrams) {
+        if (stats.wrong.bigrams[bigram]) {
             stats.wrong.bigrams[bigram] += 1;
         } else {
             stats.wrong.bigrams[bigram] = 1;
@@ -805,7 +973,7 @@ function addWrongWord(letter, wordTag) {
     for (letterTag of wordTag.childNodes) {
         word += letterTag.innerHTML;
     }
-    if (word in stats.wrong.words) {
+    if (stats.wrong.words[word]) {
         stats.wrong.words[word] += 1;
     } else {
         stats.wrong.words[word] = 1;
@@ -826,7 +994,7 @@ function addWrongWordpairs(letter, previouswordTag, wordTag) {
 
     wordpair = previous + ' ' + word;
     
-    if (wordpair in stats.wrong.wordpairs) {
+    if (stats.wrong.wordpairs[wordpair]) {
         stats.wrong.wordpairs[wordpair] += 1;
     } else {
         stats.wrong.wordpairs[wordpair] = 1;
