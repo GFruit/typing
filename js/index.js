@@ -49,6 +49,8 @@ let times = {
         endTime1 : 0,
         startTime2 : 0,
         endTime2 : 0,
+        startTime3 : 0,
+        endTime3 : 0,
         cooldown : 0
     },
     words: {
@@ -60,6 +62,8 @@ let times = {
         endTime1 : 0,
         startTime2 : 0,
         endTime2 : 0,
+        startTime3  : 0,
+        endTime3 : 0,
         cooldown : 0
     }
     
@@ -547,21 +551,31 @@ function countCorrectLetters(letter) {
 //but "correct words" counter is used for WPM calculation which leads to WPM calculation being inaccurate again.
 //This could be fixed by omitting the first word for "correct words" counter too, just like in WPM calculation.
 function countCorrectBigrams(previousLetter, currentLetter) {
+    if (obj.lettercounter == 0) {
+        times.bigrams.cooldown = 0;
+    }
     if (obj.lettercounter > 0) {
         let bigram = previousLetter.innerHTML + currentLetter
 
         if (times.bigrams.cooldown == 0) {
             times.bigrams.startTime1 = startTimer();
-            times.bigrams.cooldown = 2;
-            if (obj.lettercounter > 1) {
+            times.bigrams.cooldown = 3;
+            if (obj.lettercounter > 3) {
                 times.bigrams.endTime2 = stopTimer();
                 calculateTimes(times.bigrams.startTime2, times.bigrams.endTime2, "bigrams", bigram)
             }
         }
         if (times.bigrams.cooldown == 1) {
-            times.bigrams.startTime2 = startTimer();
+            times.bigrams.startTime3 = startTimer();
             times.bigrams.endTime1 = stopTimer();
             calculateTimes(times.bigrams.startTime1, times.bigrams.endTime1, "bigrams", bigram)
+        }
+        if (times.bigrams.cooldown == 2) {
+            times.bigrams.startTime2 = startTimer();
+            if (obj.lettercounter > 4) {
+                times.bigrams.endTime3 = stopTimer();
+                calculateTimes(times.bigrams.startTime3, times.bigrams.endTime3, "bigrams", bigram)
+            }
         }
 
         times.bigrams.cooldown--;
@@ -601,6 +615,9 @@ function countCorrectWords(letter, nextLetter, currentWordTag) {
 }
 
 function countCorrectWordpairs(nextLetter, previousWordTag, currentWordTag) {
+    if (obj.wordcounter == 0) {
+        times.wordpairs.cooldown = 0;
+    }
     if (nextLetter == ' ' && obj.wordcounter > 0) {
         let previousWord = "";
         let currentWord = "";
@@ -614,16 +631,23 @@ function countCorrectWordpairs(nextLetter, previousWordTag, currentWordTag) {
 
         if (times.wordpairs.cooldown == 0) {
             times.wordpairs.startTime1 = startTimer();
-            times.wordpairs.cooldown = 2;
-            if (obj.wordcounter > 1) {
+            times.wordpairs.cooldown = 3;
+            if (obj.wordcounter > 3) {
                 times.wordpairs.endTime2 = stopTimer();
                 calculateTimes(times.wordpairs.startTime2, times.wordpairs.endTime2, "wordpairs", wordpair)
             }
         }
         if (times.wordpairs.cooldown == 1) {
-            times.wordpairs.startTime2 = startTimer();
+            times.wordpairs.startTime3 = startTimer();
             times.wordpairs.endTime1 = stopTimer();
             calculateTimes(times.wordpairs.startTime1, times.wordpairs.endTime1, "wordpairs", wordpair)
+        }
+        if (times.wordpairs.cooldown == 2) {
+            times.wordpairs.startTime2 = startTimer();
+            if (obj.wordcounter > 4) {
+                times.wordpairs.endTime3 = stopTimer();
+                calculateTimes(times.wordpairs.startTime3, times.wordpairs.endTime3, "wordpairs", wordpair)
+            }
         }
 
         times.wordpairs.cooldown--;
@@ -654,7 +678,7 @@ function stopTimer() {
 function calculateTimes(startTime, endTime, item, ngram) {
     totalTime = ( ( endTime - startTime ) / 1000 );
 
-    console.log('added the ngram: ' + ngram + ' to the times.');
+    //console.log('added the ngram: ' + ngram + ' to the times.');
 
     if (stats.time[item][ngram]) {
         stats.time[item][ngram] += totalTime
@@ -863,12 +887,28 @@ function displayStats() {
         };
         for (item in stats.time) {
             for (ngram in stats.time[item]) {
+                
+                /*
+                console.log('========================')
+                console.log('item: ' + item)
+                console.log('ngram: '+ ngram)
+                console.log('correct amount: ' + stats.correct[item][ngram])
+                console.log('seconds: ' + stats.time[item][ngram])
+                */
+                
+
                 let words = ( stats.correct[item][ngram] * ngram.length ) / 5;
                 let minutes = stats.time[item][ngram] / 60
 
                 wpm = words / minutes
 
                 wpm = wpm.toFixed(0);
+
+                /*
+                console.log('WPM: ' + wpm);
+                console.log('========================')
+                */
+                
 
                 speed[item][ngram] = parseInt(wpm);
             }
