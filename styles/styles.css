@@ -378,11 +378,9 @@ form {
 #statsstatus {
 	text-align: center;
 	font-size: 2em;
-	margin-top: 50px;
 }
 
 #analysis-container > * {
-	top: 50px;
 	width: 25%;
 	text-align: center;
 	font-size: 2em;
@@ -390,7 +388,18 @@ form {
 	float: left;
 }
 
-#infodiv, #clear-stats, #hidestats, #toggleSort, #minAmount {
+#statsOperators{
+	margin: auto 5px;
+	display: block;
+	text-align: center;
+}
+
+#minAmount {
+	display: block;
+	text-align: center;
+}
+
+#infodiv {
 	text-align: right;
 	margin-top: 5px;
 	margin-bottom: 5px;

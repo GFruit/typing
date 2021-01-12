@@ -32,15 +32,6 @@
     </nav>
   </header>
   <div id="main">
-  <div id="clear-stats">
-    <input id="clearstatsbutton" type="button" value="clear stats" onclick="clearStats()">
-  </div>
-  <div id="hidestats">
-    <input id="hidestatsbutton" type="button" value="hide stats" onclick="hideStats()">
-  </div>
-  <div id="toggleSort">
-    <input id="togglesortbutton" type="button" value="toggle sort" onclick="toggleSort()">
-  </div>
   <div id="modes">
     <ul class="noselect">
       <li class="modes" id="top200"><span onclick="setWordset('Top 200')">Top 200</span></li>
@@ -66,6 +57,11 @@
       <li class="toggleStats" id="speed"><span onclick="toggleStats('speed')">speed</span></li>
       <div style="clear: both;"></div>
     </ul>
+  </div>
+  <div id="statsOperators">
+    <input id="clearstatsbutton" type="button" value="clear stats" onclick="clearStats()">
+    <input id="hidestatsbutton" type="button" value="hide stats" onclick="hideStats()">
+    <input id="togglesortbutton" type="button" value="toggle sort" onclick="toggleSort()">
   </div>
   <div id="minAmount">
     <label for="min">Only show letters, bigrams, words, wordpairs that have been typed at least</label>
