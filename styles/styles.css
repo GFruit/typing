@@ -170,7 +170,7 @@ input[type="button"] {
 	cursor: pointer;
 }
 
-#clearstatsbutton, #hidestatsbutton {
+#clearstatsbutton, #hidestatsbutton, #togglesortbutton {
 	font-size: 1em;
 	border-radius: 20em;
 	padding: 5px;
@@ -390,7 +390,7 @@ form {
 	float: left;
 }
 
-#infodiv, #clear-stats, #hidestats {
+#infodiv, #clear-stats, #hidestats, #toggleSort {
 	text-align: right;
 	margin-top: 5px;
 	margin-bottom: 5px;

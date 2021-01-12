@@ -35,8 +35,12 @@ let obj = {
     mistakeIdx: -1,
     scrolldowncounter: 0,
     scrollupcounter: 0,
-    statsDisplay: 'errors',
     cooldown: 0
+}
+
+let toggles = {
+    statsDisplay: 'errors',
+    sorting: 'ascending'
 }
 
 let times = {
@@ -145,7 +149,7 @@ function setWordset (value) {
 }
 
 function toggleStats(statsDisplay) {
-    obj.statsDisplay = statsDisplay;
+    toggles.statsDisplay = statsDisplay;
     if (statsDisplay == "errors") {
         document.getElementById('errors').style.color = "#F66E0D";
         document.getElementById('accuracy').style.color = "white";
@@ -158,6 +162,16 @@ function toggleStats(statsDisplay) {
         document.getElementById('errors').style.color = "white";
         document.getElementById('accuracy').style.color = "white";
         document.getElementById('speed').style.color = "#F66E0D";
+    }
+    displayStats();
+    focusInput();
+}
+
+function toggleSort() {
+    if (toggles.sorting == "ascending") {
+        toggles.sorting = "descending";
+    } else {
+        toggles.sorting = "ascending";
     }
     displayStats();
     focusInput();
@@ -795,19 +809,23 @@ function reset() {
 }
 
 function displayStats() {
-    if (obj.statsDisplay == 'errors') {
+    if (toggles.statsDisplay == 'errors') {
         let i = 1;
         for (item in stats.wrong) {
             var sortable = [];
             for (ngram in stats.wrong[item]) {
                 var displayNgram = ngram;
                 if (i == 2 && ngram.includes(" ")) {
-                displayNgram = ngram.replace(" ", "_");
+                displayNgram = ngram.replace(" ", "⎵");
                 }
                 sortable.push([displayNgram, stats.wrong[item][ngram]])
             }
 
-            sortable.sort(function(a, b) {return b[1] - a[1]})
+            if (toggles.sorting == "ascending") {
+                sortable.sort(function(a, b) {return a[1] - b[1]})
+            } else if (toggles.sorting == "descending") {
+                sortable.sort(function(a, b) {return b[1] - a[1]})
+            }
 
             for (let i = 0; i < sortable.length; i++) {
                 sortable[i] = sortable[i][0] + ' ' + sortable[i][1];
@@ -816,7 +834,7 @@ function displayStats() {
             document.getElementById("analysis-" + i).innerHTML = item + '<br><br>' + sortable.join('<br>');
             i++
         }
-    } else if (obj.statsDisplay == 'accuracy') {
+    } else if (toggles.statsDisplay == 'accuracy') {
         let i = 1;
         let accuracy = {
             letters: {},
@@ -862,13 +880,17 @@ function displayStats() {
             var sortable = [];
             for (ngram in accuracy[item]) {
                 var displayNgram = ngram;
-                if (i == 2 && ngram.includes(" ")) {
-                displayNgram = ngram.replace(" ", "_");
+                if ((i == 2 || i == 1) && ngram.includes(" ")) {
+                displayNgram = ngram.replace(" ", "⎵");
                 }
                 sortable.push([displayNgram, accuracy[item][ngram]])
             }
 
-            sortable.sort(function(a, b) {return a[1] - b[1]})
+            if (toggles.sorting == "ascending") {
+                sortable.sort(function(a, b) {return a[1] - b[1]})
+            } else if (toggles.sorting == "descending") {
+                sortable.sort(function(a, b) {return b[1] - a[1]})
+            }
 
             for (let i = 0; i < sortable.length; i++) {
                 sortable[i] = sortable[i][0] + ' ' + sortable[i][1] + '%';
@@ -877,7 +899,7 @@ function displayStats() {
             document.getElementById("analysis-" + i).innerHTML = item + '<br><br>' + sortable.join('<br>');
             i++
         }
-    } else if (obj.statsDisplay == 'speed') {
+    } else if (toggles.statsDisplay == 'speed') {
         let i = 1;
         let speed = {
             letters: {},
@@ -917,13 +939,17 @@ function displayStats() {
             var sortable = []
             for (ngram in speed[item]) {
                 var displayNgram = ngram;
-                if (i == 2 && ngram.includes(" ")) {
-                displayNgram = ngram.replace(" ", "_");
+                if ((i == 2 || i == 1) && ngram.includes(" ")) {
+                displayNgram = ngram.replace(" ", "⎵");
                 }
                 sortable.push([displayNgram, speed[item][ngram]])
             }
 
-            sortable.sort(function(a, b) {return a[1] - b[1]})
+            if (toggles.sorting == "ascending") {
+                sortable.sort(function(a, b) {return a[1] - b[1]})
+            } else if (toggles.sorting == "descending") {
+                sortable.sort(function(a, b) {return b[1] - a[1]})
+            }
 
             for (let i = 0; i < sortable.length; i++) {
                 sortable[i] = sortable[i][0] + ' ' + sortable[i][1] + 'WPM';
