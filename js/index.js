@@ -40,7 +40,8 @@ let obj = {
 
 let toggles = {
     statsDisplay: 'errors',
-    sorting: 'ascending'
+    sorting: 'ascending',
+    minAmount: 1
 }
 
 let times = {
@@ -175,6 +176,11 @@ function toggleSort() {
     }
     displayStats();
     focusInput();
+}
+
+function setMinAmount() {
+    toggles.minAmount = document.getElementById("min").value;
+    displayStats();
 }
 
 function shuffle(array) {
@@ -814,6 +820,18 @@ function displayStats() {
         for (item in stats.wrong) {
             var sortable = [];
             for (ngram in stats.wrong[item]) {
+                let correct;
+
+                if (stats.correct[item][ngram]) {
+                    correct = stats.correct[item][ngram];
+                } else {
+                    correct = 0;
+                }
+
+                if (correct < toggles.minAmount) {
+                    continue
+                }
+
                 var displayNgram = ngram;
                 if (i == 2 && ngram.includes(" ")) {
                 displayNgram = ngram.replace(" ", "⎵");
@@ -851,6 +869,11 @@ function displayStats() {
                 } else {
                     correct = 0 //correct = how many correct times that ngram was typed
                 }
+
+                if (correct < toggles.minAmount) {
+                    continue
+                }
+
                 let acc = ( ( correct / (incorrect + correct) ) * 100 )
 
                 if (acc >= 99.5) {
@@ -917,6 +940,10 @@ function displayStats() {
                 console.log('correct amount: ' + stats.correct[item][ngram])
                 console.log('seconds: ' + stats.time[item][ngram])
                 */
+
+                if (stats.correct[item][ngram] < toggles.minAmount) {
+                    continue
+                }
                 
 
                 let words = ( stats.correct[item][ngram] * ngram.length ) / 5;

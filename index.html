@@ -67,6 +67,10 @@
       <div style="clear: both;"></div>
     </ul>
   </div>
+  <div id="minAmount">
+    <label for="min">Only show letters, bigrams, words, wordpairs that have been typed at least</label>
+    <input type="number" id="min" value=1 oninput="setMinAmount()" min=1 placeholder="1">times.
+  </div>
   <div id="statsstatus"></div>
   <div id=analysis-container>
     <div id="analysis-1" class="analysis-item"></div>
