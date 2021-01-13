@@ -98,24 +98,30 @@ if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigat
     obj.mobile = false;
   }
 
+var isFirefox = typeof InstallTrigger !== 'undefined';
+
 document.getElementById('typing-input').addEventListener("input", getValue);
 document.addEventListener("selectionchange", selectionChange);
 document.getElementById('typing-input').addEventListener("keydown", keydown);
 
 function selectionChange() {
+    if (isFirefox) {
+        return;
+    }
     caret.currentPos = document.getElementById('typing-input').selectionStart;
-    
     removeHighlight();
     obj.selection = window.getSelection();
-    obj.selectedText = obj.selection.toString()
+    console.log(obj.selection)
+    obj.selectedText = obj.selection.toString();
+    console.log(obj.selectedText);
     addHighlight(obj.selectedText);
 
     stopFlash();
     startFlash();
     updateCaret();
-
     checkOffset();
     caret.previousPos = caret.currentPos;
+    
 }
 
 function keydown(e) {
@@ -268,6 +274,7 @@ function checkOffset(x) {
     if (!(offsetList.includes(letter.offsetTop))) {
         offsetList.push(letter.offsetTop)
     }
+    //console.log('yes here');
     offsetIdx = offsetList.indexOf(letter.offsetTop);
     previousOffsetIdx = offsetList.indexOf(obj.previousOffset);
 
