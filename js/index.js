@@ -35,7 +35,12 @@ let obj = {
     mistakeIdx: -1,
     scrolldowncounter: 0,
     scrollupcounter: 0,
-    cooldown: 0
+    cooldown: 0,
+    selection: "",
+    selectedText: "",
+    selectionStart: 0,
+    selectionEnd: 1,
+    selectionMiddle: 0
 }
 
 let toggles = {
@@ -80,6 +85,11 @@ let flash = {
     caretChange: false
 }
 
+let states = {
+    shift: false,
+    ctrl: false
+}
+
 let caret = {
     previousPos: 0, //so we know where to remove the flashing animation
     currentPos: 0, //so we know where to add the flashing animation
@@ -101,9 +111,18 @@ if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigat
 var isFirefox = typeof InstallTrigger !== 'undefined';
 
 document.getElementById('typing-input').addEventListener("input", getValue);
-document.addEventListener("selectionchange", selectionChange);
+//document.addEventListener("selectionchange", selectionChange);
 document.getElementById('typing-input').addEventListener("keydown", keydown);
+document.getElementById('typing-input').addEventListener("keyup", keyup);
+document.getElementById('typing-input').addEventListener("select", select)
 
+function select(e) {
+    const selection = e.target.value.substring(e.target.selectionStart, e.target.selectionEnd);
+    //console.log(selection);
+
+}
+
+/*
 function selectionChange() {
     if (isFirefox) {
         return;
@@ -111,9 +130,7 @@ function selectionChange() {
     caret.currentPos = document.getElementById('typing-input').selectionStart;
     removeHighlight();
     obj.selection = window.getSelection();
-    console.log(obj.selection)
     obj.selectedText = obj.selection.toString();
-    console.log(obj.selectedText);
     addHighlight(obj.selectedText);
 
     stopFlash();
@@ -123,11 +140,364 @@ function selectionChange() {
     caret.previousPos = caret.currentPos;
     
 }
+*/
 
 function keydown(e) {
     let keyCode = e.which || e.keyCode;
     if (keyCode == 13) {
         refresh();
+    }
+    switch(keyCode) {
+        case 16:
+            if (states.shift == false) {
+                //console.log('holding shift');
+                states.shift = true;
+            }
+            break;
+        case 17:
+            if (states.ctrl == false) {
+                //console.log('holding control');
+                states.ctrl = true;
+            }
+            break;
+        case 37:
+            if (states.ctrl == true && states.shift == true) {
+                console.log('ctrl + shift + left');
+                if (obj.highlight == false) {
+                    obj.selectionEnd = caret.currentPos;
+                    obj.selectionMiddle = obj.selectionEnd
+                    if (caret.currentPos > 0) {
+                        let previousLetter = document.querySelectorAll("letter")[caret.currentPos-1];
+                        if (previousLetter.innerHTML == ' ') {
+                            caret.currentPos -= 1;
+                            previousLetter = document.querySelectorAll("letter")[caret.currentPos-1];
+                        }
+                        while (previousLetter.innerHTML != ' ' && caret.currentPos >= 1) {
+                            caret.currentPos -= 1;
+                            if (caret.currentPos > 0) {
+                                previousLetter = document.querySelectorAll("letter")[caret.currentPos-1]
+                            }
+                        }
+                    }
+                    obj.selectionStart = caret.currentPos;
+                } else if (obj.highlight == true && obj.selectionEnd == obj.selectionMiddle) {
+                    if (caret.currentPos > 0) {
+                        let previousLetter = document.querySelectorAll("letter")[caret.currentPos-1];
+                        if (previousLetter.innerHTML == ' ') {
+                            caret.currentPos -= 1;
+                            previousLetter = document.querySelectorAll("letter")[caret.currentPos-1];
+                        }
+                        while (previousLetter.innerHTML != ' ' && caret.currentPos >= 1) {
+                            caret.currentPos -= 1;
+                            if (caret.currentPos > 0) {
+                                previousLetter = document.querySelectorAll("letter")[caret.currentPos-1]
+                            }
+                        }
+                    }
+                    obj.selectionStart = caret.currentPos;
+                } else if (obj.highlight == true && obj.selectionStart == obj.selectionMiddle) {  //handle cross overs here
+                    if (caret.currentPos > 0) {
+                        let previousLetter = document.querySelectorAll("letter")[obj.selectionEnd-1];
+                        if (previousLetter.innerHTML == ' ') {
+                            obj.selectionEnd -= 1;
+                            previousLetter = document.querySelectorAll("letter")[obj.selectionEnd-1];
+                        }
+                        while (previousLetter.innerHTML != ' ' && obj.selectionEnd >= 1) {
+                            obj.selectionEnd -= 1;
+                            if (obj.selectionEnd > 0) {
+                                previousLetter = document.querySelectorAll("letter")[obj.selectionEnd-1]
+                            }
+                        }
+                    }
+                    if (obj.selectionStart > obj.selectionEnd) {
+                        let temp = obj.selectionStart;
+                        obj.selectionStart = obj.selectionEnd;
+                        obj.selectionEnd = temp;     
+                    }
+                }
+                caret.currentPos = obj.selectionStart;
+                removeHighlight();
+                obj.selectedText = input.slice(obj.selectionStart, obj.selectionEnd);
+                //console.log(obj.selectionStart + ' ' + obj.selectionEnd);
+                addHighlight(obj.selectedText, "left");
+                flash.caretChange = true;
+                stopFlash();
+                startFlash();
+                flash.caretChange = false;
+                checkOffset();
+                updateCaret();
+                caret.previousPos = caret.currentPos;
+            } else if (states.shift == true) {
+                console.log('shift + left');
+                input = document.getElementById('typing-input').value;
+                if (caret.currentPos-1 >= 0) {
+                    //caret.currentPos = document.getElementById('typing-input').selectionStart-1;
+
+
+                    if (obj.highlight == false) {
+                        caret.currentPos -= 1;
+                        obj.selectionStart = caret.currentPos;
+                        obj.selectionEnd = caret.currentPos + 1;
+                        obj.selectionMiddle = caret.currentPos + 1;
+                        //obj.selectionEnd = caret.previousPos;
+                        //obj.selectionStart = caret.currentPos;
+                    } else if (obj.highlight == true && obj.selectionStart == obj.selectionMiddle) { //right to middle
+                        //obj.selectionStart = caret.currentPos;
+                        obj.selectionEnd -= 1;
+                    } else if (obj.highlight == true && obj.selectionEnd == obj.selectionMiddle) { //middle to left
+                        caret.currentPos -= 1;
+                        obj.selectionStart -= 1;
+                        //obj.selectionEnd = caret.currentPos;
+                    }
+
+                
+
+                    removeHighlight();
+                    obj.selectedText = input.slice(obj.selectionStart, obj.selectionEnd);
+                    //console.log(obj.selectionStart + ' ' + obj.selectionEnd);
+                    addHighlight(obj.selectedText, "left");
+                    flash.caretChange = true;
+                    stopFlash();
+                    startFlash();
+                    flash.caretChange = false;
+                    checkOffset();
+                    updateCaret();
+                    caret.previousPos = caret.currentPos;
+                }
+            } else if (states.ctrl == true) {
+                console.log('ctrl + left')
+                if (caret.currentPos > 0) {
+                    let previousLetter = document.querySelectorAll("letter")[caret.currentPos-1];
+                    if (previousLetter.innerHTML == ' ') {
+                        caret.currentPos -= 1;
+                        previousLetter = document.querySelectorAll("letter")[caret.currentPos-1];
+                    }
+                    while (previousLetter.innerHTML != ' ' && caret.currentPos >= 1) {
+                        caret.currentPos -= 1;
+                        if (caret.currentPos > 0) {
+                            previousLetter = document.querySelectorAll("letter")[caret.currentPos-1]
+                        }
+                    }
+                }
+                if (obj.highlight == true) {
+                    removeHighlight();
+                }
+                if (isFirefox == true) {
+                    caret.currentPos = obj.selectionStart;
+                }
+                flash.caretChange = true;
+                stopFlash();
+                startFlash();
+                flash.caretChange = false;
+                checkOffset();
+                updateCaret();
+                caret.previousPos = caret.currentPos;
+            } else {
+                console.log('left');
+                if (obj.highlight == true) {
+                    removeHighlight();
+                    caret.currentPos = obj.selectionStart;
+                } else if (caret.currentPos-1 >= 0) {
+                    caret.currentPos -= 1;
+                }
+                flash.caretChange = true;
+                stopFlash();
+                startFlash();
+                flash.caretChange = false;
+                checkOffset();
+                updateCaret();
+                caret.previousPos = caret.currentPos;
+            }
+            break;
+        case 38:
+            console.log('up');
+            break;
+        case 39:
+            if (states.ctrl == true && states.shift == true) {
+                console.log('ctrl + shift + right');
+                input = document.getElementById('typing-input').value;
+                let len = input.length;
+                if (obj.highlight == false) {
+                    obj.selectionStart = caret.currentPos;
+                    obj.selectionMiddle = obj.selectionStart
+                    obj.selectionEnd = caret.currentPos;
+                    if (obj.selectionEnd < len) {
+                        let previousLetter = document.querySelectorAll("letter")[obj.selectionEnd-1];
+                        if (obj.selectionEnd == 0 || previousLetter.innerHTML == ' ') {
+                            obj.selectionEnd += 1;
+                            previousLetter = document.querySelectorAll("letter")[obj.selectionEnd-1]
+                        }
+                        while (obj.selectionEnd < len && previousLetter.innerHTML != ' ') {
+                            obj.selectionEnd += 1;
+                            previousLetter = document.querySelectorAll("letter")[obj.selectionEnd-1]
+                        }
+                    }
+                } else if (obj.highlight == true && obj.selectionEnd == obj.selectionMiddle) { //left to middle, handle cross overs here
+                    if (caret.currentPos < len) {
+                        let previousLetter = document.querySelectorAll("letter")[caret.currentPos-1];
+                        if (caret.currentPos == 0 || previousLetter.innerHTML == ' ') {
+                            caret.currentPos += 1;
+                            previousLetter = document.querySelectorAll("letter")[caret.currentPos-1]
+                        }
+                        while (caret.currentPos < len && previousLetter.innerHTML != ' ') {
+                            caret.currentPos += 1;
+                            previousLetter = document.querySelectorAll("letter")[caret.currentPos-1]
+                        }
+                    }
+
+                    obj.selectionStart = caret.currentPos; 
+
+                    console.log('selection start: ' + obj.selectionStart);
+                    console.log('selection end: ' + obj.selectionEnd);
+                    if (obj.selectionStart > obj.selectionEnd) {
+                        let temp = obj.selectionStart;
+                        obj.selectionStart = obj.selectionEnd;
+                        obj.selectionEnd = temp;     
+                    }
+                    caret.currentPos = obj.selectionStart;
+                    console.log('selection start: ' + obj.selectionStart);
+                    console.log('selection end: ' + obj.selectionEnd);
+                } else if (obj.highlight == true && obj.selectionStart == obj.selectionMiddle) { //middle to right
+                    if (obj.selectionEnd < len) {
+                        let previousLetter = document.querySelectorAll("letter")[obj.selectionEnd-1];
+                        if (obj.selectionEnd == 0 || previousLetter.innerHTML == ' ') {
+                            obj.selectionEnd += 1;
+                            previousLetter = document.querySelectorAll("letter")[obj.selectionEnd-1]
+                        }
+                        while (obj.selectionEnd < len && previousLetter.innerHTML != ' ') {
+                            obj.selectionEnd += 1;
+                            previousLetter = document.querySelectorAll("letter")[obj.selectionEnd-1]
+                        }
+                    }
+                }
+                removeHighlight();
+                obj.selectedText = input.slice(obj.selectionStart, obj.selectionEnd);
+                //console.log(obj.selectionStart + ' ' + obj.selectionEnd);
+                addHighlight(obj.selectedText, "left");
+                flash.caretChange = true;
+                stopFlash();
+                startFlash();
+                flash.caretChange = false;
+                checkOffset();
+                updateCaret();
+                caret.previousPos = caret.currentPos;
+            } else if (states.shift == true) {
+                console.log('shift + right');
+                input = document.getElementById('typing-input').value;
+                let len = input.length;
+                if (obj.selectionEnd <= len) {
+                    if (obj.highlight == false) { //middle
+                        if (caret.currentPos == len) {
+                            return;
+                        }
+                        obj.selectionStart = caret.currentPos;
+                        obj.selectionEnd = caret.currentPos + 1;
+                        obj.selectionMiddle = caret.currentPos;
+                    } else if (obj.highlight == true && obj.selectionStart == obj.selectionMiddle) { //middle+1 to right
+                        if (obj.selectionEnd < len) {
+                            obj.selectionEnd += 1
+                        }
+                    } else if (obj.highlight == true && obj.selectionEnd == obj.selectionMiddle) {//left to middle-1
+                        obj.selectionStart += 1
+                        caret.currentPos += 1
+                    }
+    
+                    removeHighlight();
+                    obj.selectedText = input.slice(obj.selectionStart, obj.selectionEnd);
+                    addHighlight(obj.selectedText, "right");
+                    flash.caretChange = true;
+                    stopFlash();
+                    startFlash();
+                    flash.caretChange = false;
+                    checkOffset();
+                    updateCaret();
+                    caret.previousPos = caret.currentPos;
+                }
+            } else if (states.ctrl == true) {
+                console.log('ctrl + right')
+                input = document.getElementById('typing-input').value;
+                len = input.length;
+                if (caret.currentPos < len) {
+                    let previousLetter = document.querySelectorAll("letter")[caret.currentPos-1];
+                    if (caret.currentPos == 0 || previousLetter.innerHTML == ' ') {
+                        caret.currentPos += 1;
+                        previousLetter = document.querySelectorAll("letter")[caret.currentPos-1]
+                    }
+                    while (caret.currentPos < len && previousLetter.innerHTML != ' ') {
+                        caret.currentPos += 1;
+                        previousLetter = document.querySelectorAll("letter")[caret.currentPos-1]
+                    }
+                }
+                if (obj.highlight == true) {
+                    removeHighlight();
+                }
+                if (isFirefox == true) {
+                    caret.currentPos = obj.selectionEnd;
+                }
+                flash.caretChange = true;
+                stopFlash();
+                startFlash();
+                flash.caretChange = false;
+                checkOffset();
+                updateCaret();
+                caret.previousPos = caret.currentPos;
+            } else {
+                console.log('right');
+                input = document.getElementById('typing-input').value;
+                let len = input.length;
+
+                if (obj.highlight == true) {
+                    removeHighlight();
+                    caret.currentPos = obj.selectionEnd;
+                } else if (caret.currentPos+1 <= len) {
+                    caret.currentPos += 1
+                }
+                flash.caretChange = true;
+                stopFlash();
+                startFlash();
+                flash.caretChange = false;
+                checkOffset();
+                updateCaret();
+                caret.previousPos = caret.currentPos; 
+            }
+            break;
+        case 40:
+            console.log('down');
+            break;
+        case 65:// notes: reset colors / move caret to start
+            if (states.ctrl == true) {
+                console.log('CTRL + A')
+                input = document.getElementById('typing-input').value;
+                let len = input.length;
+                obj.selectionStart = 0;
+                obj.selectionEnd = len;
+                caret.currentPos = 0;
+                removeHighlight();
+                obj.selectedText = input.slice(obj.selectionStart, obj.selectionEnd);
+                addHighlight(obj.selectedText, "right");
+                flash.caretChange = true;
+                stopFlash();
+                startFlash();
+                flash.caretChange = false;
+                checkOffset();
+                updateCaret();
+                caret.previousPos = caret.currentPos;
+            }
+    }
+}
+
+function keyup(e) {
+    let keyCode = e.which || e.keyCode;
+
+    switch(keyCode) {
+        case 16:
+            //console.log('releasing shift');
+            states.shift = false;
+            break;
+        case 17:
+            //console.log('releasing control');
+            states.ctrl = false;
+            break;
     }
 }
 
@@ -731,14 +1101,25 @@ function startFlash() {
     letter.setAttribute("id", "caret");
 }
 
-function addHighlight() {
+function addHighlight(selectedText, arrow) {
     stopFlash();
     letters = document.querySelectorAll("letter");
     obj.highlight = false;
-    for (let i = caret.currentPos; i < caret.currentPos + obj.selectedText.length; i++) {
-        letters[i].classList.add("highlight");
-        obj.highlight = true;
+
+    if (arrow == "right" || arrow == "left") {
+        for (let i = obj.selectionStart; i < obj.selectionEnd; i++) {
+            letters[i].classList.add("highlight");
+            obj.highlight = true;
+        }
+    } else { //normal
+        for (let i = caret.currentPos; i < caret.currentPos + selectedText.length; i++) {
+            console.log('highlighted');
+            letters[i].classList.add("highlight");
+            obj.highlight = true;
+        }
     }
+    
+    
 }
 
 function removeHighlight() {
