@@ -220,17 +220,15 @@ function keydown(e) {
                     }
                     obj.selectionStart = caret.currentPos;
                 } else if (obj.highlight == true && obj.selectionStart == obj.selectionMiddle) {  //handle cross overs here
-                    if (caret.currentPos > 0) {
-                        let previousLetter = document.querySelectorAll("letter")[obj.selectionEnd-1];
-                        if (previousLetter.innerHTML == ' ') {
-                            obj.selectionEnd -= 1;
-                            previousLetter = document.querySelectorAll("letter")[obj.selectionEnd-1];
-                        }
-                        while (previousLetter.innerHTML != ' ' && obj.selectionEnd >= 1) {
-                            obj.selectionEnd -= 1;
-                            if (obj.selectionEnd > 0) {
-                                previousLetter = document.querySelectorAll("letter")[obj.selectionEnd-1]
-                            }
+                    let previousLetter = document.querySelectorAll("letter")[obj.selectionEnd-1];
+                    if (previousLetter.innerHTML == ' ') {
+                        obj.selectionEnd -= 1;
+                        previousLetter = document.querySelectorAll("letter")[obj.selectionEnd-1];
+                    }
+                    while (previousLetter.innerHTML != ' ' && obj.selectionEnd >= 1) {
+                        obj.selectionEnd -= 1;
+                        if (obj.selectionEnd > 0) {
+                            previousLetter = document.querySelectorAll("letter")[obj.selectionEnd-1]
                         }
                     }
                     if (obj.selectionStart > obj.selectionEnd) {
@@ -254,40 +252,36 @@ function keydown(e) {
             } else if (states.shift == true) {
                 console.log('shift + left');
                 input = document.getElementById('typing-input').value;
-                if (caret.currentPos-1 >= 0) {
-                    //caret.currentPos = document.getElementById('typing-input').selectionStart-1;
-
-
-                    if (obj.highlight == false) {
-                        caret.currentPos -= 1;
-                        obj.selectionStart = caret.currentPos;
-                        obj.selectionEnd = caret.currentPos + 1;
-                        obj.selectionMiddle = caret.currentPos + 1;
-                        //obj.selectionEnd = caret.previousPos;
-                        //obj.selectionStart = caret.currentPos;
-                    } else if (obj.highlight == true && obj.selectionStart == obj.selectionMiddle) { //right to middle
-                        //obj.selectionStart = caret.currentPos;
-                        obj.selectionEnd -= 1;
-                    } else if (obj.highlight == true && obj.selectionEnd == obj.selectionMiddle) { //middle to left
-                        caret.currentPos -= 1;
-                        obj.selectionStart -= 1;
-                        //obj.selectionEnd = caret.currentPos;
-                    }
-
-                
-
-                    removeHighlight();
-                    obj.selectedText = input.slice(obj.selectionStart, obj.selectionEnd);
-                    //console.log(obj.selectionStart + ' ' + obj.selectionEnd);
-                    addHighlight(obj.selectedText, "left");
-                    flash.caretChange = true;
-                    stopFlash();
-                    startFlash();
-                    flash.caretChange = false;
-                    checkOffset();
-                    updateCaret();
-                    caret.previousPos = caret.currentPos;
+                //caret.currentPos = document.getElementById('typing-input').selectionStart-1;
+                if (obj.highlight == false && caret.currentPos-1 >= 0) {
+                    caret.currentPos -= 1;
+                    obj.selectionStart = caret.currentPos;
+                    obj.selectionEnd = caret.currentPos + 1;
+                    obj.selectionMiddle = caret.currentPos + 1;
+                    //obj.selectionEnd = caret.previousPos;
+                    //obj.selectionStart = caret.currentPos;
+                } else if (obj.highlight == true && obj.selectionStart == obj.selectionMiddle) { //right to middle
+                    //obj.selectionStart = caret.currentPos;
+                    obj.selectionEnd -= 1;
+                } else if (obj.highlight == true && obj.selectionEnd == obj.selectionMiddle && obj.selectionStart-1 >= 0) { //middle to left
+                    caret.currentPos -= 1;
+                    obj.selectionStart -= 1;
+                    //obj.selectionEnd = caret.currentPos;
                 }
+
+            
+
+                removeHighlight();
+                obj.selectedText = input.slice(obj.selectionStart, obj.selectionEnd);
+                //console.log(obj.selectionStart + ' ' + obj.selectionEnd);
+                addHighlight(obj.selectedText, "left");
+                flash.caretChange = true;
+                stopFlash();
+                startFlash();
+                flash.caretChange = false;
+                checkOffset();
+                updateCaret();
+                caret.previousPos = caret.currentPos;
             } else if (states.ctrl == true) {
                 console.log('ctrl + left')
                 if (caret.currentPos > 0) {
