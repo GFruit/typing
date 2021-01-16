@@ -40,7 +40,9 @@ let obj = {
     selectedText: "",
     selectionStart: 0,
     selectionEnd: 1,
-    selectionMiddle: 0
+    selectionMiddle: 0,
+    new_input: '',
+    updateInput: false
 }
 
 let toggles = {
@@ -146,6 +148,28 @@ function keydown(e) {
     let keyCode = e.which || e.keyCode;
     if (keyCode == 13) {
         refresh();
+    }
+    
+    if (keyCode == 8 && states.ctrl && obj.highlight && isFirefox) { //make it so ctrl + backspace on highlight acts like normal backspace
+        input = document.getElementById('typing-input').value;
+        len = input.length;
+        obj.new_input = input.slice(0, obj.selectionStart) + input.slice(obj.selectionEnd, len); //good
+        caret.currentPos = obj.selectionStart;
+        if (caret.currentPos > 0) {
+            obj.updateInput = true;
+        } else {
+            obj.updateInput = true;
+            getValue();
+            return; //stuff below already happens in getValue() function
+        }
+        removeHighlight();
+        flash.caretChange = true;
+        stopFlash();
+        startFlash();
+        flash.caretChange = false;
+        checkOffset();
+        updateCaret();
+        caret.previousPos = caret.currentPos;
     }
     switch(keyCode) {
         case 16:
@@ -279,11 +303,11 @@ function keydown(e) {
                         }
                     }
                 }
+                if (isFirefox == true && obj.highlight == true) {
+                    caret.currentPos = obj.selectionStart;
+                }
                 if (obj.highlight == true) {
                     removeHighlight();
-                }
-                if (isFirefox == true) {
-                    caret.currentPos = obj.selectionStart;
                 }
                 flash.caretChange = true;
                 stopFlash();
@@ -347,16 +371,12 @@ function keydown(e) {
 
                     obj.selectionStart = caret.currentPos; 
 
-                    console.log('selection start: ' + obj.selectionStart);
-                    console.log('selection end: ' + obj.selectionEnd);
                     if (obj.selectionStart > obj.selectionEnd) {
                         let temp = obj.selectionStart;
                         obj.selectionStart = obj.selectionEnd;
                         obj.selectionEnd = temp;     
                     }
                     caret.currentPos = obj.selectionStart;
-                    console.log('selection start: ' + obj.selectionStart);
-                    console.log('selection end: ' + obj.selectionEnd);
                 } else if (obj.highlight == true && obj.selectionStart == obj.selectionMiddle) { //middle to right
                     if (obj.selectionEnd < len) {
                         let previousLetter = document.querySelectorAll("letter")[obj.selectionEnd-1];
@@ -428,11 +448,11 @@ function keydown(e) {
                         previousLetter = document.querySelectorAll("letter")[caret.currentPos-1]
                     }
                 }
+                if (isFirefox == true && obj.highlight == true) {
+                    caret.currentPos = obj.selectionEnd;
+                }
                 if (obj.highlight == true) {
                     removeHighlight();
-                }
-                if (isFirefox == true) {
-                    caret.currentPos = obj.selectionEnd;
                 }
                 flash.caretChange = true;
                 stopFlash();
@@ -498,6 +518,15 @@ function keyup(e) {
             //console.log('releasing control');
             states.ctrl = false;
             break;
+    }
+}
+
+function removeClasses(start, end) {
+    letters = document.querySelectorAll("letter");
+
+    for (i = start; i < end; i++) {
+        console.log(letters[i].innerHTML);
+        letters[i].classList.remove(...letters[i].classList)
     }
 }
 
@@ -664,8 +693,12 @@ function checkOffset(x) {
 }
 
 function getValue() {
+    if (obj.updateInput == true) {
+        document.getElementById('typing-input').value = obj.new_input;
+        obj.updateInput = false;
+    }
     input = document.getElementById('typing-input').value;
-    let len = input.length;
+    len = input.length;
     addedChars = 0;
     if (obj.highlight == true) {
         removeHighlight();
@@ -680,6 +713,7 @@ function getValue() {
     stopFlash();
     startFlash();
     flash.caretChange = false;
+
     if (obj.mobile == true) {
         verifyInput(6, len, input);
     } else if (addedChars == 0) {
