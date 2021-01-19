@@ -1,8 +1,11 @@
 let link = document.querySelector("link[rel~='icon']")
-let faviconUrl = link.href;
+let faviconUrl = "https://gfruit.github.io/typing/keyboard.ico" //link.href;
 let img = document.createElement("img");
 img.addEventListener("load", onImageLoaded);
+img.crossOrigin = "anonymous";
 img.src = faviconUrl;
+
+console.log(img.src)
 
 function onImageLoaded() {
     subColor = getComputedStyle(document.querySelector(':root')).getPropertyValue("--sub-color");
