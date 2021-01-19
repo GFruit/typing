@@ -1,3 +1,4 @@
+/*
 let link = document.querySelector("link[rel~='icon']")
 let faviconUrl = "https://gfruit.github.io/typing/keyboard.ico" //link.href;
 let img = document.createElement("img");
@@ -21,3 +22,4 @@ function onImageLoaded() {
     link.type = "image/x-icon";
     link.href = canvas.toDataURL();
   };
+  */
