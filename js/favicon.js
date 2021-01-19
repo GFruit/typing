@@ -4,6 +4,8 @@ let img = document.createElement("img");
 img.addEventListener("load", onImageLoaded);
 img.src = faviconUrl;
 
+console.log(faviconUrl);
+
 function onImageLoaded() {
     subColor = getComputedStyle(document.querySelector(':root')).getPropertyValue("--sub-color");
     var canvas = document.createElement("canvas");
