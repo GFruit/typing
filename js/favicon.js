@@ -1,6 +1,5 @@
 let link = document.querySelector("link[rel~='icon']")
-let faviconUrl = '../' + link.href.slice(link.href.lastIndexOf('/')+1);
-console.log(faviconUrl);
+let faviconUrl = link.href;
 let img = document.createElement("img");
 img.addEventListener("load", onImageLoaded);
 img.src = faviconUrl;
