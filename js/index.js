@@ -106,6 +106,8 @@ let style = {
     caretColor: getComputedStyle(document.querySelector(':root')).getPropertyValue("--caret-color"),
 }
 
+console.log(style.background);
+
 
 if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
     // true for mobile device
