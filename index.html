@@ -40,7 +40,6 @@
       <div style="clear: both;"></div>
     </ul>
   </div>
-  <hr>
   <input type="text" id="typing-input" autocomplete="off" spellcheck="false"
   onblur="stopFlash();removeHighlight()" onfocus="startFlash();removeHighlight()">
   <div id="refresh">
@@ -48,16 +47,6 @@
   </div>
   <div id="typingarea" class="noselect">
     <div id="textdisplay" onclick="focusInput()"></div>
-  </div>
-  <hr>
-  <div id="toggleStats">
-    <ul class="noselect">
-      <li class="toggleStats" id="errors"><span onclick="toggleStats('errors')">errors</span></li>
-      <li class="toggleStats" id="accuracy"><span onclick="toggleStats('accuracy')">accuracy</span></li>
-      <li class="toggleStats" id="speed"><span onclick="toggleStats('speed')">speed</span></li>
-      <div style="clear: both;"></div>
-    </ul>
-  </div>
   <div id="statsOperators">
     <input id="clearstatsbutton" type="button" value="clear stats" onclick="clearStats()">
     <input id="hidestatsbutton" type="button" value="hide stats" onclick="hideStats()">
@@ -66,6 +55,14 @@
   <div id="minAmount">
     <label for="min">Only show letters, bigrams, words, wordpairs that have been typed at least</label>
     <input type="number" id="min" value=1 oninput="setMinAmount()" min=1 placeholder="1">times.
+  </div>
+  <div id="toggleStats">
+    <ul class="noselect">
+      <li class="toggleStats" id="errors"><span onclick="toggleStats('errors')">errors</span></li>
+      <li class="toggleStats" id="accuracy"><span onclick="toggleStats('accuracy')">accuracy</span></li>
+      <li class="toggleStats" id="speed"><span onclick="toggleStats('speed')">speed</span></li>
+      <div style="clear: both;"></div>
+    </ul>
   </div>
   <div id="statsstatus"></div>
   <div id=analysis-container>
@@ -78,5 +75,6 @@
   <script src="js/words.min.js"></script>
   <script src="js/quotes.js"></script>
   <script src="js/index.js"></script>
+  <script src="js/favicon.js"></script>
 </body>
 </html>

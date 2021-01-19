@@ -94,13 +94,18 @@ let states = {
 
 let caret = {
     previousPos: 0, //so we know where to remove the flashing animation
-    currentPos: 0, //so we know where to add the flashing animation
-    caretColor: "white",
+    currentPos: 0, //so we know where to add the flashing animation,
 }
 
 let style = {
-    top: 25
+    top: 25,
+    background: getComputedStyle(document.querySelector(':root')).getPropertyValue("--background"),
+	textColor: getComputedStyle(document.querySelector(':root')).getPropertyValue("--text"),
+	subColor: getComputedStyle(document.querySelector(':root')).getPropertyValue("--sub-color"),
+	hoverColor: getComputedStyle(document.querySelector(':root')).getPropertyValue("--hover-color"),
+    caretColor: getComputedStyle(document.querySelector(':root')).getPropertyValue("--caret-color"),
 }
+
 
 if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
     // true for mobile device
@@ -113,36 +118,11 @@ if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigat
 var isFirefox = typeof InstallTrigger !== 'undefined';
 
 document.getElementById('typing-input').addEventListener("input", getValue);
-//document.addEventListener("selectionchange", selectionChange);
 document.getElementById('typing-input').addEventListener("keydown", keydown);
 document.getElementById('typing-input').addEventListener("keyup", keyup);
-document.getElementById('typing-input').addEventListener("select", select)
 
-function select(e) {
-    const selection = e.target.value.substring(e.target.selectionStart, e.target.selectionEnd);
-    //console.log(selection);
+document.documentElement.style.setProperty('--your-variable', '#YOURCOLOR');
 
-}
-
-/*
-function selectionChange() {
-    if (isFirefox) {
-        return;
-    }
-    caret.currentPos = document.getElementById('typing-input').selectionStart;
-    removeHighlight();
-    obj.selection = window.getSelection();
-    obj.selectedText = obj.selection.toString();
-    addHighlight(obj.selectedText);
-
-    stopFlash();
-    startFlash();
-    updateCaret();
-    checkOffset();
-    caret.previousPos = caret.currentPos;
-    
-}
-*/
 
 function keydown(e) {
     let keyCode = e.which || e.keyCode;
@@ -182,6 +162,240 @@ function keydown(e) {
             if (states.ctrl == false) {
                 //console.log('holding control');
                 states.ctrl = true;
+            }
+            break;
+        case 35:
+            if (states.ctrl == true && states.shift == true) {
+                console.log('ctrl + shift + end')
+                input = document.getElementById('typing-input').value;
+                let len = input.length;
+                if (obj.highlight == false) {
+                    obj.selectionStart = caret.currentPos;
+                    obj.selectionMiddle = obj.selectionStart
+                } else if (obj.highlight == true && obj.selectionEnd == obj.selectionMiddle) { //left to middle, handle cross overs here
+                    obj.selectionStart = obj.selectionEnd;
+                    caret.currentPos = obj.selectionStart;
+                }
+                obj.selectionEnd = len;
+                removeHighlight();
+                obj.selectedText = input.slice(obj.selectionStart, obj.selectionEnd);
+                //console.log(obj.selectionStart + ' ' + obj.selectionEnd);
+                addHighlight(obj.selectedText, "left");
+                flash.caretChange = true;
+                stopFlash();
+                startFlash();
+                flash.caretChange = false;
+                checkOffset();
+                updateCaret();
+                caret.previousPos = caret.currentPos;
+            } else if (states.shift == true) {
+                console.log('shift + end');
+                letters = document.querySelectorAll("letter");
+                input = document.getElementById('typing-input').value;
+                let len = input.length;
+                console.log(obj.highlight);
+                if (obj.highlight == false) {
+                    console.log('maybe here?');
+                    obj.selectionStart = caret.currentPos;
+                    obj.selectionEnd = caret.currentPos;
+                    obj.selectionMiddle = obj.selectionStart;
+                    for (i = caret.currentPos; i < len && letters[i].offsetTop == letters[i+1].offsetTop; i++) {
+                        obj.selectionEnd++;
+                    }
+                } else if (obj.highlight == true) {
+                    if (obj.selectionMiddle == obj.selectionStart) {
+                        console.log('should be here');
+                        for (i = obj.selectionEnd; i < len && letters[i].offsetTop == letters[i+1].offsetTop; i++) {
+                            obj.selectionEnd++;
+                        }
+                    } else if (obj.selectionMiddle == obj.selectionEnd) {
+                        console.log('should be here');
+                        obj.selectionStart = obj.selectionEnd;
+                        caret.currentPos = obj.selectionStart;
+                        for (i = obj.selectionEnd; i < len && letters[i].offsetTop == letters[i+1].offsetTop; i++) {
+                            obj.selectionEnd++;
+                        }
+                    }
+                    //bla bla bla (this is gonna be more difficult)
+                    removeHighlight();
+                }
+                obj.selectedText = input.slice(obj.selectionStart, obj.selectionEnd);
+                //console.log(obj.selectionStart + ' ' + obj.selectionEnd);
+                addHighlight(obj.selectedText, "left");
+                input_box = document.getElementById('typing-input');
+                e.preventDefault();
+                input_box.setSelectionRange(obj.selectionStart, obj.selectionEnd) //add highlight on input box
+                flash.caretChange = true;
+                stopFlash();
+                startFlash();
+                flash.caretChange = false;
+                checkOffset();
+                updateCaret();
+                caret.previousPos = caret.currentPos;
+            } else if (states.ctrl == true) {
+                console.log('ctrl + end')
+                input = document.getElementById('typing-input').value;
+                len = input.length;
+                caret.currentPos = len;
+                flash.caretChange = true;
+                stopFlash();
+                startFlash();
+                flash.caretChange = false;
+                checkOffset();
+                updateCaret();
+                caret.previousPos = caret.currentPos;
+            } else {
+                console.log('end');
+                letters = document.querySelectorAll("letter");
+                input = document.getElementById('typing-input').value;
+                let len = input.length;
+                if (obj.highlight == false) {
+                    for (i = caret.currentPos; i < len && letters[i].offsetTop == letters[i+1].offsetTop; i++) {
+                        caret.currentPos++;
+                    }
+                } else {
+                    if (obj.selectionMiddle == obj.selectionStart) {
+                        caret.currentPos = obj.selectionEnd;
+                        for (i = caret.currentPos; i < len && letters[i].offsetTop == letters[i+1].offsetTop; i++) {
+                            caret.currentPos++;
+                        }
+                    } else if (obj.selectionMiddle = obj.selectionEnd) {
+                        caret.currentpos = obj.selectionStart;
+                        for (i = caret.currentPos; i < len && letters[i].offsetTop == letters[i+1].offsetTop; i++) {
+                            caret.currentPos++;
+                        }
+                    }
+                    //bla bla bla (this is gonna be more difficult)
+                    removeHighlight();
+                }
+                flash.caretChange = true;
+                stopFlash();
+                startFlash();
+                flash.caretChange = false;
+                checkOffset();
+                updateCaret();
+                if (caret.previousPos > 0) {
+                    e.preventDefault();
+                    setCaretPosition("typing-input", caret.currentPos);
+                } else {
+                    console.log('test');
+                    input = document.getElementById('typing-input').value
+                    document.getElementById('typing-input').value = ' ' + input;
+                    e.preventDefault();
+                    setCaretPosition("typing-input", caret.currentPos);
+                    document.getElementById('typing-input').value = input;
+                    setCaretPosition("typing-input", caret.currentPos);
+                }
+                caret.previousPos = caret.currentPos;
+
+            }
+            break;
+        case 36:
+            if (states.ctrl == true && states.shift == true) {
+                console.log('ctrl + shift + home');
+                if (obj.highlight == false) {
+                    obj.selectionEnd = caret.currentPos;
+                    obj.selectionMiddle = obj.selectionEnd;
+                } else if (obj.highlight == true && obj.selectionStart == obj.selectionMiddle) {  //handle cross overs here
+                    obj.selectionEnd = obj.selectionStart;                  
+                }
+                caret.currentPos = 0;
+                obj.selectionStart = caret.currentPos 
+                removeHighlight();
+                obj.selectedText = input.slice(obj.selectionStart, obj.selectionEnd);
+                //console.log(obj.selectionStart + ' ' + obj.selectionEnd);
+                addHighlight(obj.selectedText, "left");
+                flash.caretChange = true;
+                stopFlash();
+                startFlash();
+                flash.caretChange = false;
+                checkOffset();
+                updateCaret();
+                caret.previousPos = caret.currentPos;
+            } else if (states.shift == true) {
+                console.log('shift + home')
+                letters = document.querySelectorAll("letter");
+                input = document.getElementById('typing-input').value;
+                let len = input.length;
+                if (obj.highlight == false) {
+                    obj.selectionEnd = caret.currentPos;
+                    obj.selectionStart = caret.currentPos;
+                    obj.selectionMiddle = obj.selectionEnd;
+                    for (i = caret.currentPos; i > 0 && letters[i].offsetTop == letters[i-1].offsetTop; i--) {
+                        obj.selectionStart--;
+                        caret.currentPos--;
+                    }
+                } else {
+                    if (obj.selectionMiddle == obj.selectionStart) {//wfhen it's highlighted and you do it again it's not supposed to remove the highlight
+                        obj.selectionEnd = obj.selectionStart;
+                        for (i = obj.selectionStart; i > 0 && letters[i].offsetTop == letters[i-1].offsetTop; i--) {
+                            obj.selectionStart--;
+                        }
+                    } else if (obj.selectionMiddle = obj.selectionEnd) {
+                        for (i = obj.selectionStart; i > 0 && letters[i].offsetTop == letters[i-1].offsetTop; i--) {
+                            obj.selectionStart--;
+                        }
+                    }
+                    removeHighlight();
+                    //bla bla bla (this is gonna be more difficult)
+                }
+                console.log(caret.currentPos)
+                removeHighlight();
+                obj.selectedText = input.slice(obj.selectionStart, obj.selectionEnd);
+                //console.log(obj.selectionStart + ' ' + obj.selectionEnd);
+                addHighlight(obj.selectedText, "left");
+                input_box = document.getElementById('typing-input');
+                e.preventDefault();
+                input_box.setSelectionRange(obj.selectionStart, obj.selectionEnd) //add highlight on input box
+                flash.caretChange = true;
+                stopFlash();
+                startFlash();
+                flash.caretChange = false;
+                checkOffset();
+                updateCaret();
+                caret.previousPos = caret.currentPos;
+            } else if (states.ctrl == true) {
+                console.log('ctrl + home');
+                caret.currentPos = 0;
+                flash.caretChange = true;
+                stopFlash();
+                startFlash();
+                flash.caretChange = false;
+                checkOffset();
+                updateCaret();
+                caret.previousPos = caret.currentPos;
+            } else {
+                console.log('home'); //current problem: input box doesn't change caret position the same as my test, since my test is multiline and the input box is 1 line.
+                letters = document.querySelectorAll("letter");
+                if (obj.highlight == false) {
+                    for (i = caret.currentPos; i > 0 && letters[i].offsetTop == letters[i-1].offsetTop; i--) {
+                        caret.currentPos--;
+                    }
+                } else {
+                    if (obj.selectionMiddle == obj.selectionStart) {
+                        caret.currentPos = obj.selectionEnd;
+                        for (i = caret.currentPos; i > 0 && letters[i].offsetTop == letters[i-1].offsetTop; i--) {
+                            caret.currentPos--;
+                        }
+                    } else if (obj.selectionMiddle = obj.selectionEnd) {
+                        caret.currentpos = obj.selectionStart;
+                        for (i = caret.currentPos; i > 0 && letters[i].offsetTop == letters[i-1].offsetTop; i--) {
+                            caret.currentPos--;
+                        }
+                    }
+                    //bla bla bla (this is gonna be more difficult)
+                    removeHighlight();
+                }
+                flash.caretChange = true;
+                stopFlash();
+                startFlash();
+                flash.caretChange = false;
+                checkOffset();
+                updateCaret();
+                adjustCaret(e, caret.currentPos, caret.previousPos);
+                //e.preventDefault();
+                //setCaretPosition("typing-input", caret.currentPos);
+                caret.previousPos = caret.currentPos;
             }
             break;
         case 37:
@@ -242,12 +456,16 @@ function keydown(e) {
                 obj.selectedText = input.slice(obj.selectionStart, obj.selectionEnd);
                 //console.log(obj.selectionStart + ' ' + obj.selectionEnd);
                 addHighlight(obj.selectedText, "left");
+                input_box = document.getElementById('typing-input');
+                e.preventDefault();
+                input_box.setSelectionRange(obj.selectionStart, obj.selectionEnd) //add highlight on input box
                 flash.caretChange = true;
                 stopFlash();
                 startFlash();
                 flash.caretChange = false;
                 checkOffset();
                 updateCaret();
+                //adjustCaret(e, caret.currentPos, caret.previousPos);
                 caret.previousPos = caret.currentPos;
             } else if (states.shift == true) {
                 console.log('shift + left');
@@ -273,7 +491,6 @@ function keydown(e) {
 
                 removeHighlight();
                 obj.selectedText = input.slice(obj.selectionStart, obj.selectionEnd);
-                //console.log(obj.selectionStart + ' ' + obj.selectionEnd);
                 addHighlight(obj.selectedText, "left");
                 flash.caretChange = true;
                 stopFlash();
@@ -302,6 +519,8 @@ function keydown(e) {
                 }
                 if (obj.highlight == true) {
                     removeHighlight();
+                    obj.selectionStart = 0;
+                    obj.selectionEnd = 0;
                 }
                 flash.caretChange = true;
                 stopFlash();
@@ -309,12 +528,15 @@ function keydown(e) {
                 flash.caretChange = false;
                 checkOffset();
                 updateCaret();
+                adjustCaret(e, caret.currentPos, caret.previousPos)
                 caret.previousPos = caret.currentPos;
             } else {
                 console.log('left');
                 if (obj.highlight == true) {
-                    removeHighlight();
                     caret.currentPos = obj.selectionStart;
+                    removeHighlight();
+                    obj.selectionStart = 0;
+                    obj.selectionEnd = 0;
                 } else if (caret.currentPos-1 >= 0) {
                     caret.currentPos -= 1;
                 }
@@ -386,14 +608,17 @@ function keydown(e) {
                 }
                 removeHighlight();
                 obj.selectedText = input.slice(obj.selectionStart, obj.selectionEnd);
-                //console.log(obj.selectionStart + ' ' + obj.selectionEnd);
                 addHighlight(obj.selectedText, "left");
+                input_box = document.getElementById('typing-input');
+                e.preventDefault();
+                input_box.setSelectionRange(obj.selectionStart, obj.selectionEnd) //add highlight on input box
                 flash.caretChange = true;
                 stopFlash();
                 startFlash();
                 flash.caretChange = false;
-                checkOffset();
+                checkOffset(obj.selectionEnd);
                 updateCaret();
+                //adjustCaret(e, caret.currentPos, caret.previousPos); if this was on then it would remove the highlight again
                 caret.previousPos = caret.currentPos;
             } else if (states.shift == true) {
                 console.log('shift + right');
@@ -423,7 +648,7 @@ function keydown(e) {
                     stopFlash();
                     startFlash();
                     flash.caretChange = false;
-                    checkOffset();
+                    checkOffset(obj.selectionEnd);
                     updateCaret();
                     caret.previousPos = caret.currentPos;
                 }
@@ -454,6 +679,7 @@ function keydown(e) {
                 flash.caretChange = false;
                 checkOffset();
                 updateCaret();
+                adjustCaret(e, caret.currentPos, caret.previousPos)
                 caret.previousPos = caret.currentPos;
             } else {
                 console.log('right');
@@ -476,7 +702,13 @@ function keydown(e) {
             }
             break;
         case 40:
-            console.log('down');
+            console.log('down'); //down puts the caret to the end if it's the last line, and else it just moves the caret down one line
+            //ctrl + down moves the cursor to the end of the text, regardless at what line
+            //vice versa for up
+            //end puts the cursor always to the end of the line
+            //home puts the cursor always to the start of the line
+            //ctrl end puts the cursor always to the end of the whole text
+            //ctrl home puts the cursor always to the start of the whole text
             break;
         case 65:// notes: reset colors / move caret to start
             if (states.ctrl == true) {
@@ -515,31 +747,60 @@ function keyup(e) {
     }
 }
 
-function removeClasses(start, end) {
-    letters = document.querySelectorAll("letter");
+function adjustCaret(e, currentPos, previousPos) {
+    if (previousPos > 0) {
+        if (e) {
+            e.preventDefault(); 
+        }
+        setCaretPosition("typing-input", currentPos);
+    } else {
+        input = document.getElementById('typing-input').value
+        document.getElementById('typing-input').value = ' ' + input;
+        if (e) {
+            e.preventDefault(); 
+        }
+        setCaretPosition("typing-input", currentPos);
+        document.getElementById('typing-input').value = input;
+        setCaretPosition("typing-input", currentPos);
+    }
+}
 
-    for (i = start; i < end; i++) {
-        console.log(letters[i].innerHTML);
-        letters[i].classList.remove(...letters[i].classList)
+function setCaretPosition(elemId, caretPos) {
+    var elem = document.getElementById(elemId);
+
+    if(elem != null) {
+        if(elem.createTextRange) {
+            var range = elem.createTextRange();
+            range.move('character', caretPos);
+            range.select();
+        }
+        else {
+            if(elem.selectionStart) {
+                elem.focus();
+                elem.setSelectionRange(caretPos, caretPos);
+            }
+            else
+                elem.focus();
+        }
     }
 }
 
 function setWordset (value) { 
     if (value == "Top 200") {
         wordlist = words.top200;
-        document.getElementById('top200').style.color = "#F66E0D";
-        document.getElementById('top1000').style.color = "white";
-        document.getElementById('quotes').style.color = "white";
+        document.getElementById('top200').style.color = style.subColor;
+        document.getElementById('top1000').style.color = style.textColor;
+        document.getElementById('quotes').style.color = style.textColor;
     } else if (value == "Top 1000") {
         wordlist = words.top1000;
-        document.getElementById('top200').style.color = "white";
-        document.getElementById('top1000').style.color = "#F66E0D";
-        document.getElementById('quotes').style.color = "white";
+        document.getElementById('top200').style.color = style.textColor;
+        document.getElementById('top1000').style.color = style.subColor;
+        document.getElementById('quotes').style.color = style.textColor;
     } else if (value == "Quotes") {
         wordlist = quotes;
-        document.getElementById('top200').style.color = "white";
-        document.getElementById('top1000').style.color = "white";
-        document.getElementById('quotes').style.color = "#F66E0D";
+        document.getElementById('top200').style.color = style.textColor;
+        document.getElementById('top1000').style.color = style.textColor;
+        document.getElementById('quotes').style.color = style.subColor;
     }
     wordset = value;
     reset();
@@ -551,17 +812,17 @@ function setWordset (value) {
 function toggleStats(statsDisplay) {
     toggles.statsDisplay = statsDisplay;
     if (statsDisplay == "errors") {
-        document.getElementById('errors').style.color = "#F66E0D";
-        document.getElementById('accuracy').style.color = "white";
-        document.getElementById('speed').style.color = "white";
+        document.getElementById('errors').style.color = style.subColor;
+        document.getElementById('accuracy').style.color = style.textColor;
+        document.getElementById('speed').style.color = style.textColor;
     } else if (statsDisplay == "accuracy") {
-        document.getElementById('errors').style.color = "white";
-        document.getElementById('accuracy').style.color = "#F66E0D";
-        document.getElementById('speed').style.color = "white";
+        document.getElementById('errors').style.color = style.textColor;
+        document.getElementById('accuracy').style.color = style.subColor;
+        document.getElementById('speed').style.color = style.textColor;
     } else if (statsDisplay == "speed") {
-        document.getElementById('errors').style.color = "white";
-        document.getElementById('accuracy').style.color = "white";
-        document.getElementById('speed').style.color = "#F66E0D";
+        document.getElementById('errors').style.color = style.textColor;
+        document.getElementById('accuracy').style.color = style.textColor;
+        document.getElementById('speed').style.color = style.subColor;
     }
     displayStats();
     focusInput();
@@ -598,14 +859,14 @@ function shuffle(array) {
     return array;
   }
 
-  async function getItem(item, cache) {
+async function getItem(item, cache) {
     var request = item + '.json';
     const response = await cache.match(request);
     if (response != undefined) {
         const result = await response.text();
         stats[item] = JSON.parse(result);
     }
-    obj.itemcounter += 1
+    obj.itemcounter += 1;
     if (obj.itemcounter == 4) {
         displayStats();
         updateStatus();
@@ -662,14 +923,22 @@ function setPreviousOffset(letter) {
     }
 }
 
-function checkOffset(x) {
-    let letter = document.querySelectorAll("letter")[caret.currentPos];
+function checkOffset(selectionEnd) {
+    let letter;
+    if (selectionEnd) {
+        letter = document.querySelectorAll("letter")[selectionEnd];
+    } else {
+        letter = document.querySelectorAll("letter")[caret.currentPos];
+    }
     if (!(offsetList.includes(letter.offsetTop))) {
         offsetList.push(letter.offsetTop)
     }
-    //console.log('yes here');
     offsetIdx = offsetList.indexOf(letter.offsetTop);
     previousOffsetIdx = offsetList.indexOf(obj.previousOffset);
+
+    if (previousOffsetIdx == -1) {
+        previousOffsetIdx = 0;
+    }
 
     if (offsetIdx < previousOffsetIdx) {
         let difference = previousOffsetIdx - offsetIdx;
@@ -1141,7 +1410,6 @@ function addHighlight(selectedText, arrow) {
         }
     } else { //normal
         for (let i = caret.currentPos; i < caret.currentPos + selectedText.length; i++) {
-            console.log('highlighted');
             letters[i].classList.add("highlight");
             obj.highlight = true;
         }
@@ -1172,7 +1440,7 @@ function updateCaret() { //note that due to the change of the textdisplay having
         previous.style.borderLeft = "0.1px solid transparent";
     }
     if (letter) { //letter = letter to the right of the caret
-        letter.style.borderLeft = "0.1px solid " + caret.caretColor;
+        letter.style.borderLeft = "0.1px solid " + style.caretColor;
     }
 }
 
@@ -1181,6 +1449,8 @@ function focusInput() {
     document.getElementById('typing-input').focus();
     document.getElementById('typing-input').value = "";
     document.getElementById('typing-input').value = inputValue;
+    adjustCaret('', caret.previousPos, caret.currentPos);
+    checkOffset();
     obj.focusCounter += 1;
 }
 
