@@ -197,7 +197,6 @@ function keydown(e) {
                 let len = input.length;
                 console.log(obj.highlight);
                 if (obj.highlight == false) {
-                    console.log('maybe here?');
                     obj.selectionStart = caret.currentPos;
                     obj.selectionEnd = caret.currentPos;
                     obj.selectionMiddle = obj.selectionStart;
@@ -206,12 +205,10 @@ function keydown(e) {
                     }
                 } else if (obj.highlight == true) {
                     if (obj.selectionMiddle == obj.selectionStart) {
-                        console.log('should be here');
                         for (i = obj.selectionEnd; i < len && letters[i].offsetTop == letters[i+1].offsetTop; i++) {
                             obj.selectionEnd++;
                         }
                     } else if (obj.selectionMiddle == obj.selectionEnd) {
-                        console.log('should be here');
                         obj.selectionStart = obj.selectionEnd;
                         caret.currentPos = obj.selectionStart;
                         for (i = obj.selectionEnd; i < len && letters[i].offsetTop == letters[i+1].offsetTop; i++) {
@@ -552,7 +549,210 @@ function keydown(e) {
             }
             break;
         case 38:
-            console.log('up');
+            if (states.ctrl == true && states.shift == true) {
+                console.log('ctrl + shift + up')
+                if (obj.highlight == false) {
+                    obj.selectionEnd = caret.currentPos;
+                    obj.selectionMiddle = obj.selectionEnd;
+                } else if (obj.highlight == true && obj.selectionStart == obj.selectionMiddle) {  //handle cross overs here
+                    obj.selectionEnd = obj.selectionStart;                  
+                }
+                caret.currentPos = 0;
+                obj.selectionStart = caret.currentPos 
+                removeHighlight();
+                obj.selectedText = input.slice(obj.selectionStart, obj.selectionEnd);
+                //console.log(obj.selectionStart + ' ' + obj.selectionEnd);
+                addHighlight(obj.selectedText, "left");
+                flash.caretChange = true;
+                stopFlash();
+                startFlash();
+                flash.caretChange = false;
+                checkOffset();
+                updateCaret();
+                caret.previousPos = caret.currentPos;
+            } else if (states.shift == true) {
+                console.log('shift + up')
+                e.preventDefault();
+                //first go to the right until you detect a offsetTop change (same as End)
+                //then on the new line check each offsetLeft, and as soon as offsetLeftCurrent - offsetLeftOriginal >= 0, place the caret there
+                //then set a new offsetLeftOriginal
+                input = document.getElementById('typing-input').value;
+                len = input.length;
+                letters = document.querySelectorAll("letter");
+                if (obj.highlight == false) { //middle
+                    obj.selectionEnd = caret.currentPos;
+                    obj.selectionMiddle = obj.selectionEnd;
+
+                    let offsetLeftOriginal = letters[caret.currentPos].offsetLeft;
+                    console.log(caret.currentPos);
+                    for (i = caret.currentPos; i > 0 && letters[i].offsetTop == letters[i-1].offsetTop; i--) {   
+                        caret.currentPos--; //after this caret.currentPos is either at len or at the end of line
+                    }
+                    console.log(caret.currentPos);//if it's at len we can't increase it
+                    let differences = {};
+                    if (caret.currentPos -1 >= 0) {
+                        let j = caret.currentPos-1;
+                        differences[j] = Math.abs(letters[j].offsetLeft - offsetLeftOriginal)
+                        for (i = caret.currentPos-1; i > 0 && letters[i].offsetTop == letters[i-1].offsetTop; i--) {
+                            j--
+                            differences[j] = Math.abs(letters[j].offsetLeft - offsetLeftOriginal);
+                            //we need the last one to be len or the last character of the line, depending on what is longer
+                            //but we can't check letters[i + 1] if i is len
+                        } 
+                    }
+                    if (!(Object.keys(differences).length === 0 && obj.constructor === Object)) { //if object not empty
+                        console.log('exe');
+                        keys = Object.keys(differences);
+                        let min = keys[0];
+                        console.log(typeof min)
+                        for (k in differences) {
+                            if (differences[k] < differences[min]) {
+                                min = k
+                            }
+                        }
+                        caret.currentPos = parseInt(min);
+                    }
+
+                    obj.selectionStart = caret.currentPos;
+
+                } else if (obj.highlight == true && obj.selectionStart == obj.selectionMiddle) { //right to middle
+
+                    let offsetLeftOriginal = letters[obj.selectionEnd].offsetLeft;
+                    console.log(caret.currentPos);
+                    for (i = obj.selectionEnd; i > 0 && letters[i].offsetTop == letters[i-1].offsetTop; i--) {   
+                        obj.selectionEnd--; //after this caret.currentPos is either at len or at the end of line
+                    }
+                    let differences = {};
+                    if (obj.selectionEnd -1 >= 0) {
+                        let j = obj.selectionEnd-1;
+                        differences[j] = Math.abs(letters[j].offsetLeft - offsetLeftOriginal)
+                        for (i = obj.selectionEnd-1; i > 0 && letters[i].offsetTop == letters[i-1].offsetTop; i--) {
+                            j--
+                            differences[j] = Math.abs(letters[j].offsetLeft - offsetLeftOriginal);
+                            //we need the last one to be len or the last character of the line, depending on what is longer
+                            //but we can't check letters[i + 1] if i is len
+                        } 
+                    }
+                    if (!(Object.keys(differences).length === 0 && obj.constructor === Object)) { //if object not empty
+                        console.log('exe');
+                        keys = Object.keys(differences);
+                        let min = keys[0];
+                        console.log(typeof min)
+                        for (k in differences) {
+                            if (differences[k] < differences[min]) {
+                                min = k
+                            }
+                        }
+                        obj.selectionEnd = parseInt(min);
+                    }
+                    if (obj.selectionEnd < obj.selectionStart) {
+                        temp = obj.selectionStart;
+                        obj.selectionStart = obj.selectionEnd;
+                        obj.selectionEnd = temp;
+                        obj.selectionMiddle = obj.selectionEnd;
+                    }
+                } else if (obj.highlight == true && obj.selectionEnd == obj.selectionMiddle) {//middle to left
+                    let offsetLeftOriginal = letters[caret.currentPos].offsetLeft;
+                    console.log(caret.currentPos);
+                    for (i = caret.currentPos; i > 0 && letters[i].offsetTop == letters[i-1].offsetTop; i--) {   
+                        caret.currentPos--; //after this caret.currentPos is either at len or at the end of line
+                    }
+                    console.log(caret.currentPos);//if it's at len we can't increase it
+                    let differences = {};
+                    if (caret.currentPos -1 >= 0) {
+                        let j = caret.currentPos-1;
+                        differences[j] = Math.abs(letters[j].offsetLeft - offsetLeftOriginal)
+                        for (i = caret.currentPos-1; i > 0 && letters[i].offsetTop == letters[i-1].offsetTop; i--) {
+                            j--
+                            differences[j] = Math.abs(letters[j].offsetLeft - offsetLeftOriginal);
+                            //we need the last one to be len or the last character of the line, depending on what is longer
+                            //but we can't check letters[i + 1] if i is len
+                        } 
+                    }
+                    if (!(Object.keys(differences).length === 0 && obj.constructor === Object)) { //if object not empty
+                        console.log('exe');
+                        keys = Object.keys(differences);
+                        let min = keys[0];
+                        console.log(typeof min)
+                        for (k in differences) {
+                            if (differences[k] < differences[min]) {
+                                min = k
+                            }
+                        }
+                        caret.currentPos = parseInt(min);
+                    }
+                    obj.selectionStart = caret.currentPos;
+                }
+                removeHighlight();
+                obj.selectedText = input.slice(obj.selectionStart, obj.selectionEnd);
+                //console.log(obj.selectionStart + ' ' + obj.selectionEnd);
+                addHighlight(obj.selectedText, "left");
+                input_box = document.getElementById('typing-input');
+                e.preventDefault();
+                input_box.setSelectionRange(obj.selectionStart, obj.selectionEnd) //add highlight on input box
+                flash.caretChange = true;
+                
+                stopFlash();
+                startFlash();
+                flash.caretChange = false;
+                checkOffset();
+                updateCaret();
+                caret.previousPos = caret.currentPos;
+            } else if (states.ctrl == true) {
+                console.log('ctrl + up')
+                caret.currentPos = 0;
+                flash.caretChange = true;
+                stopFlash();
+                startFlash();
+                flash.caretChange = false;
+                checkOffset();
+                updateCaret();
+                caret.previousPos = caret.currentPos;
+            } else {
+                console.log('up');
+                e.preventDefault();
+                input = document.getElementById('typing-input').value;
+                len = input.length;
+                letters = document.querySelectorAll("letter");
+                let offsetLeftOriginal = letters[caret.currentPos].offsetLeft;
+                console.log(caret.currentPos);
+                for (i = caret.currentPos; i > 0 && letters[i].offsetTop == letters[i-1].offsetTop; i--) {   
+                    caret.currentPos--; //after this caret.currentPos is either at len or at the end of line
+                }
+                console.log(caret.currentPos);//if it's at len we can't increase it
+                let differences = {};
+                if (caret.currentPos -1 >= 0) {
+                    let j = caret.currentPos-1;
+                    differences[j] = Math.abs(letters[j].offsetLeft - offsetLeftOriginal)
+                    for (i = caret.currentPos-1; i > 0 && letters[i].offsetTop == letters[i-1].offsetTop; i--) {
+                        j--
+                        differences[j] = Math.abs(letters[j].offsetLeft - offsetLeftOriginal);
+                        //we need the last one to be len or the last character of the line, depending on what is longer
+                        //but we can't check letters[i + 1] if i is len
+                    } 
+                }
+                if (!(Object.keys(differences).length === 0 && obj.constructor === Object)) { //if object not empty
+                    console.log('exe');
+                    keys = Object.keys(differences);
+                    let min = keys[0];
+                    console.log(typeof min)
+                    for (k in differences) {
+                        if (differences[k] < differences[min]) {
+                            min = k
+                        }
+                    }
+                    caret.currentPos = parseInt(min);
+                }
+                flash.caretChange = true;
+                console.log(caret.currentPos);
+                stopFlash();
+                startFlash();
+                flash.caretChange = false;
+                checkOffset();
+                updateCaret();
+                adjustCaret(e, caret.currentPos, caret.previousPos);
+                caret.previousPos = caret.currentPos;
+            }
             break;
         case 39:
             if (states.ctrl == true && states.shift == true) {
@@ -687,10 +887,11 @@ function keydown(e) {
                 console.log('right');
                 input = document.getElementById('typing-input').value;
                 let len = input.length;
-
                 if (obj.highlight == true) {
-                    removeHighlight();
                     caret.currentPos = obj.selectionEnd;
+                    removeHighlight();
+                    obj.selectionStart = 0;
+                    obj.selectionEnd = 0
                 } else if (caret.currentPos+1 <= len) {
                     caret.currentPos += 1
                 }
@@ -704,7 +905,205 @@ function keydown(e) {
             }
             break;
         case 40:
-            console.log('down'); //down puts the caret to the end if it's the last line, and else it just moves the caret down one line
+            if (states.ctrl == true && states.shift == true) {
+                console.log('ctrl + shift + down'); //same as ctrl + shift + end
+                input = document.getElementById('typing-input').value;
+                let len = input.length;
+                if (obj.highlight == false) {
+                    obj.selectionStart = caret.currentPos;
+                    obj.selectionMiddle = obj.selectionStart
+                } else if (obj.highlight == true && obj.selectionEnd == obj.selectionMiddle) { //left to middle, handle cross overs here
+                    obj.selectionStart = obj.selectionEnd;
+                    caret.currentPos = obj.selectionStart;
+                }
+                obj.selectionEnd = len;
+                removeHighlight();
+                obj.selectedText = input.slice(obj.selectionStart, obj.selectionEnd);
+                //console.log(obj.selectionStart + ' ' + obj.selectionEnd);
+                addHighlight(obj.selectedText, "left");
+                flash.caretChange = true;
+                stopFlash();
+                startFlash();
+                flash.caretChange = false;
+                checkOffset();
+                updateCaret();
+                caret.previousPos = caret.currentPos;
+            } else if (states.shift == true) {
+                console.log('shift + down');
+                e.preventDefault();
+                //first go to the right until you detect a offsetTop change (same as End)
+                //then on the new line check each offsetLeft, and as soon as offsetLeftCurrent - offsetLeftOriginal >= 0, place the caret there
+                //then set a new offsetLeftOriginal
+                input = document.getElementById('typing-input').value;
+                len = input.length;
+                letters = document.querySelectorAll("letter");
+                if (obj.highlight == false) { //middle
+                    obj.selectionStart = caret.currentPos;
+                    obj.selectionMiddle = obj.selectionStart;
+                    obj.selectionEnd = caret.currentPos;
+
+                    let offsetLeftOriginal = letters[obj.selectionEnd].offsetLeft;
+                    for (i = caret.currentPos; i < len && letters[i].offsetTop == letters[i+1].offsetTop; i++) {   
+                        obj.selectionEnd++; //after this caret.currentPos is either at len or at the end of line
+                    }
+                    //if it's at len we can't increase it
+                    let differences = {};
+                    if (obj.selectionEnd + 1 <= len) {
+                        let j = obj.selectionEnd+1;
+                        differences[j] = Math.abs(letters[j].offsetLeft - offsetLeftOriginal)
+                        for (i = obj.selectionEnd+1; i < len && letters[i].offsetTop == letters[i+1].offsetTop; i++) {
+                            j++
+                            differences[j] = Math.abs(letters[j].offsetLeft - offsetLeftOriginal)
+                            //we need the last one to be len or the last character of the line, depending on what is longer
+                            //but we can't check letters[i + 1] if i is len
+                        } 
+                    }
+                    if (!(Object.keys(differences).length === 0 && obj.constructor === Object)) { //if object not empty
+                        console.log('exe');
+                        keys = Object.keys(differences);
+                        let min = keys[0];
+                        for (k in differences) {
+                            if (differences[k] < differences[min]) {
+                                min = k
+                            }
+                        }
+                        obj.selectionEnd = parseInt(min);
+                    }
+                    console.log(obj.selectionEnd);
+
+
+                } else if (obj.highlight == true && obj.selectionStart == obj.selectionMiddle) { //middle+1 to right
+                    let offsetLeftOriginal = letters[obj.selectionEnd].offsetLeft;
+                    for (i = obj.selectionEnd; i < len && letters[i].offsetTop == letters[i+1].offsetTop; i++) {   
+                        obj.selectionEnd++; //after this caret.currentPos is either at len or at the end of line
+                    }
+                    //if it's at len we can't increase it
+                    let differences = {};
+                    if (obj.selectionEnd + 1 <= len) {
+                        let j = obj.selectionEnd+1;
+                        differences[j] = Math.abs(letters[j].offsetLeft - offsetLeftOriginal)
+                        for (i = obj.selectionEnd+1; i < len && letters[i].offsetTop == letters[i+1].offsetTop; i++) {
+                            j++
+                            differences[j] = Math.abs(letters[j].offsetLeft - offsetLeftOriginal)
+                            //we need the last one to be len or the last character of the line, depending on what is longer
+                            //but we can't check letters[i + 1] if i is len
+                        } 
+                    }
+                    if (!(Object.keys(differences).length === 0 && obj.constructor === Object)) { //if object not empty
+                        console.log('exe');
+                        keys = Object.keys(differences);
+                        let min = keys[0];
+                        for (k in differences) {
+                            if (differences[k] < differences[min]) {
+                                min = k
+                            }
+                        }
+                        obj.selectionEnd = parseInt(min);
+                    }
+                } else if (obj.highlight == true && obj.selectionEnd == obj.selectionMiddle) {//left to middle-1
+                    let offsetLeftOriginal = letters[caret.currentPos].offsetLeft;
+                    for (i = caret.currentPos; i < len && letters[i].offsetTop == letters[i+1].offsetTop; i++) {   
+                        caret.currentPos++; //after this caret.currentPos is either at len or at the end of line
+                    }
+                    //if it's at len we can't increase it
+                    let differences = {};
+                    if (caret.currentPos + 1 <= len) {
+                        let j = caret.currentPos+1;
+                        differences[j] = Math.abs(letters[j].offsetLeft - offsetLeftOriginal)
+                        for (i = caret.currentPos+1; i < len && letters[i].offsetTop == letters[i+1].offsetTop; i++) {
+                            j++
+                            differences[j] = Math.abs(letters[j].offsetLeft - offsetLeftOriginal)
+                            //we need the last one to be len or the last character of the line, depending on what is longer
+                            //but we can't check letters[i + 1] if i is len
+                        } 
+                    }
+                    if (!(Object.keys(differences).length === 0 && obj.constructor === Object)) { //if object not empty
+                        console.log('exe');
+                        keys = Object.keys(differences);
+                        let min = keys[0];
+                        for (k in differences) {
+                            if (differences[k] < differences[min]) {
+                                min = k
+                            }
+                        }
+                        caret.currentPos = parseInt(min);
+                    }
+                    obj.selectionStart = caret.currentPos;
+                }
+                removeHighlight();
+                obj.selectedText = input.slice(obj.selectionStart, obj.selectionEnd);
+                //console.log(obj.selectionStart + ' ' + obj.selectionEnd);
+                addHighlight(obj.selectedText, "left");
+                input_box = document.getElementById('typing-input');
+                e.preventDefault();
+                input_box.setSelectionRange(obj.selectionStart, obj.selectionEnd) //add highlight on input box
+                flash.caretChange = true;
+                
+                stopFlash();
+                startFlash();
+                flash.caretChange = false;
+                checkOffset();
+                updateCaret();
+                caret.previousPos = caret.currentPos;
+            } else if (states.ctrl == true) {
+                console.log('ctrl + down'); //same as ctrl + end
+                input = document.getElementById('typing-input').value;
+                len = input.length;
+                caret.currentPos = len;
+                flash.caretChange = true;
+                stopFlash();
+                startFlash();
+                flash.caretChange = false;
+                checkOffset();
+                updateCaret();
+                caret.previousPos = caret.currentPos;
+            } else {
+                console.log('down');
+                e.preventDefault();
+                //first go to the right until you detect a offsetTop change (same as End)
+                //then on the new line check each offsetLeft, and as soon as offsetLeftCurrent - offsetLeftOriginal >= 0, place the caret there
+                //then set a new offsetLeftOriginal
+                input = document.getElementById('typing-input').value;
+                len = input.length;
+                letters = document.querySelectorAll("letter");
+                let offsetLeftOriginal = letters[caret.currentPos].offsetLeft;
+                for (i = caret.currentPos; i < len && letters[i].offsetTop == letters[i+1].offsetTop; i++) {   
+                    caret.currentPos++; //after this caret.currentPos is either at len or at the end of line
+                }
+                //if it's at len we can't increase it
+                let differences = {};
+                if (caret.currentPos + 1 <= len) {
+                    let j = caret.currentPos+1;
+                    differences[j] = Math.abs(letters[j].offsetLeft - offsetLeftOriginal)
+                    for (i = caret.currentPos+1; i < len && letters[i].offsetTop == letters[i+1].offsetTop; i++) {
+                        j++
+                        differences[j] = Math.abs(letters[j].offsetLeft - offsetLeftOriginal)
+                        //we need the last one to be len or the last character of the line, depending on what is longer
+                        //but we can't check letters[i + 1] if i is len
+                    } 
+                }
+                if (!(Object.keys(differences).length === 0 && obj.constructor === Object)) { //if object not empty
+                    console.log('exe');
+                    keys = Object.keys(differences);
+                    let min = keys[0];
+                    for (k in differences) {
+                        if (differences[k] < differences[min]) {
+                            min = k
+                        }
+                    }
+                    caret.currentPos = parseInt(min);
+                }
+                flash.caretChange = true;
+                
+                stopFlash();
+                startFlash();
+                flash.caretChange = false;
+                checkOffset();
+                updateCaret();
+                adjustCaret(e, caret.currentPos, caret.previousPos);
+                caret.previousPos = caret.currentPos;
+            }
+            //down puts the caret to the end if it's the last line, and else it just moves the caret down one line
             //ctrl + down moves the cursor to the end of the text, regardless at what line
             //vice versa for up
             //end puts the cursor always to the end of the line
@@ -950,8 +1349,11 @@ function checkOffset(selectionEnd) {
     } else if (offsetIdx > previousOffsetIdx) {
         let difference = offsetIdx - previousOffsetIdx;
         style.top += 3*difference;
-        //pixel_per_em = Number(getComputedStyle(document.body, "").fontSize.match(/(\d*(\.\d*)?)px/)[1]);
-        //scrollBy(0, 3*pixel_per_em*difference);
+
+
+
+        pixel_per_em = Number(getComputedStyle(document.body, "").fontSize.match(/(\d*(\.\d*)?)px/)[1]);
+        scrollBy(0, 3*pixel_per_em*difference);
     }
     obj.previousOffset = letter.offsetTop;
     document.getElementById('typing-input').style.top = style.top + 'em';
