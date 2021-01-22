@@ -24,6 +24,10 @@ var home_position;
 var tips = "inactive";
 var format = "mt";
 
+let obj = {
+    filtered: []
+}
+
 
 function isLetter(str) {
     return str.length === 1 && str.match(/[a-z]/i);
@@ -353,11 +357,29 @@ function filterTheWords () {
     displayText(filtered);
     document.getElementById('copy').style.visibility = "visible";
     document.getElementById('reset').style.visibility = "visible";
+    document.getElementById('shuffle').style.visibility = "visible";
     dend = new Date();
     var start = dstart.getTime();
     var end = dend.getTime();
     var time = end-start;
     var seconds = (time/1000).toPrecision(3);
+    obj.filtered = filtered;
+}
+
+function shuffle(a) {
+    var j, x, i;
+    for (i = a.length - 1; i > 0; i--) {
+        j = Math.floor(Math.random() * (i + 1));
+        x = a[i];
+        a[i] = a[j];
+        a[j] = x;
+    }
+    return a;
+}
+
+function shuffleFiltered() {
+    obj.filtered = shuffle(obj.filtered);
+    displayText(obj.filtered);
 }
 
 function byLength () {

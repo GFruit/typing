@@ -131,6 +131,7 @@ function keydown(e) {
     let keyCode = e.which || e.keyCode;
     input_box = document.getElementById('typing-input');
 
+
     if (keyCode == 13) {
         refresh();
         return;
@@ -156,6 +157,7 @@ function keydown(e) {
                 states.shift = true;
                 return;
             }
+            break;
         case 17:
             if (states.ctrl == false) {
                 states.ctrl = true;
@@ -196,10 +198,10 @@ function keydown(e) {
                 } else {
                     if (obj.selectionMiddle == obj.selectionStart) {
                         caret.currentPos = obj.selectionEnd;
-                        obj.selectionEnd = leftRight(obj.selectionEnd, 'right');
+                        caret.currentPos = leftRight(caret.currentPos, 'right');
                     } else if (obj.selectionMiddle = obj.selectionEnd) {
                         caret.currentpos = obj.selectionStart;
-                        obj.selectionEnd = leftRight(obj.selectionEnd, 'right');
+                        caret.currentPos = leftRight(caret.currentPos, 'right');
                     }
                 }
                 e.preventDefault();
@@ -245,6 +247,7 @@ function keydown(e) {
             } else if (states.ctrl == true) {
                 caret.currentPos = 0;
             } else {
+                
                 if (obj.highlight == false) {
                     caret.currentPos = leftRight(caret.currentPos, 'left');
                 } else {
@@ -252,10 +255,13 @@ function keydown(e) {
                         caret.currentPos = obj.selectionEnd;
                         caret.currentPos = leftRight(caret.currentPos, 'left');
                     } else if (obj.selectionMiddle = obj.selectionEnd) {
-                        caret.currentpos = obj.selectionStart;
+                        caret.currentPos = obj.selectionStart;
                         caret.currentPos = leftRight(caret.currentPos, 'left');
                     }
                 }
+                
+                obj.selectionStart = caret.currentPos;
+                obj.selectionEnd = caret.currentPos;
                 adjustCaret(e, caret.currentPos, caret.previousPos);
             }
             break;
@@ -343,16 +349,10 @@ function keydown(e) {
                 if (isFirefox == true && obj.highlight == true) {
                     caret.currentPos = obj.selectionStart;
                 }
-                if (obj.highlight == true) {
-                    obj.selectionStart = caret.currentPos;
-                    obj.selectionEnd = caret.currentPos;
-                }
                 adjustCaret(e, caret.currentPos, caret.previousPos)
             } else {
                 if (obj.highlight == true) {
                     caret.currentPos = obj.selectionStart;
-                    obj.selectionStart = 0;
-                    obj.selectionEnd = 0;
                 } else if (caret.currentPos-1 >= 0) {
                     caret.currentPos -= 1;
                 }
@@ -488,8 +488,6 @@ function keydown(e) {
             } else {
                 if (obj.highlight == true) {
                     caret.currentPos = obj.selectionEnd;
-                    obj.selectionStart = 0;
-                    obj.selectionEnd = 0
                 } else if (caret.currentPos+1 <= obj.len) {
                     caret.currentPos += 1
                 }
@@ -533,6 +531,10 @@ function keydown(e) {
                 obj.selectionEnd = obj.len;
                 caret.currentPos = 0;
             }
+    }
+    if (obj.highlight == true && states.shift == false && keyCode != 65) {
+        obj.selectionStart = caret.currentPos;
+        obj.selectionEnd = caret.currentPos;
     }
     removeHighlight();
     addHighlight();
@@ -1116,38 +1118,39 @@ function countCorrectBigrams(previousLetter, currentLetter) {
     if (obj.lettercounter == 0) {
         times.bigrams.cooldown = 0;
     }
+
     if (obj.lettercounter > 0) {
-        let bigram = previousLetter.innerHTML + currentLetter
+        bigram = previousLetter.innerHTML + currentLetter
+    }
 
-        if (times.bigrams.cooldown == 0) {
-            times.bigrams.startTime1 = startTimer();
-            times.bigrams.cooldown = 3;
-            if (obj.lettercounter > 3) {
-                times.bigrams.endTime2 = stopTimer();
-                calculateTimes(times.bigrams.startTime2, times.bigrams.endTime2, "bigrams", bigram)
-            }
+    if (times.bigrams.cooldown == 0) {
+        times.bigrams.startTime1 = startTimer();
+        times.bigrams.cooldown = 3;
+        if (obj.lettercounter > 2) {
+            times.bigrams.endTime2 = stopTimer();
+            calculateTimes(times.bigrams.startTime2, times.bigrams.endTime2, "bigrams", bigram)
         }
-        if (times.bigrams.cooldown == 1) {
-            times.bigrams.startTime3 = startTimer();
-            times.bigrams.endTime1 = stopTimer();
-            calculateTimes(times.bigrams.startTime1, times.bigrams.endTime1, "bigrams", bigram)
+    }
+    if (times.bigrams.cooldown == 1) {
+        times.bigrams.startTime3 = startTimer();
+        times.bigrams.endTime1 = stopTimer();
+        calculateTimes(times.bigrams.startTime1, times.bigrams.endTime1, "bigrams", bigram)
+    }
+    if (times.bigrams.cooldown == 2) {
+        times.bigrams.startTime2 = startTimer();
+        if (obj.lettercounter > 3) {
+            times.bigrams.endTime3 = stopTimer();
+            calculateTimes(times.bigrams.startTime3, times.bigrams.endTime3, "bigrams", bigram)
         }
-        if (times.bigrams.cooldown == 2) {
-            times.bigrams.startTime2 = startTimer();
-            if (obj.lettercounter > 4) {
-                times.bigrams.endTime3 = stopTimer();
-                calculateTimes(times.bigrams.startTime3, times.bigrams.endTime3, "bigrams", bigram)
-            }
-        }
+    }
 
-        times.bigrams.cooldown--;
+    times.bigrams.cooldown--;
 
-        if (obj.lettercounter > 1) {
-            if (stats.correct.bigrams[bigram]) {
-                stats.correct.bigrams[bigram] += 1
-            } else {
-                stats.correct.bigrams[bigram] = 1
-            }
+    if (obj.lettercounter > 1) {
+        if (stats.correct.bigrams[bigram]) {
+            stats.correct.bigrams[bigram] += 1
+        } else {
+            stats.correct.bigrams[bigram] = 1
         }
     }
 }
@@ -1160,8 +1163,7 @@ function countCorrectWords(letter, nextLetter, currentWordTag) {
                 word += letterTag.innerHTML;
             }
     
-            if (obj.wordcounter > 0) {
-                console.log('end');
+            if (obj.wordcounter > 0) {;
                 times.words.endTime = stopTimer();
                 calculateTimes(times.words.startTime, times.words.endTime, "words", word)
             }
@@ -1172,7 +1174,6 @@ function countCorrectWords(letter, nextLetter, currentWordTag) {
                 stats.correct.words[word] = 1;
             }
         } else if (letter == ' ') {
-            console.log('start')
             times.words.startTime = startTimer();
         } 
     }

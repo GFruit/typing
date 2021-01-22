@@ -137,7 +137,7 @@ h1 {
 	color: var(--text);
 }
 
-#copy, #reset {
+#copy, #shuffle {
 	visibility: hidden;
 }
 
@@ -364,7 +364,7 @@ form {
 	text-decoration: none;
 	cursor: pointer;
 	display: inline-block;
-	width: 150px;
+	width: 170px;
   }
 
  .linkbutton:hover {
