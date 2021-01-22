@@ -39,10 +39,14 @@ let obj = {
     selection: "",
     selectedText: "",
     selectionStart: 0,
-    selectionEnd: 1,
+    selectionEnd: 0,
     selectionMiddle: 0,
     new_input: '',
-    updateInput: false
+    updateInput: false,
+    scrollTop: 0,
+    input: '',
+    len: 0,
+    letters: ''
 }
 
 let toggles = {
@@ -106,8 +110,6 @@ let style = {
     caretColor: getComputedStyle(document.querySelector(':root')).getPropertyValue("--caret-color"),
 }
 
-console.log(style.background);
-
 
 if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
     // true for mobile device
@@ -123,54 +125,44 @@ document.getElementById('typing-input').addEventListener("input", getValue);
 document.getElementById('typing-input').addEventListener("keydown", keydown);
 document.getElementById('typing-input').addEventListener("keyup", keyup);
 
-document.documentElement.style.setProperty('--your-variable', '#YOURCOLOR');
-
+input_box = document.getElementById('typing-input');
 
 function keydown(e) {
     let keyCode = e.which || e.keyCode;
+    input_box = document.getElementById('typing-input');
+
     if (keyCode == 13) {
         refresh();
+        return;
     }
     
     if (keyCode == 8 && states.ctrl && obj.highlight && isFirefox) { //make it so ctrl + backspace on highlight acts like normal backspace
-        input = document.getElementById('typing-input').value;
-        len = input.length;
-        obj.new_input = input.slice(0, obj.selectionStart) + input.slice(obj.selectionEnd, len); //good
+
+        obj.new_input = obj.input.slice(0, obj.selectionStart) + obj.input.slice(obj.selectionEnd, obj.len); //good
         caret.currentPos = obj.selectionStart;
         if (caret.currentPos > 0) {
             obj.updateInput = true;
         } else {
             obj.updateInput = true;
             getValue();
-            return; //stuff below already happens in getValue() function
+            return;
         }
         removeHighlight();
-        flash.caretChange = true;
-        stopFlash();
-        startFlash();
-        flash.caretChange = false;
         checkOffset();
-        updateCaret();
-        caret.previousPos = caret.currentPos;
     }
     switch(keyCode) {
         case 16:
             if (states.shift == false) {
-                //console.log('holding shift');
                 states.shift = true;
+                return;
             }
-            break;
         case 17:
             if (states.ctrl == false) {
-                //console.log('holding control');
                 states.ctrl = true;
+                return
             }
-            break;
-        case 35:
+        case 35: //end
             if (states.ctrl == true && states.shift == true) {
-                console.log('ctrl + shift + end')
-                input = document.getElementById('typing-input').value;
-                let len = input.length;
                 if (obj.highlight == false) {
                     obj.selectionStart = caret.currentPos;
                     obj.selectionMiddle = obj.selectionStart
@@ -178,120 +170,53 @@ function keydown(e) {
                     obj.selectionStart = obj.selectionEnd;
                     caret.currentPos = obj.selectionStart;
                 }
-                obj.selectionEnd = len;
-                removeHighlight();
-                obj.selectedText = input.slice(obj.selectionStart, obj.selectionEnd);
-                //console.log(obj.selectionStart + ' ' + obj.selectionEnd);
-                addHighlight(obj.selectedText, "left");
-                flash.caretChange = true;
-                stopFlash();
-                startFlash();
-                flash.caretChange = false;
-                checkOffset();
-                updateCaret();
-                caret.previousPos = caret.currentPos;
+                obj.selectionEnd = obj.len;
             } else if (states.shift == true) {
-                console.log('shift + end');
-                letters = document.querySelectorAll("letter");
-                input = document.getElementById('typing-input').value;
-                let len = input.length;
-                console.log(obj.highlight);
                 if (obj.highlight == false) {
                     obj.selectionStart = caret.currentPos;
                     obj.selectionEnd = caret.currentPos;
                     obj.selectionMiddle = obj.selectionStart;
-                    for (i = caret.currentPos; i < len && letters[i].offsetTop == letters[i+1].offsetTop; i++) {
-                        obj.selectionEnd++;
-                    }
+                    obj.selectionEnd = leftRight(obj.selectionEnd, 'right');
                 } else if (obj.highlight == true) {
                     if (obj.selectionMiddle == obj.selectionStart) {
-                        for (i = obj.selectionEnd; i < len && letters[i].offsetTop == letters[i+1].offsetTop; i++) {
-                            obj.selectionEnd++;
-                        }
+                        obj.selectionEnd = leftRight(obj.selectionEnd, 'right');
                     } else if (obj.selectionMiddle == obj.selectionEnd) {
                         obj.selectionStart = obj.selectionEnd;
                         caret.currentPos = obj.selectionStart;
-                        for (i = obj.selectionEnd; i < len && letters[i].offsetTop == letters[i+1].offsetTop; i++) {
-                            obj.selectionEnd++;
-                        }
+                        obj.selectionEnd = leftRight(obj.selectionEnd, 'right');
                     }
-                    //bla bla bla (this is gonna be more difficult)
-                    removeHighlight();
                 }
-                obj.selectedText = input.slice(obj.selectionStart, obj.selectionEnd);
-                //console.log(obj.selectionStart + ' ' + obj.selectionEnd);
-                addHighlight(obj.selectedText, "left");
-                input_box = document.getElementById('typing-input');
                 e.preventDefault();
                 input_box.setSelectionRange(obj.selectionStart, obj.selectionEnd) //add highlight on input box
-                flash.caretChange = true;
-                stopFlash();
-                startFlash();
-                flash.caretChange = false;
-                checkOffset();
-                updateCaret();
-                caret.previousPos = caret.currentPos;
             } else if (states.ctrl == true) {
-                console.log('ctrl + end')
-                input = document.getElementById('typing-input').value;
-                len = input.length;
-                caret.currentPos = len;
-                flash.caretChange = true;
-                stopFlash();
-                startFlash();
-                flash.caretChange = false;
-                checkOffset();
-                updateCaret();
-                caret.previousPos = caret.currentPos;
+                caret.currentPos = obj.len;
             } else {
-                console.log('end');
-                letters = document.querySelectorAll("letter");
-                input = document.getElementById('typing-input').value;
-                let len = input.length;
                 if (obj.highlight == false) {
-                    for (i = caret.currentPos; i < len && letters[i].offsetTop == letters[i+1].offsetTop; i++) {
-                        caret.currentPos++;
-                    }
+                    caret.currentPos = leftRight(caret.currentPos, 'right')
                 } else {
                     if (obj.selectionMiddle == obj.selectionStart) {
                         caret.currentPos = obj.selectionEnd;
-                        for (i = caret.currentPos; i < len && letters[i].offsetTop == letters[i+1].offsetTop; i++) {
-                            caret.currentPos++;
-                        }
+                        obj.selectionEnd = leftRight(obj.selectionEnd, 'right');
                     } else if (obj.selectionMiddle = obj.selectionEnd) {
                         caret.currentpos = obj.selectionStart;
-                        for (i = caret.currentPos; i < len && letters[i].offsetTop == letters[i+1].offsetTop; i++) {
-                            caret.currentPos++;
-                        }
+                        obj.selectionEnd = leftRight(obj.selectionEnd, 'right');
                     }
-                    //bla bla bla (this is gonna be more difficult)
-                    removeHighlight();
                 }
-                flash.caretChange = true;
-                stopFlash();
-                startFlash();
-                flash.caretChange = false;
-                checkOffset();
-                updateCaret();
+                e.preventDefault();
                 if (caret.previousPos > 0) {
-                    e.preventDefault();
                     setCaretPosition("typing-input", caret.currentPos);
                 } else {
-                    console.log('test');
                     input = document.getElementById('typing-input').value
                     document.getElementById('typing-input').value = ' ' + input;
-                    e.preventDefault();
                     setCaretPosition("typing-input", caret.currentPos);
                     document.getElementById('typing-input').value = input;
                     setCaretPosition("typing-input", caret.currentPos);
                 }
-                caret.previousPos = caret.currentPos;
 
             }
             break;
-        case 36:
+        case 36: //home
             if (states.ctrl == true && states.shift == true) {
-                console.log('ctrl + shift + home');
                 if (obj.highlight == false) {
                     obj.selectionEnd = caret.currentPos;
                     obj.selectionMiddle = obj.selectionEnd;
@@ -299,149 +224,85 @@ function keydown(e) {
                     obj.selectionEnd = obj.selectionStart;                  
                 }
                 caret.currentPos = 0;
-                obj.selectionStart = caret.currentPos 
-                removeHighlight();
-                obj.selectedText = input.slice(obj.selectionStart, obj.selectionEnd);
-                //console.log(obj.selectionStart + ' ' + obj.selectionEnd);
-                addHighlight(obj.selectedText, "left");
-                flash.caretChange = true;
-                stopFlash();
-                startFlash();
-                flash.caretChange = false;
-                checkOffset();
-                updateCaret();
-                caret.previousPos = caret.currentPos;
+                obj.selectionStart = caret.currentPos
             } else if (states.shift == true) {
-                console.log('shift + home')
-                letters = document.querySelectorAll("letter");
-                input = document.getElementById('typing-input').value;
-                let len = input.length;
                 if (obj.highlight == false) {
                     obj.selectionEnd = caret.currentPos;
                     obj.selectionStart = caret.currentPos;
                     obj.selectionMiddle = obj.selectionEnd;
-                    for (i = caret.currentPos; i > 0 && letters[i].offsetTop == letters[i-1].offsetTop; i--) {
-                        obj.selectionStart--;
-                        caret.currentPos--;
-                    }
+                    obj.selectionStart = leftRight(obj.selectionStart, 'left');
+                    caret.currentPos = obj.selectionStart;
                 } else {
-                    if (obj.selectionMiddle == obj.selectionStart) {//wfhen it's highlighted and you do it again it's not supposed to remove the highlight
+                    if (obj.selectionMiddle == obj.selectionStart) {//when it's highlighted and you do it again it's not supposed to remove the highlight
                         obj.selectionEnd = obj.selectionStart;
-                        for (i = obj.selectionStart; i > 0 && letters[i].offsetTop == letters[i-1].offsetTop; i--) {
-                            obj.selectionStart--;
-                        }
+                        obj.selectionStart = leftRight(obj.selectionStart, 'left');
                     } else if (obj.selectionMiddle = obj.selectionEnd) {
-                        for (i = obj.selectionStart; i > 0 && letters[i].offsetTop == letters[i-1].offsetTop; i--) {
-                            obj.selectionStart--;
-                        }
+                        obj.selectionStart = leftRight(obj.selectionStart, 'left');
                     }
-                    removeHighlight();
-                    //bla bla bla (this is gonna be more difficult)
                 }
-                console.log(caret.currentPos)
-                removeHighlight();
-                obj.selectedText = input.slice(obj.selectionStart, obj.selectionEnd);
-                //console.log(obj.selectionStart + ' ' + obj.selectionEnd);
-                addHighlight(obj.selectedText, "left");
-                input_box = document.getElementById('typing-input');
                 e.preventDefault();
                 input_box.setSelectionRange(obj.selectionStart, obj.selectionEnd) //add highlight on input box
-                flash.caretChange = true;
-                stopFlash();
-                startFlash();
-                flash.caretChange = false;
-                checkOffset();
-                updateCaret();
-                caret.previousPos = caret.currentPos;
             } else if (states.ctrl == true) {
-                console.log('ctrl + home');
                 caret.currentPos = 0;
-                flash.caretChange = true;
-                stopFlash();
-                startFlash();
-                flash.caretChange = false;
-                checkOffset();
-                updateCaret();
-                caret.previousPos = caret.currentPos;
             } else {
-                console.log('home'); //current problem: input box doesn't change caret position the same as my test, since my test is multiline and the input box is 1 line.
-                letters = document.querySelectorAll("letter");
                 if (obj.highlight == false) {
-                    for (i = caret.currentPos; i > 0 && letters[i].offsetTop == letters[i-1].offsetTop; i--) {
-                        caret.currentPos--;
-                    }
+                    caret.currentPos = leftRight(caret.currentPos, 'left');
                 } else {
                     if (obj.selectionMiddle == obj.selectionStart) {
                         caret.currentPos = obj.selectionEnd;
-                        for (i = caret.currentPos; i > 0 && letters[i].offsetTop == letters[i-1].offsetTop; i--) {
-                            caret.currentPos--;
-                        }
+                        caret.currentPos = leftRight(caret.currentPos, 'left');
                     } else if (obj.selectionMiddle = obj.selectionEnd) {
                         caret.currentpos = obj.selectionStart;
-                        for (i = caret.currentPos; i > 0 && letters[i].offsetTop == letters[i-1].offsetTop; i--) {
-                            caret.currentPos--;
-                        }
+                        caret.currentPos = leftRight(caret.currentPos, 'left');
                     }
-                    //bla bla bla (this is gonna be more difficult)
-                    removeHighlight();
                 }
-                flash.caretChange = true;
-                stopFlash();
-                startFlash();
-                flash.caretChange = false;
-                checkOffset();
-                updateCaret();
                 adjustCaret(e, caret.currentPos, caret.previousPos);
-                //e.preventDefault();
-                //setCaretPosition("typing-input", caret.currentPos);
-                caret.previousPos = caret.currentPos;
             }
             break;
-        case 37:
+        case 37: //left
             if (states.ctrl == true && states.shift == true) {
-                console.log('ctrl + shift + left');
                 if (obj.highlight == false) {
                     obj.selectionEnd = caret.currentPos;
                     obj.selectionMiddle = obj.selectionEnd
                     if (caret.currentPos > 0) {
-                        let previousLetter = document.querySelectorAll("letter")[caret.currentPos-1];
+                        let previousLetter = obj.letters[caret.currentPos-1];
                         if (previousLetter.innerHTML == ' ') {
                             caret.currentPos -= 1;
-                            previousLetter = document.querySelectorAll("letter")[caret.currentPos-1];
+                            previousLetter = obj.letters[caret.currentPos-1];
                         }
                         while (previousLetter.innerHTML != ' ' && caret.currentPos >= 1) {
                             caret.currentPos -= 1;
                             if (caret.currentPos > 0) {
-                                previousLetter = document.querySelectorAll("letter")[caret.currentPos-1]
+                                previousLetter = obj.letters[caret.currentPos-1]
                             }
                         }
                     }
                     obj.selectionStart = caret.currentPos;
                 } else if (obj.highlight == true && obj.selectionEnd == obj.selectionMiddle) {
                     if (caret.currentPos > 0) {
-                        let previousLetter = document.querySelectorAll("letter")[caret.currentPos-1];
+                        let previousLetter = obj.letters[caret.currentPos-1];
                         if (previousLetter.innerHTML == ' ') {
                             caret.currentPos -= 1;
-                            previousLetter = document.querySelectorAll("letter")[caret.currentPos-1];
+                            previousLetter = obj.letters[caret.currentPos-1];
                         }
                         while (previousLetter.innerHTML != ' ' && caret.currentPos >= 1) {
                             caret.currentPos -= 1;
                             if (caret.currentPos > 0) {
-                                previousLetter = document.querySelectorAll("letter")[caret.currentPos-1]
+                                previousLetter = obj.letters[caret.currentPos-1]
                             }
                         }
                     }
                     obj.selectionStart = caret.currentPos;
                 } else if (obj.highlight == true && obj.selectionStart == obj.selectionMiddle) {  //handle cross overs here
-                    let previousLetter = document.querySelectorAll("letter")[obj.selectionEnd-1];
+                    let previousLetter = obj.letters[obj.selectionEnd-1];
                     if (previousLetter.innerHTML == ' ') {
                         obj.selectionEnd -= 1;
-                        previousLetter = document.querySelectorAll("letter")[obj.selectionEnd-1];
+                        previousLetter = obj.letters[obj.selectionEnd-1];
                     }
                     while (previousLetter.innerHTML != ' ' && obj.selectionEnd >= 1) {
                         obj.selectionEnd -= 1;
                         if (obj.selectionEnd > 0) {
-                            previousLetter = document.querySelectorAll("letter")[obj.selectionEnd-1]
+                            previousLetter = obj.letters[obj.selectionEnd-1]
                         }
                     }
                     if (obj.selectionStart > obj.selectionEnd) {
@@ -451,65 +312,31 @@ function keydown(e) {
                     }
                 }
                 caret.currentPos = obj.selectionStart;
-                removeHighlight();
-                obj.selectedText = input.slice(obj.selectionStart, obj.selectionEnd);
-                //console.log(obj.selectionStart + ' ' + obj.selectionEnd);
-                addHighlight(obj.selectedText, "left");
-                input_box = document.getElementById('typing-input');
                 e.preventDefault();
                 input_box.setSelectionRange(obj.selectionStart, obj.selectionEnd) //add highlight on input box
-                flash.caretChange = true;
-                stopFlash();
-                startFlash();
-                flash.caretChange = false;
-                checkOffset();
-                updateCaret();
-                //adjustCaret(e, caret.currentPos, caret.previousPos);
-                caret.previousPos = caret.currentPos;
             } else if (states.shift == true) {
-                console.log('shift + left');
-                input = document.getElementById('typing-input').value;
-                //caret.currentPos = document.getElementById('typing-input').selectionStart-1;
                 if (obj.highlight == false && caret.currentPos-1 >= 0) {
                     caret.currentPos -= 1;
                     obj.selectionStart = caret.currentPos;
                     obj.selectionEnd = caret.currentPos + 1;
                     obj.selectionMiddle = caret.currentPos + 1;
-                    //obj.selectionEnd = caret.previousPos;
-                    //obj.selectionStart = caret.currentPos;
                 } else if (obj.highlight == true && obj.selectionStart == obj.selectionMiddle) { //right to middle
-                    //obj.selectionStart = caret.currentPos;
                     obj.selectionEnd -= 1;
                 } else if (obj.highlight == true && obj.selectionEnd == obj.selectionMiddle && obj.selectionStart-1 >= 0) { //middle to left
                     caret.currentPos -= 1;
                     obj.selectionStart -= 1;
-                    //obj.selectionEnd = caret.currentPos;
                 }
-
-            
-
-                removeHighlight();
-                obj.selectedText = input.slice(obj.selectionStart, obj.selectionEnd);
-                addHighlight(obj.selectedText, "left");
-                flash.caretChange = true;
-                stopFlash();
-                startFlash();
-                flash.caretChange = false;
-                checkOffset();
-                updateCaret();
-                caret.previousPos = caret.currentPos;
             } else if (states.ctrl == true) {
-                console.log('ctrl + left')
                 if (caret.currentPos > 0) {
-                    let previousLetter = document.querySelectorAll("letter")[caret.currentPos-1];
+                    let previousLetter = obj.letters[caret.currentPos-1];
                     if (previousLetter.innerHTML == ' ') {
                         caret.currentPos -= 1;
-                        previousLetter = document.querySelectorAll("letter")[caret.currentPos-1];
+                        previousLetter = obj.letters[caret.currentPos-1];
                     }
                     while (previousLetter.innerHTML != ' ' && caret.currentPos >= 1) {
                         caret.currentPos -= 1;
                         if (caret.currentPos > 0) {
-                            previousLetter = document.querySelectorAll("letter")[caret.currentPos-1]
+                            previousLetter = obj.letters[caret.currentPos-1]
                         }
                     }
                 }
@@ -517,40 +344,22 @@ function keydown(e) {
                     caret.currentPos = obj.selectionStart;
                 }
                 if (obj.highlight == true) {
-                    removeHighlight();
-                    obj.selectionStart = 0;
-                    obj.selectionEnd = 0;
+                    obj.selectionStart = caret.currentPos;
+                    obj.selectionEnd = caret.currentPos;
                 }
-                flash.caretChange = true;
-                stopFlash();
-                startFlash();
-                flash.caretChange = false;
-                checkOffset();
-                updateCaret();
                 adjustCaret(e, caret.currentPos, caret.previousPos)
-                caret.previousPos = caret.currentPos;
             } else {
-                console.log('left');
                 if (obj.highlight == true) {
                     caret.currentPos = obj.selectionStart;
-                    removeHighlight();
                     obj.selectionStart = 0;
                     obj.selectionEnd = 0;
                 } else if (caret.currentPos-1 >= 0) {
                     caret.currentPos -= 1;
                 }
-                flash.caretChange = true;
-                stopFlash();
-                startFlash();
-                flash.caretChange = false;
-                checkOffset();
-                updateCaret();
-                caret.previousPos = caret.currentPos;
             }
             break;
-        case 38:
+        case 38: //up
             if (states.ctrl == true && states.shift == true) {
-                console.log('ctrl + shift + up')
                 if (obj.highlight == false) {
                     obj.selectionEnd = caret.currentPos;
                     obj.selectionMiddle = obj.selectionEnd;
@@ -559,92 +368,16 @@ function keydown(e) {
                 }
                 caret.currentPos = 0;
                 obj.selectionStart = caret.currentPos 
-                removeHighlight();
-                obj.selectedText = input.slice(obj.selectionStart, obj.selectionEnd);
-                //console.log(obj.selectionStart + ' ' + obj.selectionEnd);
-                addHighlight(obj.selectedText, "left");
-                flash.caretChange = true;
-                stopFlash();
-                startFlash();
-                flash.caretChange = false;
-                checkOffset();
-                updateCaret();
-                caret.previousPos = caret.currentPos;
             } else if (states.shift == true) {
-                console.log('shift + up')
                 e.preventDefault();
-                //first go to the right until you detect a offsetTop change (same as End)
-                //then on the new line check each offsetLeft, and as soon as offsetLeftCurrent - offsetLeftOriginal >= 0, place the caret there
-                //then set a new offsetLeftOriginal
-                input = document.getElementById('typing-input').value;
-                len = input.length;
-                letters = document.querySelectorAll("letter");
                 if (obj.highlight == false) { //middle
                     obj.selectionEnd = caret.currentPos;
                     obj.selectionMiddle = obj.selectionEnd;
-
-                    let offsetLeftOriginal = letters[caret.currentPos].offsetLeft;
-                    console.log(caret.currentPos);
-                    for (i = caret.currentPos; i > 0 && letters[i].offsetTop == letters[i-1].offsetTop; i--) {   
-                        caret.currentPos--; //after this caret.currentPos is either at len or at the end of line
-                    }
-                    console.log(caret.currentPos);//if it's at len we can't increase it
-                    let differences = {};
-                    if (caret.currentPos -1 >= 0) {
-                        let j = caret.currentPos-1;
-                        differences[j] = Math.abs(letters[j].offsetLeft - offsetLeftOriginal)
-                        for (i = caret.currentPos-1; i > 0 && letters[i].offsetTop == letters[i-1].offsetTop; i--) {
-                            j--
-                            differences[j] = Math.abs(letters[j].offsetLeft - offsetLeftOriginal);
-                            //we need the last one to be len or the last character of the line, depending on what is longer
-                            //but we can't check letters[i + 1] if i is len
-                        } 
-                    }
-                    if (!(Object.keys(differences).length === 0 && obj.constructor === Object)) { //if object not empty
-                        console.log('exe');
-                        keys = Object.keys(differences);
-                        let min = keys[0];
-                        console.log(typeof min)
-                        for (k in differences) {
-                            if (differences[k] < differences[min]) {
-                                min = k
-                            }
-                        }
-                        caret.currentPos = parseInt(min);
-                    }
-
+                    caret.currentPos = upDown(caret.currentPos, "up");
                     obj.selectionStart = caret.currentPos;
 
                 } else if (obj.highlight == true && obj.selectionStart == obj.selectionMiddle) { //right to middle
-
-                    let offsetLeftOriginal = letters[obj.selectionEnd].offsetLeft;
-                    console.log(caret.currentPos);
-                    for (i = obj.selectionEnd; i > 0 && letters[i].offsetTop == letters[i-1].offsetTop; i--) {   
-                        obj.selectionEnd--; //after this caret.currentPos is either at len or at the end of line
-                    }
-                    let differences = {};
-                    if (obj.selectionEnd -1 >= 0) {
-                        let j = obj.selectionEnd-1;
-                        differences[j] = Math.abs(letters[j].offsetLeft - offsetLeftOriginal)
-                        for (i = obj.selectionEnd-1; i > 0 && letters[i].offsetTop == letters[i-1].offsetTop; i--) {
-                            j--
-                            differences[j] = Math.abs(letters[j].offsetLeft - offsetLeftOriginal);
-                            //we need the last one to be len or the last character of the line, depending on what is longer
-                            //but we can't check letters[i + 1] if i is len
-                        } 
-                    }
-                    if (!(Object.keys(differences).length === 0 && obj.constructor === Object)) { //if object not empty
-                        console.log('exe');
-                        keys = Object.keys(differences);
-                        let min = keys[0];
-                        console.log(typeof min)
-                        for (k in differences) {
-                            if (differences[k] < differences[min]) {
-                                min = k
-                            }
-                        }
-                        obj.selectionEnd = parseInt(min);
-                    }
+                    obj.selectionEnd = upDown(obj.selectionEnd, "up");
                     if (obj.selectionEnd < obj.selectionStart) {
                         temp = obj.selectionStart;
                         obj.selectionStart = obj.selectionEnd;
@@ -652,138 +385,46 @@ function keydown(e) {
                         obj.selectionMiddle = obj.selectionEnd;
                     }
                 } else if (obj.highlight == true && obj.selectionEnd == obj.selectionMiddle) {//middle to left
-                    let offsetLeftOriginal = letters[caret.currentPos].offsetLeft;
-                    console.log(caret.currentPos);
-                    for (i = caret.currentPos; i > 0 && letters[i].offsetTop == letters[i-1].offsetTop; i--) {   
-                        caret.currentPos--; //after this caret.currentPos is either at len or at the end of line
-                    }
-                    console.log(caret.currentPos);//if it's at len we can't increase it
-                    let differences = {};
-                    if (caret.currentPos -1 >= 0) {
-                        let j = caret.currentPos-1;
-                        differences[j] = Math.abs(letters[j].offsetLeft - offsetLeftOriginal)
-                        for (i = caret.currentPos-1; i > 0 && letters[i].offsetTop == letters[i-1].offsetTop; i--) {
-                            j--
-                            differences[j] = Math.abs(letters[j].offsetLeft - offsetLeftOriginal);
-                            //we need the last one to be len or the last character of the line, depending on what is longer
-                            //but we can't check letters[i + 1] if i is len
-                        } 
-                    }
-                    if (!(Object.keys(differences).length === 0 && obj.constructor === Object)) { //if object not empty
-                        console.log('exe');
-                        keys = Object.keys(differences);
-                        let min = keys[0];
-                        console.log(typeof min)
-                        for (k in differences) {
-                            if (differences[k] < differences[min]) {
-                                min = k
-                            }
-                        }
-                        caret.currentPos = parseInt(min);
-                    }
+                    caret.currentPos = upDown(caret.currentPos, "up");
                     obj.selectionStart = caret.currentPos;
                 }
-                removeHighlight();
-                obj.selectedText = input.slice(obj.selectionStart, obj.selectionEnd);
-                //console.log(obj.selectionStart + ' ' + obj.selectionEnd);
-                addHighlight(obj.selectedText, "left");
-                input_box = document.getElementById('typing-input');
                 e.preventDefault();
                 input_box.setSelectionRange(obj.selectionStart, obj.selectionEnd) //add highlight on input box
-                flash.caretChange = true;
-                
-                stopFlash();
-                startFlash();
-                flash.caretChange = false;
-                checkOffset();
-                updateCaret();
-                caret.previousPos = caret.currentPos;
             } else if (states.ctrl == true) {
-                console.log('ctrl + up')
                 caret.currentPos = 0;
-                flash.caretChange = true;
-                stopFlash();
-                startFlash();
-                flash.caretChange = false;
-                checkOffset();
-                updateCaret();
-                caret.previousPos = caret.currentPos;
             } else {
-                console.log('up');
                 e.preventDefault();
-                input = document.getElementById('typing-input').value;
-                len = input.length;
-                letters = document.querySelectorAll("letter");
-                let offsetLeftOriginal = letters[caret.currentPos].offsetLeft;
-                console.log(caret.currentPos);
-                for (i = caret.currentPos; i > 0 && letters[i].offsetTop == letters[i-1].offsetTop; i--) {   
-                    caret.currentPos--; //after this caret.currentPos is either at len or at the end of line
-                }
-                console.log(caret.currentPos);//if it's at len we can't increase it
-                let differences = {};
-                if (caret.currentPos -1 >= 0) {
-                    let j = caret.currentPos-1;
-                    differences[j] = Math.abs(letters[j].offsetLeft - offsetLeftOriginal)
-                    for (i = caret.currentPos-1; i > 0 && letters[i].offsetTop == letters[i-1].offsetTop; i--) {
-                        j--
-                        differences[j] = Math.abs(letters[j].offsetLeft - offsetLeftOriginal);
-                        //we need the last one to be len or the last character of the line, depending on what is longer
-                        //but we can't check letters[i + 1] if i is len
-                    } 
-                }
-                if (!(Object.keys(differences).length === 0 && obj.constructor === Object)) { //if object not empty
-                    console.log('exe');
-                    keys = Object.keys(differences);
-                    let min = keys[0];
-                    console.log(typeof min)
-                    for (k in differences) {
-                        if (differences[k] < differences[min]) {
-                            min = k
-                        }
-                    }
-                    caret.currentPos = parseInt(min);
-                }
-                flash.caretChange = true;
-                console.log(caret.currentPos);
-                stopFlash();
-                startFlash();
-                flash.caretChange = false;
-                checkOffset();
-                updateCaret();
+                caret.currentPos = upDown(caret.currentPos, "up");
                 adjustCaret(e, caret.currentPos, caret.previousPos);
-                caret.previousPos = caret.currentPos;
             }
             break;
-        case 39:
+        case 39: //right
             if (states.ctrl == true && states.shift == true) {
-                console.log('ctrl + shift + right');
-                input = document.getElementById('typing-input').value;
-                let len = input.length;
                 if (obj.highlight == false) {
                     obj.selectionStart = caret.currentPos;
                     obj.selectionMiddle = obj.selectionStart
                     obj.selectionEnd = caret.currentPos;
-                    if (obj.selectionEnd < len) {
-                        let previousLetter = document.querySelectorAll("letter")[obj.selectionEnd-1];
+                    if (obj.selectionEnd < obj.len) {
+                        let previousLetter = obj.letters[obj.selectionEnd-1];
                         if (obj.selectionEnd == 0 || previousLetter.innerHTML == ' ') {
                             obj.selectionEnd += 1;
-                            previousLetter = document.querySelectorAll("letter")[obj.selectionEnd-1]
+                            previousLetter = obj.letters[obj.selectionEnd-1]
                         }
-                        while (obj.selectionEnd < len && previousLetter.innerHTML != ' ') {
+                        while (obj.selectionEnd < obj.len && previousLetter.innerHTML != ' ') {
                             obj.selectionEnd += 1;
-                            previousLetter = document.querySelectorAll("letter")[obj.selectionEnd-1]
+                            previousLetter = obj.letters[obj.selectionEnd-1]
                         }
                     }
                 } else if (obj.highlight == true && obj.selectionEnd == obj.selectionMiddle) { //left to middle, handle cross overs here
-                    if (caret.currentPos < len) {
-                        let previousLetter = document.querySelectorAll("letter")[caret.currentPos-1];
+                    if (caret.currentPos < obj.len) {
+                        let previousLetter = obj.letters[caret.currentPos-1];
                         if (caret.currentPos == 0 || previousLetter.innerHTML == ' ') {
                             caret.currentPos += 1;
-                            previousLetter = document.querySelectorAll("letter")[caret.currentPos-1]
+                            previousLetter = obj.letters[caret.currentPos-1]
                         }
-                        while (caret.currentPos < len && previousLetter.innerHTML != ' ') {
+                        while (caret.currentPos < obj.len && previousLetter.innerHTML != ' ') {
                             caret.currentPos += 1;
-                            previousLetter = document.querySelectorAll("letter")[caret.currentPos-1]
+                            previousLetter = obj.letters[caret.currentPos-1]
                         }
                     }
 
@@ -796,119 +437,66 @@ function keydown(e) {
                     }
                     caret.currentPos = obj.selectionStart;
                 } else if (obj.highlight == true && obj.selectionStart == obj.selectionMiddle) { //middle to right
-                    if (obj.selectionEnd < len) {
-                        let previousLetter = document.querySelectorAll("letter")[obj.selectionEnd-1];
+                    if (obj.selectionEnd < obj.len) {
+                        let previousLetter = obj.letters[obj.selectionEnd-1];
                         if (obj.selectionEnd == 0 || previousLetter.innerHTML == ' ') {
                             obj.selectionEnd += 1;
-                            previousLetter = document.querySelectorAll("letter")[obj.selectionEnd-1]
+                            previousLetter = obj.letters[obj.selectionEnd-1]
                         }
-                        while (obj.selectionEnd < len && previousLetter.innerHTML != ' ') {
+                        while (obj.selectionEnd < obj.len && previousLetter.innerHTML != ' ') {
                             obj.selectionEnd += 1;
-                            previousLetter = document.querySelectorAll("letter")[obj.selectionEnd-1]
+                            previousLetter = obj.letters[obj.selectionEnd-1]
                         }
                     }
                 }
-                removeHighlight();
-                obj.selectedText = input.slice(obj.selectionStart, obj.selectionEnd);
-                addHighlight(obj.selectedText, "left");
-                input_box = document.getElementById('typing-input');
                 e.preventDefault();
                 input_box.setSelectionRange(obj.selectionStart, obj.selectionEnd) //add highlight on input box
-                flash.caretChange = true;
-                stopFlash();
-                startFlash();
-                flash.caretChange = false;
-                checkOffset(obj.selectionEnd);
-                updateCaret();
-                //adjustCaret(e, caret.currentPos, caret.previousPos); if this was on then it would remove the highlight again
-                caret.previousPos = caret.currentPos;
             } else if (states.shift == true) {
-                console.log('shift + right');
-                input = document.getElementById('typing-input').value;
-                let len = input.length;
-                if (obj.selectionEnd <= len) {
+                if (obj.selectionEnd <= obj.len) {
                     if (obj.highlight == false) { //middle
-                        if (caret.currentPos == len) {
+                        if (caret.currentPos == obj.len) {
                             return;
                         }
                         obj.selectionStart = caret.currentPos;
                         obj.selectionEnd = caret.currentPos + 1;
                         obj.selectionMiddle = caret.currentPos;
                     } else if (obj.highlight == true && obj.selectionStart == obj.selectionMiddle) { //middle+1 to right
-                        if (obj.selectionEnd < len) {
+                        if (obj.selectionEnd < obj.len) {
                             obj.selectionEnd += 1
                         }
                     } else if (obj.highlight == true && obj.selectionEnd == obj.selectionMiddle) {//left to middle-1
                         obj.selectionStart += 1
                         caret.currentPos += 1
                     }
-    
-                    removeHighlight();
-                    obj.selectedText = input.slice(obj.selectionStart, obj.selectionEnd);
-                    addHighlight(obj.selectedText, "right");
-                    flash.caretChange = true;
-                    stopFlash();
-                    startFlash();
-                    flash.caretChange = false;
-                    checkOffset(obj.selectionEnd);
-                    updateCaret();
-                    caret.previousPos = caret.currentPos;
                 }
             } else if (states.ctrl == true) {
-                console.log('ctrl + right')
-                input = document.getElementById('typing-input').value;
-                len = input.length;
-                if (caret.currentPos < len) {
-                    let previousLetter = document.querySelectorAll("letter")[caret.currentPos-1];
+                if (caret.currentPos < obj.len) {
+                    let previousLetter = obj.letters[caret.currentPos-1];
                     if (caret.currentPos == 0 || previousLetter.innerHTML == ' ') {
                         caret.currentPos += 1;
-                        previousLetter = document.querySelectorAll("letter")[caret.currentPos-1]
+                        previousLetter = obj.letters[caret.currentPos-1]
                     }
-                    while (caret.currentPos < len && previousLetter.innerHTML != ' ') {
+                    while (caret.currentPos < obj.len && previousLetter.innerHTML != ' ') {
                         caret.currentPos += 1;
-                        previousLetter = document.querySelectorAll("letter")[caret.currentPos-1]
+                        previousLetter = obj.letters[caret.currentPos-1]
                     }
                 }
                 if (isFirefox == true && obj.highlight == true) {
                     caret.currentPos = obj.selectionEnd;
                 }
-                if (obj.highlight == true) {
-                    removeHighlight();
-                }
-                flash.caretChange = true;
-                stopFlash();
-                startFlash();
-                flash.caretChange = false;
-                checkOffset();
-                updateCaret();
                 adjustCaret(e, caret.currentPos, caret.previousPos)
-                caret.previousPos = caret.currentPos;
             } else {
-                console.log('right');
-                input = document.getElementById('typing-input').value;
-                let len = input.length;
                 if (obj.highlight == true) {
                     caret.currentPos = obj.selectionEnd;
-                    removeHighlight();
                     obj.selectionStart = 0;
                     obj.selectionEnd = 0
-                } else if (caret.currentPos+1 <= len) {
+                } else if (caret.currentPos+1 <= obj.len) {
                     caret.currentPos += 1
                 }
-                flash.caretChange = true;
-                stopFlash();
-                startFlash();
-                flash.caretChange = false;
-                checkOffset();
-                updateCaret();
-                caret.previousPos = caret.currentPos; 
             }
             break;
-        case 40:
+        case 40: //down
             if (states.ctrl == true && states.shift == true) {
-                console.log('ctrl + shift + down'); //same as ctrl + shift + end
-                input = document.getElementById('typing-input').value;
-                let len = input.length;
                 if (obj.highlight == false) {
                     obj.selectionStart = caret.currentPos;
                     obj.selectionMiddle = obj.selectionStart
@@ -916,221 +504,43 @@ function keydown(e) {
                     obj.selectionStart = obj.selectionEnd;
                     caret.currentPos = obj.selectionStart;
                 }
-                obj.selectionEnd = len;
-                removeHighlight();
-                obj.selectedText = input.slice(obj.selectionStart, obj.selectionEnd);
-                //console.log(obj.selectionStart + ' ' + obj.selectionEnd);
-                addHighlight(obj.selectedText, "left");
-                flash.caretChange = true;
-                stopFlash();
-                startFlash();
-                flash.caretChange = false;
-                checkOffset();
-                updateCaret();
-                caret.previousPos = caret.currentPos;
+                obj.selectionEnd = obj.len;
             } else if (states.shift == true) {
-                console.log('shift + down');
-                e.preventDefault();
-                //first go to the right until you detect a offsetTop change (same as End)
-                //then on the new line check each offsetLeft, and as soon as offsetLeftCurrent - offsetLeftOriginal >= 0, place the caret there
-                //then set a new offsetLeftOriginal
-                input = document.getElementById('typing-input').value;
-                len = input.length;
-                letters = document.querySelectorAll("letter");
                 if (obj.highlight == false) { //middle
                     obj.selectionStart = caret.currentPos;
                     obj.selectionMiddle = obj.selectionStart;
                     obj.selectionEnd = caret.currentPos;
-
-                    let offsetLeftOriginal = letters[obj.selectionEnd].offsetLeft;
-                    for (i = caret.currentPos; i < len && letters[i].offsetTop == letters[i+1].offsetTop; i++) {   
-                        obj.selectionEnd++; //after this caret.currentPos is either at len or at the end of line
-                    }
-                    //if it's at len we can't increase it
-                    let differences = {};
-                    if (obj.selectionEnd + 1 <= len) {
-                        let j = obj.selectionEnd+1;
-                        differences[j] = Math.abs(letters[j].offsetLeft - offsetLeftOriginal)
-                        for (i = obj.selectionEnd+1; i < len && letters[i].offsetTop == letters[i+1].offsetTop; i++) {
-                            j++
-                            differences[j] = Math.abs(letters[j].offsetLeft - offsetLeftOriginal)
-                            //we need the last one to be len or the last character of the line, depending on what is longer
-                            //but we can't check letters[i + 1] if i is len
-                        } 
-                    }
-                    if (!(Object.keys(differences).length === 0 && obj.constructor === Object)) { //if object not empty
-                        console.log('exe');
-                        keys = Object.keys(differences);
-                        let min = keys[0];
-                        for (k in differences) {
-                            if (differences[k] < differences[min]) {
-                                min = k
-                            }
-                        }
-                        obj.selectionEnd = parseInt(min);
-                    }
-                    console.log(obj.selectionEnd);
-
-
+                    obj.selectionEnd = upDown(obj.selectionEnd, "down");
                 } else if (obj.highlight == true && obj.selectionStart == obj.selectionMiddle) { //middle+1 to right
-                    let offsetLeftOriginal = letters[obj.selectionEnd].offsetLeft;
-                    for (i = obj.selectionEnd; i < len && letters[i].offsetTop == letters[i+1].offsetTop; i++) {   
-                        obj.selectionEnd++; //after this caret.currentPos is either at len or at the end of line
-                    }
-                    //if it's at len we can't increase it
-                    let differences = {};
-                    if (obj.selectionEnd + 1 <= len) {
-                        let j = obj.selectionEnd+1;
-                        differences[j] = Math.abs(letters[j].offsetLeft - offsetLeftOriginal)
-                        for (i = obj.selectionEnd+1; i < len && letters[i].offsetTop == letters[i+1].offsetTop; i++) {
-                            j++
-                            differences[j] = Math.abs(letters[j].offsetLeft - offsetLeftOriginal)
-                            //we need the last one to be len or the last character of the line, depending on what is longer
-                            //but we can't check letters[i + 1] if i is len
-                        } 
-                    }
-                    if (!(Object.keys(differences).length === 0 && obj.constructor === Object)) { //if object not empty
-                        console.log('exe');
-                        keys = Object.keys(differences);
-                        let min = keys[0];
-                        for (k in differences) {
-                            if (differences[k] < differences[min]) {
-                                min = k
-                            }
-                        }
-                        obj.selectionEnd = parseInt(min);
-                    }
-                } else if (obj.highlight == true && obj.selectionEnd == obj.selectionMiddle) {//left to middle-1
-                    let offsetLeftOriginal = letters[caret.currentPos].offsetLeft;
-                    for (i = caret.currentPos; i < len && letters[i].offsetTop == letters[i+1].offsetTop; i++) {   
-                        caret.currentPos++; //after this caret.currentPos is either at len or at the end of line
-                    }
-                    //if it's at len we can't increase it
-                    let differences = {};
-                    if (caret.currentPos + 1 <= len) {
-                        let j = caret.currentPos+1;
-                        differences[j] = Math.abs(letters[j].offsetLeft - offsetLeftOriginal)
-                        for (i = caret.currentPos+1; i < len && letters[i].offsetTop == letters[i+1].offsetTop; i++) {
-                            j++
-                            differences[j] = Math.abs(letters[j].offsetLeft - offsetLeftOriginal)
-                            //we need the last one to be len or the last character of the line, depending on what is longer
-                            //but we can't check letters[i + 1] if i is len
-                        } 
-                    }
-                    if (!(Object.keys(differences).length === 0 && obj.constructor === Object)) { //if object not empty
-                        console.log('exe');
-                        keys = Object.keys(differences);
-                        let min = keys[0];
-                        for (k in differences) {
-                            if (differences[k] < differences[min]) {
-                                min = k
-                            }
-                        }
-                        caret.currentPos = parseInt(min);
-                    }
+                    obj.selectionEnd = upDown(obj.selectionEnd, "down");
+                } else if (obj.highlight == true && obj.selectionEnd == obj.selectionMiddle) {
+                    caret.currentPos = upDown(caret.currentPos, "down");
                     obj.selectionStart = caret.currentPos;
                 }
-                removeHighlight();
-                obj.selectedText = input.slice(obj.selectionStart, obj.selectionEnd);
-                //console.log(obj.selectionStart + ' ' + obj.selectionEnd);
-                addHighlight(obj.selectedText, "left");
-                input_box = document.getElementById('typing-input');
                 e.preventDefault();
                 input_box.setSelectionRange(obj.selectionStart, obj.selectionEnd) //add highlight on input box
-                flash.caretChange = true;
-                
-                stopFlash();
-                startFlash();
-                flash.caretChange = false;
-                checkOffset();
-                updateCaret();
-                caret.previousPos = caret.currentPos;
             } else if (states.ctrl == true) {
-                console.log('ctrl + down'); //same as ctrl + end
-                input = document.getElementById('typing-input').value;
-                len = input.length;
-                caret.currentPos = len;
-                flash.caretChange = true;
-                stopFlash();
-                startFlash();
-                flash.caretChange = false;
-                checkOffset();
-                updateCaret();
-                caret.previousPos = caret.currentPos;
+                caret.currentPos = obj.len;
             } else {
-                console.log('down');
                 e.preventDefault();
-                //first go to the right until you detect a offsetTop change (same as End)
-                //then on the new line check each offsetLeft, and as soon as offsetLeftCurrent - offsetLeftOriginal >= 0, place the caret there
-                //then set a new offsetLeftOriginal
-                input = document.getElementById('typing-input').value;
-                len = input.length;
-                letters = document.querySelectorAll("letter");
-                let offsetLeftOriginal = letters[caret.currentPos].offsetLeft;
-                for (i = caret.currentPos; i < len && letters[i].offsetTop == letters[i+1].offsetTop; i++) {   
-                    caret.currentPos++; //after this caret.currentPos is either at len or at the end of line
-                }
-                //if it's at len we can't increase it
-                let differences = {};
-                if (caret.currentPos + 1 <= len) {
-                    let j = caret.currentPos+1;
-                    differences[j] = Math.abs(letters[j].offsetLeft - offsetLeftOriginal)
-                    for (i = caret.currentPos+1; i < len && letters[i].offsetTop == letters[i+1].offsetTop; i++) {
-                        j++
-                        differences[j] = Math.abs(letters[j].offsetLeft - offsetLeftOriginal)
-                        //we need the last one to be len or the last character of the line, depending on what is longer
-                        //but we can't check letters[i + 1] if i is len
-                    } 
-                }
-                if (!(Object.keys(differences).length === 0 && obj.constructor === Object)) { //if object not empty
-                    console.log('exe');
-                    keys = Object.keys(differences);
-                    let min = keys[0];
-                    for (k in differences) {
-                        if (differences[k] < differences[min]) {
-                            min = k
-                        }
-                    }
-                    caret.currentPos = parseInt(min);
-                }
-                flash.caretChange = true;
-                
-                stopFlash();
-                startFlash();
-                flash.caretChange = false;
-                checkOffset();
-                updateCaret();
+                caret.currentPos = upDown(caret.currentPos, "down");
                 adjustCaret(e, caret.currentPos, caret.previousPos);
-                caret.previousPos = caret.currentPos;
             }
-            //down puts the caret to the end if it's the last line, and else it just moves the caret down one line
-            //ctrl + down moves the cursor to the end of the text, regardless at what line
-            //vice versa for up
-            //end puts the cursor always to the end of the line
-            //home puts the cursor always to the start of the line
-            //ctrl end puts the cursor always to the end of the whole text
-            //ctrl home puts the cursor always to the start of the whole text
             break;
-        case 65:// notes: reset colors / move caret to start
+        case 65:
             if (states.ctrl == true) {
-                console.log('CTRL + A')
-                input = document.getElementById('typing-input').value;
-                let len = input.length;
                 obj.selectionStart = 0;
-                obj.selectionEnd = len;
+                obj.selectionEnd = obj.len;
                 caret.currentPos = 0;
-                removeHighlight();
-                obj.selectedText = input.slice(obj.selectionStart, obj.selectionEnd);
-                addHighlight(obj.selectedText, "right");
-                flash.caretChange = true;
-                stopFlash();
-                startFlash();
-                flash.caretChange = false;
-                checkOffset();
-                updateCaret();
-                caret.previousPos = caret.currentPos;
             }
     }
+    removeHighlight();
+    addHighlight();
+    checkOffset();
+    stopFlash();
+    startFlash();
+    updateCaret();
+    caret.previousPos = caret.currentPos;
 }
 
 function keyup(e) {
@@ -1138,14 +548,63 @@ function keyup(e) {
 
     switch(keyCode) {
         case 16:
-            //console.log('releasing shift');
             states.shift = false;
             break;
         case 17:
-            //console.log('releasing control');
             states.ctrl = false;
             break;
     }
+}
+
+function upDown(toBeChanged, direction) {
+    let offsetLeftOriginal = obj.letters[toBeChanged].offsetLeft;
+    let differences = {};
+    if (direction == 'up') {
+        toBeChanged = leftRight(toBeChanged, 'left');
+        if (toBeChanged-1 >= 0) {
+            let j = toBeChanged - 1;
+            differences[j] = Math.abs(obj.letters[j].offsetLeft - offsetLeftOriginal)
+            for (i = toBeChanged - 1; i > 0 && obj.letters[i].offsetTop == obj.letters[i-1].offsetTop; i--) {
+                j--;
+                differences[j] = Math.abs(obj.letters[j].offsetLeft - offsetLeftOriginal)
+            } 
+        }
+    } else if (direction == 'down') {
+        toBeChanged = leftRight(toBeChanged, 'right');
+        if (toBeChanged+1 <= obj.len) {
+            let j = toBeChanged + 1
+            differences[j] = Math.abs(obj.letters[j].offsetLeft - offsetLeftOriginal)
+            for (i = toBeChanged + 1; i < obj.len && obj.letters[i].offsetTop == obj.letters[i+1].offsetTop; i++) {
+                j++;
+                differences[j] = Math.abs(obj.letters[j].offsetLeft - offsetLeftOriginal)
+            } 
+        }
+    }
+
+    if (!(Object.keys(differences).length === 0 && obj.constructor === Object)) { //if object not empty
+        keys = Object.keys(differences);
+        let min = keys[0];
+        for (k in differences) {
+            if (differences[k] < differences[min]) {
+                min = k
+            }
+        }
+        toBeChanged = parseInt(min);
+    }
+    return toBeChanged;
+}
+
+function leftRight(toBeChanged, direction) {
+    if (direction == 'left') {
+        for (i = toBeChanged; i > 0 && obj.letters[i].offsetTop == obj.letters[i-1].offsetTop; i--) {   
+            toBeChanged--;
+        }
+    } else if (direction == 'right') {
+        for (i = toBeChanged; i < obj.len && obj.letters[i].offsetTop == obj.letters[i+1].offsetTop; i++) {   
+            toBeChanged++;
+        }
+    }
+    return toBeChanged;
 }
 
 function adjustCaret(e, currentPos, previousPos) {
@@ -1155,13 +614,12 @@ function adjustCaret(e, currentPos, previousPos) {
         }
         setCaretPosition("typing-input", currentPos);
     } else {
-        input = document.getElementById('typing-input').value
-        document.getElementById('typing-input').value = ' ' + input;
+        document.getElementById('typing-input').value = ' ' + obj.input;
         if (e) {
             e.preventDefault(); 
         }
         setCaretPosition("typing-input", currentPos);
-        document.getElementById('typing-input').value = input;
+        document.getElementById('typing-input').value = obj.input;
         setCaretPosition("typing-input", currentPos);
     }
 }
@@ -1316,6 +774,7 @@ function loadWords() {
     startFlash();
     document.getElementById('typing-input').setAttribute("maxlength", obj.lettercount-1);
     obj.mistakeIdx = obj.lettercount;
+    obj.letters = document.querySelectorAll('letter');
 }
 
 function setPreviousOffset(letter) {
@@ -1324,13 +783,11 @@ function setPreviousOffset(letter) {
     }
 }
 
-function checkOffset(selectionEnd) {
+function checkOffset() {
     let letter;
-    if (selectionEnd) {
-        letter = document.querySelectorAll("letter")[selectionEnd];
-    } else {
-        letter = document.querySelectorAll("letter")[caret.currentPos];
-    }
+
+    letter = obj.letters[obj.selectionEnd];
+
     if (!(offsetList.includes(letter.offsetTop))) {
         offsetList.push(letter.offsetTop)
     }
@@ -1352,74 +809,80 @@ function checkOffset(selectionEnd) {
 
 
 
-        pixel_per_em = Number(getComputedStyle(document.body, "").fontSize.match(/(\d*(\.\d*)?)px/)[1]);
-        scrollBy(0, 3*pixel_per_em*difference);
+        //pixel_per_em = Number(getComputedStyle(document.body, "").fontSize.match(/(\d*(\.\d*)?)px/)[1]);
+        //scrollBy(0, 3*pixel_per_em*difference);
     }
     obj.previousOffset = letter.offsetTop;
     document.getElementById('typing-input').style.top = style.top + 'em';
 }
+
+window.addEventListener("scroll", (event) => {
+    let scroll = this.scrollY;
+    if (caret.currentPos <= 1) {
+        obj.scrollTop = scroll;
+    }
+});
 
 function getValue() {
     if (obj.updateInput == true) {
         document.getElementById('typing-input').value = obj.new_input;
         obj.updateInput = false;
     }
-    input = document.getElementById('typing-input').value;
-    len = input.length;
+    obj.input = document.getElementById('typing-input').value;
+    obj.len = obj.input.length;
     addedChars = 0;
     if (obj.highlight == true) {
         removeHighlight();
-        addedChars = len - (obj.previousLen - obj.selectedText.length);
+        addedChars = obj.len - (obj.previousLen - obj.selectedText.length);
     }
     caret.currentPos = document.getElementById('typing-input').selectionStart;
-    if (len-addedChars <= obj.mistakeIdx || caret.currentPos < len) {
+    obj.selectionStart = caret.currentPos;
+    obj.selectionEnd = caret.currentPos;
+    if (obj.len-addedChars <= obj.mistakeIdx || caret.currentPos < obj.len) {
         obj.mistake = false;
         obj.mistakeIdx = obj.lettercount;
     }
-    flash.caretChange = true;
     stopFlash();
     startFlash();
-    flash.caretChange = false;
-
     if (obj.mobile == true) {
-        verifyInput(6, len, input);
+        verifyInput(6, obj.len, obj.input);
     } else if (addedChars == 0) {
-        if ((len > obj.previousLen) && (len == caret.currentPos)) {
-            verifyInput(1, len, input);
-        } else if ((len < obj.previousLen) && (len == caret.currentPos)) {
-            verifyInput(2, len, input);
-        } else if ((len > obj.previousLen) && (len > caret.currentPos)) {
-            verifyInput(3, len, input);
-        } else if ((len < obj.previousLen) && (len > caret.currentPos)) {
-            verifyInput(4, len, input);
+        if ((obj.len > obj.previousLen) && (obj.len == caret.currentPos)) {
+            verifyInput(1, obj.len, obj.input);
+        } else if ((obj.len < obj.previousLen) && (obj.len == caret.currentPos)) {
+            verifyInput(2, obj.len, obj.input);
+        } else if ((obj.len > obj.previousLen) && (obj.len > caret.currentPos)) {
+            verifyInput(3, obj.len, obj.input);
+        } else if ((obj.len < obj.previousLen) && (obj.len > caret.currentPos)) {
+            verifyInput(4, obj.len, obj.input);
         }
     } else {
-        verifyInput(5, len, input)
+        verifyInput(5, obj.len, obj.input)
     }
     checkOffset();
     updateCaret();
     caret.previousPos = caret.currentPos;
-    obj.previousLen = len;
+    obj.previousLen = obj.len;
 }
 
-function verifyInput(Case, len, input) {
+function verifyInput(Case) {
     if (Case == 1) {
-        setCounters(input, caret.previousPos);
-        previousletter = document.querySelectorAll("letter")[obj.lettercounter-1];
-        nextletter = document.querySelectorAll("letter")[obj.lettercounter+1];
+        setCounters(obj.input, caret.previousPos);
+        previousletter = obj.letters[obj.lettercounter-1];
+        nextletter = obj.letters[obj.lettercounter+1];
         word = document.querySelectorAll("word")[obj.wordcounter];
         previousword = document.querySelectorAll("word")[obj.wordcounter-1];
         let start = caret.previousPos;
-        let end = len;
+        let end = obj.len;
         for (let i = start; i < end; i++) {
-            let letter = document.querySelectorAll("letter")[i];
-            let typedLetter = input[i];
+            let letter = obj.letters[i];
+            let typedLetter = obj.input[i];
             if (typedLetter == letter.innerHTML && i <= obj.mistakeIdx) {
                 letter.classList.add("correct");
                 countCorrectLetters(letter.innerHTML);
                 countCorrectBigrams(previousletter, letter.innerHTML);
                 countCorrectWords(letter.innerHTML, nextletter.innerHTML, word);
-                countCorrectWordpairs(nextletter.innerHTML, previousword, word);
+                countCorrectWordpairs(letter.innerHTML, nextletter.innerHTML, previousword, word);
             } else {
                 if (letter.innerHTML == " ") {
                     letter.classList.add("space-error");
@@ -1438,32 +901,33 @@ function verifyInput(Case, len, input) {
             if (letter.innerHTML == ' ') {
                 obj.wordcounter++
             }
+        
             obj.lettercounter++;
         }
     } else if (Case == 2) {
         let start = caret.currentPos;
         let end = obj.previousLen;
 
-        let letter = document.querySelectorAll("letter")[start]; 
+        let letter = obj.letters[start]; 
         if (letter.classList.contains("correct")) {
             times.letters.startTime = startTimer()
         }
 
 
         for (let i = start; i < end; i++) {
-            let letter = document.querySelectorAll("letter")[i];
+            let letter = obj.letters[i];
             if (letter.classList.length > 0) {
                 letter.classList.remove(...letter.classList);
             }
         }
 
     } else if (Case == 3) {
-        setCounters(input, caret.previousPos);
+        setCounters(obj.input, caret.previousPos);
         let start = caret.previousPos;
-        let end = len;
+        let end = obj.len;
         for (let i = start; i < end; i++) {
-            let letter = document.querySelectorAll("letter")[i];
-            let typedLetter = input[i];
+            let letter = obj.letters[i];
+            let typedLetter = obj.input[i];
             if (typedLetter == letter.innerHTML && i <= obj.mistakeIdx) {
                 if (letter.classList.length > 0) {
                     letter.classList.remove(...letter.classList);
@@ -1484,7 +948,7 @@ function verifyInput(Case, len, input) {
                 
                 /*
                 if (obj.mistake == false && (i < caret.currentPos)) { //only count mistakes on stuff that was added, as opposed to stuff that is wrong as a result of the insertion
-                    previousletter = document.querySelectorAll("letter")[obj.lettercounter-1];
+                    previousletter = letters[obj.lettercounter-1];
                     word = document.querySelectorAll("word")[obj.wordcounter];
                     previousword = document.querySelectorAll("word")[obj.wordcounter-1];
                     addWrongLetter(letter);
@@ -1510,17 +974,17 @@ function verifyInput(Case, len, input) {
         }
     } else if (Case == 4) {
         let start = caret.currentPos;
-        let between = len;
+        let between = obj.len;
         let end = obj.previousLen;
         for (let i = between; i < end; i++) {
-            let letter = document.querySelectorAll("letter")[i];
+            let letter = obj.letters[i];
             if (letter.classList.length > 0) {
                 letter.classList.remove(...letter.classList);
             }
         }
         for (let i = start; i < between; i++) {
-            let letter = document.querySelectorAll("letter")[i];
-            let typedLetter = input[i];
+            let letter = obj.letters[i];
+            let typedLetter = obj.input[i];
             if (typedLetter == letter.innerHTML && i <= obj.mistakeIdx) {
                 if (letter.classList.length > 0) {
                     letter.classList.remove(...letter.classList);
@@ -1548,17 +1012,17 @@ function verifyInput(Case, len, input) {
             obj.mistakeIdx = obj.lettercount;
         }
         for (let i = start; i < end; i++) {
-            let letter = document.querySelectorAll("letter")[i];
+            let letter = obj.letters[i];
             if (letter.classList.length > 0) {
                 letter.classList.remove(...letter.classList);
             }
         }
-        setCounters(input, caret.previousPos);
+        setCounters(obj.input, caret.previousPos);
         start = caret.previousPos;
-        end = len;
+        end = obj.len;
         for (let i = start; i < end; i++) {
-            let letter = document.querySelectorAll("letter")[i];
-            let typedLetter = input[i];
+            let letter = obj.letters[i];
+            let typedLetter = obj.input[i];
             if (typedLetter == letter.innerHTML && i <= obj.mistakeIdx) {
                 letter.classList.add("correct");
             } else {
@@ -1568,7 +1032,7 @@ function verifyInput(Case, len, input) {
                     letter.classList.add("error");
                 }
                 if (obj.mistake == false && (i < caret.currentPos)) {
-                    previousletter = document.querySelectorAll("letter")[obj.lettercounter-1];
+                    previousletter = obj.letters[obj.lettercounter-1];
                     word = document.querySelectorAll("word")[obj.wordcounter];
                     previousword = document.querySelectorAll("word")[obj.wordcounter-1];
                     addWrongLetter(letter);
@@ -1591,17 +1055,17 @@ function verifyInput(Case, len, input) {
         //let end = obj.previousLen;
         let end = obj.lettercount;
         for (let i = start; i < end; i++) {
-            let letter = document.querySelectorAll("letter")[i];
+            let letter = obj.letters[i];
             if (letter.classList.length > 0) {
                 letter.classList.remove(...letter.classList);
             }
         }
         start = 0;
-        //end = len;
-        end = len;
+        //end = obj.len;
+        end = obj.len;
         for (let i = start; i < end; i++) {
-            let letter = document.querySelectorAll("letter")[i];
-            let typedLetter = input[i];
+            let letter = obj.letters[i];
+            let typedLetter = obj.input[i];
             if (typedLetter == letter.innerHTML /*&& i <= obj.mistakeIdx*/) {
                 letter.classList.add("correct");
             } else {
@@ -1612,7 +1076,7 @@ function verifyInput(Case, len, input) {
                 }
                 
                 if (obj.mistake == false) {
-                    previousletter = document.querySelectorAll("letter")[obj.lettercounter-1];
+                    previousletter = obj.letters[obj.lettercounter-1];
                     word = document.querySelectorAll("word")[obj.wordcounter];
                     previousword = document.querySelectorAll("word")[obj.wordcounter-1];
                     addWrongLetter(letter);
@@ -1697,6 +1161,7 @@ function countCorrectWords(letter, nextLetter, currentWordTag) {
             }
     
             if (obj.wordcounter > 0) {
+                console.log('end');
                 times.words.endTime = stopTimer();
                 calculateTimes(times.words.startTime, times.words.endTime, "words", word)
             }
@@ -1707,51 +1172,53 @@ function countCorrectWords(letter, nextLetter, currentWordTag) {
                 stats.correct.words[word] = 1;
             }
         } else if (letter == ' ') {
+            console.log('start')
             times.words.startTime = startTimer();
         } 
     }
 }
 
-function countCorrectWordpairs(nextLetter, previousWordTag, currentWordTag) {
+function countCorrectWordpairs(letter, nextLetter, previousWordTag, currentWordTag) {
+    //start it if the previous is a space / stop it if the next one is a space
     if (obj.wordcounter == 0) {
         times.wordpairs.cooldown = 0;
     }
-    if (nextLetter == ' ' && obj.wordcounter > 0) {
-        let previousWord = "";
-        let currentWord = "";
-        for (letterTag of currentWordTag.childNodes) {
-            currentWord += letterTag.innerHTML;
-        }
-        for (letterTag of previousWordTag.childNodes) {
-            previousWord += letterTag.innerHTML;
-        }
-        let wordpair = previousWord + ' ' + currentWord
-
-        if (times.wordpairs.cooldown == 0) {
-            times.wordpairs.startTime1 = startTimer();
-            times.wordpairs.cooldown = 3;
-            if (obj.wordcounter > 3) {
-                times.wordpairs.endTime2 = stopTimer();
-                calculateTimes(times.wordpairs.startTime2, times.wordpairs.endTime2, "wordpairs", wordpair)
+    if ((obj.wordcounter > 0 && nextLetter == ' ') || (letter == ' ' && obj.wordcounter < obj.wordcount)) {
+        
+        if (obj.wordcounter > 1 && nextLetter == ' ') {
+            let previousWord = "";
+            let currentWord = "";
+            for (letterTag of currentWordTag.childNodes) {
+                currentWord += letterTag.innerHTML;
             }
-        }
-        if (times.wordpairs.cooldown == 1) {
-            times.wordpairs.startTime3 = startTimer();
-            times.wordpairs.endTime1 = stopTimer();
-            calculateTimes(times.wordpairs.startTime1, times.wordpairs.endTime1, "wordpairs", wordpair)
-        }
-        if (times.wordpairs.cooldown == 2) {
-            times.wordpairs.startTime2 = startTimer();
-            if (obj.wordcounter > 4) {
-                times.wordpairs.endTime3 = stopTimer();
-                calculateTimes(times.wordpairs.startTime3, times.wordpairs.endTime3, "wordpairs", wordpair)
+            for (letterTag of previousWordTag.childNodes) {
+                previousWord += letterTag.innerHTML;
             }
+            wordpair = previousWord + ' ' + currentWord
         }
 
+        if (nextLetter == ' ') {
+            if (times.wordpairs.cooldown == 1) {
+                times.wordpairs.endTime1 = stopTimer();
+                calculateTimes(times.wordpairs.startTime1, times.wordpairs.endTime1, "wordpairs", wordpair)
+            } else if (times.wordpairs.cooldown == 3) {
+                if (obj.wordcounter > 2) {
+                    times.wordpairs.endTime2 = stopTimer();
+                    calculateTimes(times.wordpairs.startTime2, times.wordpairs.endTime2, "wordpairs", wordpair)
+                }
+            }
+        } else if (letter == ' ') {
+            if (times.wordpairs.cooldown == 0) {
+                times.wordpairs.startTime1 = startTimer();
+                times.wordpairs.cooldown = 4;
+            } else if (times.wordpairs.cooldown == 2) {
+                times.wordpairs.startTime2 = startTimer();
+            }
+        }
         times.wordpairs.cooldown--;
 
 
-        if (obj.wordcounter > 1) {
+        if (obj.wordcounter > 1 && nextLetter == ' ') {
             if (stats.correct.wordpairs[wordpair]) {
                 stats.correct.wordpairs[wordpair] += 1;
             } else {
@@ -1776,8 +1243,6 @@ function stopTimer() {
 function calculateTimes(startTime, endTime, item, ngram) {
     totalTime = ( ( endTime - startTime ) / 1000 );
 
-    //console.log('added the ngram: ' + ngram + ' to the times.');
-
     if (stats.time[item][ngram]) {
         stats.time[item][ngram] += totalTime
     } else {
@@ -1798,48 +1263,38 @@ function stopFlash() {
 }
 
 function startFlash() {
-    let letter = document.querySelectorAll("letter")[caret.currentPos];
-    letter.setAttribute("id", "caret");
+    let letter = obj.letters[caret.currentPos];
+    if (letter) {
+        letter.setAttribute("id", "caret");
+    }
 }
 
-function addHighlight(selectedText, arrow) {
+function addHighlight() {
     stopFlash();
-    letters = document.querySelectorAll("letter");
     obj.highlight = false;
-
-    if (arrow == "right" || arrow == "left") {
-        for (let i = obj.selectionStart; i < obj.selectionEnd; i++) {
-            letters[i].classList.add("highlight");
-            obj.highlight = true;
-        }
-    } else { //normal
-        for (let i = caret.currentPos; i < caret.currentPos + selectedText.length; i++) {
-            letters[i].classList.add("highlight");
-            obj.highlight = true;
-        }
-    }
-    
-    
+    for (let i = obj.selectionStart; i < obj.selectionEnd; i++) {
+        obj.letters[i].classList.add("highlight");
+        obj.highlight = true;
+    }  
 }
 
 function removeHighlight() {
     if (obj.highlight == false) {
         return;
     }
-    letters = document.querySelectorAll("letter");
 
     for (let i = 0; i < obj.lettercount; i++) {
-        if (letters[i].classList.contains("highlight")) {
-            letters[i].classList.remove("highlight");
+        if (obj.letters[i].classList.contains("highlight")) {
+            obj.letters[i].classList.remove("highlight");
         }
     }
     obj.highlight = false;
 }
 
 function updateCaret() { //note that due to the change of the textdisplay having a space at the end, there is no need for border right anymore
-    //also note that due to the max-length attribute of the input field, there is also no need to check for when to stop (it's impossible to go over the limit)
-    let letter = document.querySelectorAll("letter")[caret.currentPos];
-    let previous = document.querySelectorAll("letter")[caret.previousPos]; //note: replace currentPos+1 with caret.previousPos
+    //also note that due to the max-obj.length attribute of the input field, there is also no need to check for when to stop (it's impossible to go over the limit)
+    let letter = obj.letters[caret.currentPos];
+    let previous = obj.letters[caret.previousPos]; //note: replace currentPos+1 with caret.previousPos
     if (previous) {
         previous.style.borderLeft = "0.1px solid transparent";
     }
@@ -1849,13 +1304,12 @@ function updateCaret() { //note that due to the change of the textdisplay having
 }
 
 function focusInput() {
-    inputValue = document.getElementById('typing-input').value;
     document.getElementById('typing-input').focus();
     document.getElementById('typing-input').value = "";
-    document.getElementById('typing-input').value = inputValue;
+    document.getElementById('typing-input').value = obj.input;
     adjustCaret('', caret.previousPos, caret.currentPos);
     checkOffset();
-    obj.focusCounter += 1;
+    updateCaret();
 }
 
 function blurInput() {
@@ -1882,9 +1336,7 @@ function refresh() {
 function resetScroll() {
     style.top = 25;
     document.getElementById('typing-input').style.top = style.top + 'em';
-    let refresh = document.getElementById("refresh");
-    refreshOffset = refresh.offsetTop;
-    window.scrollTo(0, refreshOffset);
+    window.scrollTo(0, obj.scrollTop)
 }
 
 function reset() {
@@ -1898,10 +1350,14 @@ function reset() {
     obj.previousLen = 0;
     caret.currentPos = 0;
     caret.previousPos = 0;
+    obj.selectionStart = 0;
+    obj.selectionEnd = 0;
     obj.scrolldowncounter = 0;
     obj.scrollupcounter = 0;
     offsetList = [];
     document.getElementById('typing-input').value = "";
+    obj.input = "";
+    obj.len = 0;
 }
 
 function displayStats() {
@@ -1975,20 +1431,6 @@ function displayStats() {
                 accuracy[item][ngram] = acc;
             }
         }
-        /* NOTE: hide 100% accuracy, since it takes up too much space, and it's better to know your mistakes, than words with 100% acc.
-        for (item in stats.correct) { //in case an item has 100% accuracy
-            for (ngram in stats.correct[item]) {
-                if (accuracy[item][ngram]) {
-                    continue
-                } else {
-                    let incorrect = 0
-                    let correct = stats.correct[item][ngram]
-                    let acc = ( ( correct / (incorrect + correct) ) * 100 ).toFixed(0)
-                    accuracy[item][ngram] = acc;
-                }
-            }
-        }
-        */
         for (item in accuracy) {
             var sortable = [];
             for (ngram in accuracy[item]) {
@@ -2022,33 +1464,15 @@ function displayStats() {
         };
         for (item in stats.time) {
             for (ngram in stats.time[item]) {
-                
-                /*
-                console.log('========================')
-                console.log('item: ' + item)
-                console.log('ngram: '+ ngram)
-                console.log('correct amount: ' + stats.correct[item][ngram])
-                console.log('seconds: ' + stats.time[item][ngram])
-                */
 
                 if (stats.correct[item][ngram] < toggles.minAmount) {
                     continue
                 }
                 
-
                 let words = ( stats.correct[item][ngram] * ngram.length ) / 5;
                 let minutes = stats.time[item][ngram] / 60
-
                 wpm = words / minutes
-
                 wpm = wpm.toFixed(0);
-
-                /*
-                console.log('WPM: ' + wpm);
-                console.log('========================')
-                */
-                
-
                 speed[item][ngram] = parseInt(wpm);
             }
         }
@@ -2182,5 +1606,4 @@ function addWrongWordpairs(letter, previouswordTag, wordTag) {
     } else {
         stats.wrong.wordpairs[wordpair] = 1;
     }
-    
 }
