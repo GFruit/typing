@@ -356,7 +356,6 @@ function filterTheWords () {
     filtered = one_hand(filtered);
     displayText(filtered);
     document.getElementById('copy').style.visibility = "visible";
-    document.getElementById('reset').style.visibility = "visible";
     document.getElementById('shuffle').style.visibility = "visible";
     dend = new Date();
     var start = dstart.getTime();
