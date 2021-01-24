@@ -51,7 +51,7 @@ let obj = {
 
 let toggles = {
     statsDisplay: 'errors',
-    sorting: 'ascending',
+    sorting: 'bad_first',
     minAmount: 1
 }
 
@@ -86,10 +86,6 @@ let times = {
 }
 
 let offsetList = [];
-
-let flash = {
-    caretChange: false
-}
 
 let states = {
     shift: false,
@@ -136,21 +132,20 @@ function keydown(e) {
         refresh();
         return;
     }
-    
-    if (keyCode == 8 && states.ctrl && obj.highlight && isFirefox) { //make it so ctrl + backspace on highlight acts like normal backspace
-
-        obj.new_input = obj.input.slice(0, obj.selectionStart) + obj.input.slice(obj.selectionEnd, obj.len); //good
-        caret.currentPos = obj.selectionStart;
-        if (caret.currentPos > 0) {
-            obj.updateInput = true;
+    if (keyCode == 8 && states.ctrl == true) { //is also triggered for ctrl + shift
+        if (obj.highlight == true) {
+            obj.new_input = obj.input.slice(0, obj.selectionStart) + obj.input.slice(obj.selectionEnd, obj.len);
+            caret.currentPos = obj.selectionStart; //because we're deleting until the start of the selection
+            //backspace the highlighted part (mainly for firefox), would otherwise work as intended
         } else {
-            obj.updateInput = true;
-            getValue();
-            return;
+            //backspace like ctrl + left behavior
+            let previousPos = caret.currentPos;
+            caret.currentPos = ctrlMove(caret.currentPos, 'left'); //modifies caret.currentPos
+            obj.new_input = obj.input.slice(0, caret.currentPos) + obj.input.slice(previousPos, obj.len);
         }
-        removeHighlight();
-        checkOffset();
+        obj.updateInput = true;
     }
+    
     switch(keyCode) {
         case 16:
             if (states.shift == false) {
@@ -163,6 +158,7 @@ function keydown(e) {
                 states.ctrl = true;
                 return
             }
+            break;
         case 35: //end
             if (states.ctrl == true && states.shift == true) {
                 if (obj.highlight == false) {
@@ -183,9 +179,11 @@ function keydown(e) {
                     if (obj.selectionMiddle == obj.selectionStart) {
                         obj.selectionEnd = leftRight(obj.selectionEnd, 'right');
                     } else if (obj.selectionMiddle == obj.selectionEnd) {
-                        obj.selectionStart = obj.selectionEnd;
+                        obj.selectionStart = leftRight(obj.selectionStart, 'right');
+                        if (obj.selectionEnd < obj.selectionStart) {
+                            [obj.selectionEnd, obj.selectionStart] = swap(obj.selectionEnd, obj.selectionStart); //array destructuring
+                        }
                         caret.currentPos = obj.selectionStart;
-                        obj.selectionEnd = leftRight(obj.selectionEnd, 'right');
                     }
                 }
                 e.preventDefault();
@@ -204,17 +202,9 @@ function keydown(e) {
                         caret.currentPos = leftRight(caret.currentPos, 'right');
                     }
                 }
-                e.preventDefault();
-                if (caret.previousPos > 0) {
-                    setCaretPosition("typing-input", caret.currentPos);
-                } else {
-                    input = document.getElementById('typing-input').value
-                    document.getElementById('typing-input').value = ' ' + input;
-                    setCaretPosition("typing-input", caret.currentPos);
-                    document.getElementById('typing-input').value = input;
-                    setCaretPosition("typing-input", caret.currentPos);
-                }
-
+                obj.selectionStart = caret.currentPos;
+                obj.selectionEnd = caret.currentPos;
+                adjustCaret(e, caret.currentPos, caret.previousPos);
             }
             break;
         case 36: //home
@@ -236,12 +226,15 @@ function keydown(e) {
                     caret.currentPos = obj.selectionStart;
                 } else {
                     if (obj.selectionMiddle == obj.selectionStart) {//when it's highlighted and you do it again it's not supposed to remove the highlight
-                        obj.selectionEnd = obj.selectionStart;
-                        obj.selectionStart = leftRight(obj.selectionStart, 'left');
+                        obj.selectionEnd = leftRight(obj.selectionEnd, 'left');
+                        if (obj.selectionEnd < obj.selectionStart) {
+                            [obj.selectionStart, obj.selectionEnd] = swap(obj.selectionStart, obj.selectionEnd);
+                        }
                     } else if (obj.selectionMiddle = obj.selectionEnd) {
                         obj.selectionStart = leftRight(obj.selectionStart, 'left');
                     }
                 }
+                caret.currentPos = obj.selectionStart;
                 e.preventDefault();
                 input_box.setSelectionRange(obj.selectionStart, obj.selectionEnd) //add highlight on input box
             } else if (states.ctrl == true) {
@@ -259,7 +252,6 @@ function keydown(e) {
                         caret.currentPos = leftRight(caret.currentPos, 'left');
                     }
                 }
-                
                 obj.selectionStart = caret.currentPos;
                 obj.selectionEnd = caret.currentPos;
                 adjustCaret(e, caret.currentPos, caret.previousPos);
@@ -270,34 +262,10 @@ function keydown(e) {
                 if (obj.highlight == false) {
                     obj.selectionEnd = caret.currentPos;
                     obj.selectionMiddle = obj.selectionEnd
-                    if (caret.currentPos > 0) {
-                        let previousLetter = obj.letters[caret.currentPos-1];
-                        if (previousLetter.innerHTML == ' ') {
-                            caret.currentPos -= 1;
-                            previousLetter = obj.letters[caret.currentPos-1];
-                        }
-                        while (previousLetter.innerHTML != ' ' && caret.currentPos >= 1) {
-                            caret.currentPos -= 1;
-                            if (caret.currentPos > 0) {
-                                previousLetter = obj.letters[caret.currentPos-1]
-                            }
-                        }
-                    }
+                    caret.currentPos = ctrlMove(caret.currentPos, 'left'); //modifies caret.currentPos;
                     obj.selectionStart = caret.currentPos;
                 } else if (obj.highlight == true && obj.selectionEnd == obj.selectionMiddle) {
-                    if (caret.currentPos > 0) {
-                        let previousLetter = obj.letters[caret.currentPos-1];
-                        if (previousLetter.innerHTML == ' ') {
-                            caret.currentPos -= 1;
-                            previousLetter = obj.letters[caret.currentPos-1];
-                        }
-                        while (previousLetter.innerHTML != ' ' && caret.currentPos >= 1) {
-                            caret.currentPos -= 1;
-                            if (caret.currentPos > 0) {
-                                previousLetter = obj.letters[caret.currentPos-1]
-                            }
-                        }
-                    }
+                    caret.currentPos = ctrlMove(caret.currentPos, 'left');
                     obj.selectionStart = caret.currentPos;
                 } else if (obj.highlight == true && obj.selectionStart == obj.selectionMiddle) {  //handle cross overs here
                     let previousLetter = obj.letters[obj.selectionEnd-1];
@@ -312,9 +280,7 @@ function keydown(e) {
                         }
                     }
                     if (obj.selectionStart > obj.selectionEnd) {
-                        let temp = obj.selectionStart;
-                        obj.selectionStart = obj.selectionEnd;
-                        obj.selectionEnd = temp;     
+                        [obj.selectionStart, obj.selectionEnd] = swap(obj.selectionStart, obj.selectionEnd);    
                     }
                 }
                 caret.currentPos = obj.selectionStart;
@@ -333,19 +299,7 @@ function keydown(e) {
                     obj.selectionStart -= 1;
                 }
             } else if (states.ctrl == true) {
-                if (caret.currentPos > 0) {
-                    let previousLetter = obj.letters[caret.currentPos-1];
-                    if (previousLetter.innerHTML == ' ') {
-                        caret.currentPos -= 1;
-                        previousLetter = obj.letters[caret.currentPos-1];
-                    }
-                    while (previousLetter.innerHTML != ' ' && caret.currentPos >= 1) {
-                        caret.currentPos -= 1;
-                        if (caret.currentPos > 0) {
-                            previousLetter = obj.letters[caret.currentPos-1]
-                        }
-                    }
-                }
+                caret.currentPos = ctrlMove(caret.currentPos, 'left');
                 if (isFirefox == true && obj.highlight == true) {
                     caret.currentPos = obj.selectionStart;
                 }
@@ -379,10 +333,9 @@ function keydown(e) {
                 } else if (obj.highlight == true && obj.selectionStart == obj.selectionMiddle) { //right to middle
                     obj.selectionEnd = upDown(obj.selectionEnd, "up");
                     if (obj.selectionEnd < obj.selectionStart) {
-                        temp = obj.selectionStart;
-                        obj.selectionStart = obj.selectionEnd;
-                        obj.selectionEnd = temp;
+                        [obj.selectionStart, obj.selectionEnd] = swap(obj.selectionStart, obj.selectionEnd);
                         obj.selectionMiddle = obj.selectionEnd;
+                        caret.currentPos = obj.selectionStart;
                     }
                 } else if (obj.highlight == true && obj.selectionEnd == obj.selectionMiddle) {//middle to left
                     caret.currentPos = upDown(caret.currentPos, "up");
@@ -404,50 +357,18 @@ function keydown(e) {
                     obj.selectionStart = caret.currentPos;
                     obj.selectionMiddle = obj.selectionStart
                     obj.selectionEnd = caret.currentPos;
-                    if (obj.selectionEnd < obj.len) {
-                        let previousLetter = obj.letters[obj.selectionEnd-1];
-                        if (obj.selectionEnd == 0 || previousLetter.innerHTML == ' ') {
-                            obj.selectionEnd += 1;
-                            previousLetter = obj.letters[obj.selectionEnd-1]
-                        }
-                        while (obj.selectionEnd < obj.len && previousLetter.innerHTML != ' ') {
-                            obj.selectionEnd += 1;
-                            previousLetter = obj.letters[obj.selectionEnd-1]
-                        }
-                    }
+                    obj.selectionEnd = ctrlMove(obj.selectionEnd, 'right');
                 } else if (obj.highlight == true && obj.selectionEnd == obj.selectionMiddle) { //left to middle, handle cross overs here
-                    if (caret.currentPos < obj.len) {
-                        let previousLetter = obj.letters[caret.currentPos-1];
-                        if (caret.currentPos == 0 || previousLetter.innerHTML == ' ') {
-                            caret.currentPos += 1;
-                            previousLetter = obj.letters[caret.currentPos-1]
-                        }
-                        while (caret.currentPos < obj.len && previousLetter.innerHTML != ' ') {
-                            caret.currentPos += 1;
-                            previousLetter = obj.letters[caret.currentPos-1]
-                        }
-                    }
+                    caret.currentPos = ctrlMove(caret.currentPos, 'right');
 
                     obj.selectionStart = caret.currentPos; 
 
                     if (obj.selectionStart > obj.selectionEnd) {
-                        let temp = obj.selectionStart;
-                        obj.selectionStart = obj.selectionEnd;
-                        obj.selectionEnd = temp;     
+                        [obj.selectionStart, obj.selectionEnd] = swap(obj.selectionStart, obj.selectionEnd);   
                     }
                     caret.currentPos = obj.selectionStart;
                 } else if (obj.highlight == true && obj.selectionStart == obj.selectionMiddle) { //middle to right
-                    if (obj.selectionEnd < obj.len) {
-                        let previousLetter = obj.letters[obj.selectionEnd-1];
-                        if (obj.selectionEnd == 0 || previousLetter.innerHTML == ' ') {
-                            obj.selectionEnd += 1;
-                            previousLetter = obj.letters[obj.selectionEnd-1]
-                        }
-                        while (obj.selectionEnd < obj.len && previousLetter.innerHTML != ' ') {
-                            obj.selectionEnd += 1;
-                            previousLetter = obj.letters[obj.selectionEnd-1]
-                        }
-                    }
+                    obj.selectionEnd = ctrlMove(obj.selectionEnd, 'right');
                 }
                 e.preventDefault();
                 input_box.setSelectionRange(obj.selectionStart, obj.selectionEnd) //add highlight on input box
@@ -514,6 +435,10 @@ function keydown(e) {
                 } else if (obj.highlight == true && obj.selectionEnd == obj.selectionMiddle) {
                     caret.currentPos = upDown(caret.currentPos, "down");
                     obj.selectionStart = caret.currentPos;
+                    if (obj.selectionEnd < obj.selectionStart) {
+                        [obj.selectionStart, obj.selectionEnd] = swap(obj.selectionStart, obj.selectionEnd);
+                        caret.currentPos = obj.selectionStart;
+                    }
                 }
                 e.preventDefault();
                 input_box.setSelectionRange(obj.selectionStart, obj.selectionEnd) //add highlight on input box
@@ -532,7 +457,7 @@ function keydown(e) {
                 caret.currentPos = 0;
             }
     }
-    if (obj.highlight == true && states.shift == false && keyCode != 65) {
+    if (obj.highlight == true && states.shift == false && keyCode != 65 && obj.previousLen == obj.len) {
         obj.selectionStart = caret.currentPos;
         obj.selectionEnd = caret.currentPos;
     }
@@ -609,6 +534,36 @@ function leftRight(toBeChanged, direction) {
     return toBeChanged;
 }
 
+function ctrlMove(toBeChanged, direction) {
+    let previousLetter = obj.letters[toBeChanged-1];
+    if (direction == 'left') {
+        if (toBeChanged > 0) {
+            if (previousLetter.innerHTML == ' ') {
+                toBeChanged -= 1;
+                previousLetter = obj.letters[toBeChanged-1];
+            }
+            while (previousLetter.innerHTML != ' ' && toBeChanged >= 1) {
+                toBeChanged -= 1;
+                if (toBeChanged > 0) {
+                    previousLetter = obj.letters[toBeChanged-1]
+                }
+            }
+        }
+    } else if (direction == 'right') {
+        if (toBeChanged < obj.len) {
+            if (toBeChanged == 0 || previousLetter.innerHTML == ' ') {
+                toBeChanged += 1;
+                previousLetter = obj.letters[toBeChanged-1]
+            }
+            while (toBeChanged < obj.len && previousLetter.innerHTML != ' ') {
+                toBeChanged += 1;
+                previousLetter = obj.letters[toBeChanged-1]
+            }
+        }
+    }
+    return toBeChanged;
+}
+
 function adjustCaret(e, currentPos, previousPos) {
     if (previousPos > 0) {
         if (e) {
@@ -644,6 +599,13 @@ function setCaretPosition(elemId, caretPos) {
                 elem.focus();
         }
     }
+}
+
+function swap (a, b) {
+    temp = a;
+    a = b;
+    b = temp;
+    return [a, b]
 }
 
 function setWordset (value) { 
@@ -690,10 +652,10 @@ function toggleStats(statsDisplay) {
 }
 
 function toggleSort() {
-    if (toggles.sorting == "ascending") {
-        toggles.sorting = "descending";
+    if (toggles.sorting == "bad_first") {
+        toggles.sorting = "good_first";
     } else {
-        toggles.sorting = "ascending";
+        toggles.sorting = "bad_first";
     }
     displayStats();
     focusInput();
@@ -808,9 +770,6 @@ function checkOffset() {
     } else if (offsetIdx > previousOffsetIdx) {
         let difference = offsetIdx - previousOffsetIdx;
         style.top += 3*difference;
-
-
-
         //pixel_per_em = Number(getComputedStyle(document.body, "").fontSize.match(/(\d*(\.\d*)?)px/)[1]);
         //scrollBy(0, 3*pixel_per_em*difference);
     }
@@ -835,7 +794,8 @@ function getValue() {
     addedChars = 0;
     if (obj.highlight == true) {
         removeHighlight();
-        addedChars = obj.len - (obj.previousLen - obj.selectedText.length);
+        selectedTextLength = obj.selectionEnd - obj.selectionStart;
+        addedChars = obj.len - (obj.previousLen - selectedTextLength);
     }
     caret.currentPos = document.getElementById('typing-input').selectionStart;
     obj.selectionStart = caret.currentPos;
@@ -1276,7 +1236,7 @@ function addHighlight() {
     for (let i = obj.selectionStart; i < obj.selectionEnd; i++) {
         obj.letters[i].classList.add("highlight");
         obj.highlight = true;
-    }  
+    }
 }
 
 function removeHighlight() {
@@ -1386,10 +1346,10 @@ function displayStats() {
                 sortable.push([displayNgram, stats.wrong[item][ngram]])
             }
 
-            if (toggles.sorting == "ascending") {
-                sortable.sort(function(a, b) {return a[1] - b[1]})
-            } else if (toggles.sorting == "descending") {
+            if (toggles.sorting == "bad_first") {
                 sortable.sort(function(a, b) {return b[1] - a[1]})
+            } else if (toggles.sorting == "good_first") {
+                sortable.sort(function(a, b) {return a[1] - b[1]})
             }
 
             for (let i = 0; i < sortable.length; i++) {
@@ -1442,9 +1402,9 @@ function displayStats() {
                 sortable.push([displayNgram, accuracy[item][ngram]])
             }
 
-            if (toggles.sorting == "ascending") {
+            if (toggles.sorting == "bad_first") {
                 sortable.sort(function(a, b) {return a[1] - b[1]})
-            } else if (toggles.sorting == "descending") {
+            } else if (toggles.sorting == "good_first") {
                 sortable.sort(function(a, b) {return b[1] - a[1]})
             }
 
@@ -1487,9 +1447,9 @@ function displayStats() {
                 sortable.push([displayNgram, speed[item][ngram]])
             }
 
-            if (toggles.sorting == "ascending") {
+            if (toggles.sorting == "bad_first") {
                 sortable.sort(function(a, b) {return a[1] - b[1]})
-            } else if (toggles.sorting == "descending") {
+            } else if (toggles.sorting == "good_first") {
                 sortable.sort(function(a, b) {return b[1] - a[1]})
             }
 
