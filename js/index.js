@@ -648,7 +648,7 @@ function toggleStats(statsDisplay) {
         document.getElementById('speed').style.color = style.subColor;
     }
     displayStats();
-    focusInput();
+    //focusInput();
 }
 
 function toggleSort() {
@@ -658,7 +658,7 @@ function toggleSort() {
         toggles.sorting = "bad_first";
     }
     displayStats();
-    focusInput();
+    //focusInput();
 }
 
 function setMinAmount() {
