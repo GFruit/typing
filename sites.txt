@@ -30,7 +30,6 @@ Colemakclub	https://gnusenpai.net/colemakclub/
 Coolmathgames	https://www.coolmathgames.com/c/typing-games
 Cosmotype	https://www.cosmotype.com/
 Cozytypes	https://cozytypes.com/
-Cybertype	https://cybertype.app/
 Cybertype	https://cybertype.io/
 Dailytype	https://dailytype.net/
 Dataentrytester	https://www.dataentrytester.com/
@@ -42,7 +41,6 @@ Easytype	https://www.easytype.org/
 Easytype	https://typing-web.vercel.app/
 Eletypes	https://www.eletypes.com/
 Entertrained	https://entertrained.app/
-colemak.academy	https://www.colemak.academy/
 Fairy Type	https://lazyloop.itch.io/fairy-type
 Fastfingers	https://www.fastfingers.in/
 Fastfingers	https://fastfingers.net/
