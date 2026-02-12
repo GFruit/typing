@@ -185,7 +185,7 @@ Typeflix	https://typeflix.com/	o	o	o	x	o	o
 TypeGG	http://typegg.io/	o	o	o	o	x	o
 Typegym	https://typegym.com/	o	o	o	o	o	o
 Typele	https://typele.com/	o	o	o	o	o	o
-x	https://www.typelit.io/	o	x	o	o	o	o
+Typelit	https://www.typelit.io/	o	x	o	o	o	o
 Typelo	https://www.typelo.tech/	o	o	o	o	o	o
 Typenconquer	https://typenconquer.io/	o	o	o	o	o	o
 Typeo	https://www.typeo.io/	o	o	o	o	o	o
@@ -319,4 +319,4 @@ YTyping	https://ytyping.net/	o	o	o	o	o	o
 Zentype	https://zentype.app/	o	o	o	o	o	o
 Zentype.vercel.app	https://zentype.vercel.app/	o	o	o	o	o	o
 Zippywords	https://www.zippywords.com/	o	o	o	o	o	o
-Ztype	https://zty.pe/	o	o	o	o	o	o
+Ztype	https://zty.pe/	o	o	o	o	o	o			
