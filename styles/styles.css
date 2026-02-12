@@ -72,6 +72,16 @@ li a {
 	text-decoration: none;
 }
 
+#modes ul, #toggleStats ul {
+    text-align: center;
+}
+
+#modes ul li, #toggleStats ul li {
+    float: none;
+    display: inline-block;
+    width: auto;
+    margin: 0 20px;
+}
 
 #textdisplay {
 	color: rgba(180, 179, 179, 0.336);
