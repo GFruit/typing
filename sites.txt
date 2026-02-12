@@ -1,4 +1,4 @@
-10fastfingers	https://10fastfingers.com/	o	o	o	o	o	x
+10fastfingers	https://10fastfingers.com/	o	o	o	o	x	x
 Abcya	https://www.abcya.com/games/category/typing	o	o	o	o	o	o
 Adazing	https://adazing.com/typing-speed-test/	o	o	o	o	o	o
 Advancedtypingtrainer	https://www.advancedtypingtrainer.com/	o	o	o	o	o	o
@@ -158,7 +158,7 @@ Touchpianist	https://touchpianist.com/	o	o	o	o	o	o
 Touchtypo	https://touchtypo.com/	o	o	o	o	o	o
 Touchtyper	http://touchtyper.net/en/	o	o	o	o	o	o
 Touchtyping.online	https://www.touchtyping.online/	o	o	o	o	o	o
-Turbotype	https://www.turbotype.co/	o	o	o	o	o	o
+Turbotype	https://www.turbotype.co/	o	o	x	o	o	o
 Turtlediary	https://www.turtlediary.com/game/rapid-typing.html	o	o	o	o	o	o
 Type4Fun	https://www.type4fun.com/	o	o	o	o	o	o
 Typeabook	https://typeabook.co.uk/	o	o	o	o	o	o
