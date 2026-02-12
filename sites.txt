@@ -153,14 +153,11 @@ Tidio	https://www.tidio.com/typing-test
 Tipohiz	https://tipohiz.vercel.app/
 Tipp10	https://www.tipp10.com/en/
 Tonicminds	https://tonicminds.io/
-Toptyper	https://www.toptyper.com/
 Toptypingtest	http://www.toptypingtest.com/
 Touchpianist	https://touchpianist.com/
 Touchtypo	https://touchtypo.com/
 Touchtyper	http://touchtyper.net/en/
-Touchtyping.guru	http://touchtyping.guru/
 Touchtyping.online	https://www.touchtyping.online/
-Ttype	https://www.ttype.com/
 Turbotype	https://www.turbotype.co/
 Turtlediary	https://www.turtlediary.com/game/rapid-typing.html
 Type4Fun	https://www.type4fun.com/
@@ -203,7 +200,6 @@ Typeroyale	https://typeroyale.cc/
 Typeroyale	https://foony.com/games/typeroyale
 Typersguild	https://typersguild.com/
 Typersworld	https://www.typersworld.com/
-Typertupledev	https://typer.tupledev.com/
 Typespeedai	https://typespeedai.com/
 Typespider	https://typespider.com/
 Typesprout	https://typesprout.com/
@@ -217,7 +213,6 @@ Typetest	https://typetest.io/
 Typetest.minilabs	https://typetest.minilabs.online/
 Typetherhythm	https://typetherhythm.com/
 Typetheword	https://www.typetheword.site/
-Typetoast	https://typetoast.com/
 Typetris	https://valorance.net/typetris/
 Typetype	https://type-type.vercel.app/
 Typeuniverse	https://typeuniverse.com/
@@ -272,13 +267,11 @@ Typing-nvim	https://typing-nvim.github.io/kinesis360/
 Typingowl	https://typingowl.com/
 Typingpal	https://www.typingpal.com/en
 Typingpractice	https://typingpractice.org/
-Typingquiz	https://typingquiz.com/
 Typingrace	https://typing-speed-app-192d3.web.app/
 Typingrush	https://typingrush-gamma.vercel.app/
 Typings	https://typings.gg/
 Typing-speed	https://typing-speed.net/
 Typing-speed-test	https://typing-speed-test.aoeu.eu/
-Typing-speedtest	https://typing-speedtest.com/
 Typingspeedtestwebsite	https://gaurav-aditya.github.io/typing-test/
 Typingschool	https://typing-school.vercel.app/
 Typingstudy	https://www.typingstudy.com/
