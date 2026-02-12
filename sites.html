@@ -29,7 +29,6 @@
 <title>Typing Websites</title>
 <script src="https://cdn.tailwindcss.com"></script>
 </head>
-
 <body>
   <header>
     <nav>
@@ -42,46 +41,31 @@
       </ul>
     </nav>
   </header>
-  <div class="w-full mx-auto px-4 py-10">
-    <section id="site-list" class="space-y-4 text-3xl"></section>
+  <div class="w-full max-w-7xl mx-auto px-4 py-10">
+    <section id="site-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></section>
   </div>
   <script>
   async function loadSites() {
     const response = await fetch('sites.txt');
     const text = await response.text();
-
     const lines = text.split('\n').filter(line => line.trim() !== '');
-
     const container = document.getElementById("site-list");
-
+    
     lines.forEach(line => {
       const [name, url] = line.split(/\t+/); // split by tab(s)
-
       if (!name || !url) return;
-
+      
       container.innerHTML += `
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-900/70 border border-slate-800 rounded-xl p-4">
-          
-          <!-- Column 1: Name -->
-          <div>
-            <h2 class="font-semibold">${name}</h2>
-          </div>
-      
-          <!-- Column 2: Visible URL -->
-          <div>
-            <a href="${url}" target="_blank" rel="noopener noreferrer"
-               class="text-emerald-300 hover:text-emerald-200 break-all underline">
-              ${url}
-            </a>
-          </div>
-      
-        </div>
+        <a href="${url}" target="_blank" rel="noopener noreferrer"
+           class="block bg-slate-900/70 border border-slate-800 rounded-xl p-6 hover:bg-slate-800/70 hover:border-emerald-500 transition-all duration-200 text-center group">
+          <h2 class="text-xl font-semibold text-white group-hover:text-emerald-300 transition-colors">
+            ${name}
+          </h2>
+        </a>
       `;
     });
   }
-
   loadSites();
 </script>
  </body>
 </html>
-
