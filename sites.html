@@ -16,8 +16,38 @@
 
     <section id="site-list" class="space-y-4"></section>
   </div>
+  <script>
+  async function loadSites() {
+    const response = await fetch('sites.txt');
+    const text = await response.text();
 
-  <script> async function loadSites() { const response = await fetch('sites.txt'); const text = await response.text(); const lines = text.split('\n').filter(line => line.trim() !== ''); const container = document.getElementById("site-list"); lines.forEach(line => { const [name, url] = line.split(/\t+/); // split by tab(s) if (!name || !url) return; container.innerHTML += ` <article class="bg-slate-900/70 border border-slate-800 rounded-xl p-4"> <div class="flex items-center justify-between gap-2 mb-1"> <h2 class="font-semibold">${name}</h2> <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/40"> Site </span> </div> <a href="${url}" class="text-xs text-emerald-300 hover:text-emerald-200 underline"> Visit site → </a> </article> `; }); } loadSites(); </script>
-</body>
+    const lines = text.split('\n').filter(line => line.trim() !== '');
+
+    const container = document.getElementById("site-list");
+
+    lines.forEach(line => {
+      const [name, url] = line.split(/\t+/); // split by tab(s)
+
+      if (!name || !url) return;
+
+      container.innerHTML += `
+        <article class="bg-slate-900/70 border border-slate-800 rounded-xl p-4">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h2 class="font-semibold">${name}</h2>
+            <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/40">
+              Site
+            </span>
+          </div>
+          <a href="${url}" class="text-xs text-emerald-300 hover:text-emerald-200 underline">
+            Visit site →
+          </a>
+        </article>
+      `;
+    });
+  }
+
+  loadSites();
+</script>
+ </body>
 </html>
 
