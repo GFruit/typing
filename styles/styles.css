@@ -200,8 +200,12 @@ input[type="button"] {
 	height: 25px;
 }
 
-input[type="button"]:hover {
-	background-color: var(--hover-color)
+#site-list a {
+	background-color: var(--sub-color);
+}
+
+input[type="button"]:hover, #site-list a:hover {
+	background-color: var(--hover-color);
 }
 
 #buttons {
