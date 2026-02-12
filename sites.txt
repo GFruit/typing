@@ -68,7 +68,7 @@ Karaoketype	https://memetrolls.net/KaraokeType/	o	o	o	x	o	o
 Keebacy	https://madnight.github.io/keebacy/	o	o	o	o	o	o
 Keybara	https://keybara.io/	o	o	o	o	o	o
 Keyboard-racing	https://keyboard-racing.com/	o	o	o	o	o	o
-Keybr	https://www.keybr.com/	o	o	o	o	o	o
+Keybr	https://www.keybr.com/	x	o	o	o	o	o
 Keyfight	https://keyfight.net/	o	o	o	o	o	o
 Keyhero	https://www.keyhero.com/	o	o	o	o	o	o
 Keymash	http://keymash.io/	o	o	o	o	o	o
@@ -173,7 +173,7 @@ Typeclash	https://versatiletechnology.in/Typeclash	o	o	o	o	o	o
 Typecome	https://typecome.com/	o	o	o	o	o	o
 Typeconomy	https://typeconomy.vercel.app/	o	o	o	o	o	o
 Typecraft	https://typecraft.replit.app/	o	o	o	o	o	o
-Typedojo	https://www.typedojo.com/	o	o	o	o	o	o
+Typedojo	https://www.typedojo.com/	x	o	o	o	o	o
 Type-Dojo	https://typo-dojo.com/	o	o	o	o	o	o
 Typeduel	https://www.typeduel.fun/	o	o	o	o	o	o
 Type-fu	https://type-fu.com/	o	o	o	o	o	o
@@ -209,7 +209,7 @@ Typesy	https://www.typesy.com/	o	o	o	o	o	o
 Typerush	https://www.typerush.com/	o	o	o	o	o	o
 Type-rush-theta	https://type-rush-theta.vercel.app/	o	o	o	o	o	o
 Typetastic	https://typetastic.com/	o	o	o	o	o	o
-Typetest	https://typetest.io/	o	o	o	o	o	o
+Typetest	https://typetest.io/	o	o	o	o	o	x
 Typetest.minilabs	https://typetest.minilabs.online/	o	o	o	o	o	o
 Typetherhythm	https://typetherhythm.com/	o	o	o	o	o	o
 Typetheword	https://www.typetheword.site/	o	o	o	o	o	o
@@ -222,11 +222,11 @@ Typewizz	https://www.typewizz.com/	o	o	o	o	o	o
 Typewreck	https://typewreck.com/	o	o	o	o	o	o
 Typey Type	https://didoesdigital.com/typey-type/	o	o	o	o	o	o
 Typiebara	https://warpromo.github.io/typiebara/	o	o	o	o	o	o
-Typination	https://www.typination.com/	o	o	o	o	x	o
+Typination	https://www.typination.com/	o	o	o	o	x	x
 Typ.ing	https://typ.ing/	o	o	o	o	o	o
 Typing.com	https://www.typing.com/	x	o	o	o	o	o
 Typing12	https://typing12.com/	o	o	o	o	o	o
-Typing.io	https://typing.io/	o	o	o	o	o	o
+Typing.io	https://typing.io/	o	o	x	o	o	o
 Typingacademy	https://www.typing.academy/	o	o	o	o	o	o
 Typingai	https://www.typingai.com/	o	o	o	o	o	o
 Typingbaba	http://www.typingbaba.com/	o	o	o	o	o	o
@@ -251,7 +251,7 @@ Typingkeyboards	https://typingkeyboards.com/	o	o	o	o	o	o
 Typingkitties	https://www.typingkitties.com/	o	o	o	o	o	o
 Typingkoala	https://typingkoala.com/	o	o	o	o	o	o
 Typinglessons-online	https://www.typinglessons-online.com/	o	o	o	o	o	o
-Typing-lessons	https://www.typing-lessons.org/	o	o	o	o	o	o
+Typing-lessons	https://www.typing-lessons.org/	x	o	o	o	o	o
 Typinglounge	https://www.typinglounge.com/	o	o	o	o	o	o
 Typingmania	https://v2.typingmania.net/	o	o	o	o	o	o
 Typingmaniac	https://wi-typingmaniac.netlify.app/	o	o	o	o	o	o
