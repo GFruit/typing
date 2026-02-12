@@ -86,7 +86,6 @@
   <div class="filters-container">
     <div class="filter-group">
       <div class="filter-group-title">Filter by Features</div>
-      <button class="filter-btn" data-filter="login-required">No Login Required</button>
       <button class="filter-btn" data-filter="learning">Learning</button>
       <button class="filter-btn" data-filter="book-typing">Book Typing</button>
       <button class="filter-btn" data-filter="code-typing">Code Typing</button>
@@ -115,13 +114,12 @@
       return {
         name: parts[0],
         url: parts[1],
-        loginRequired: parts[2] === 'x',
-        learning: parts[3] === 'x',
-        bookTyping: parts[4] === 'x',
-        codeTyping: parts[5] === 'x',
-        lyricsTyping: parts[6] === 'x',
-        liveMultiplayer: parts[7] === 'x',
-        leaderboards: parts[8] === 'x'
+        learning: parts[2] === 'x',
+        bookTyping: parts[3] === 'x',
+        codeTyping: parts[4] === 'x',
+        lyricsTyping: parts[5] === 'x',
+        liveMultiplayer: parts[6] === 'x',
+        leaderboards: parts[7] === 'x'
       };
     });
     
@@ -138,7 +136,6 @@
       
       return Array.from(activeFilters).every(filter => {
         switch(filter) {
-          case 'login-required': return !site.loginRequired;
           case 'learning': return site.learning;
           case 'book-typing': return site.bookTyping;
           case 'code-typing': return site.codeTyping;
