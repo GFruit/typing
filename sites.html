@@ -31,17 +31,22 @@
       if (!name || !url) return;
 
       container.innerHTML += `
-        <article class="bg-slate-900/70 border border-slate-800 rounded-xl p-4">
-          <div class="flex items-center justify-between gap-2 mb-1">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-900/70 border border-slate-800 rounded-xl p-4">
+          
+          <!-- Column 1: Name -->
+          <div>
             <h2 class="font-semibold">${name}</h2>
-            <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/40">
-              Site
-            </span>
           </div>
-          <a href="${url}" class="text-xs text-emerald-300 hover:text-emerald-200 underline" target="_blank">
-            Visit site →
-          </a>
-        </article>
+      
+          <!-- Column 2: Visible URL -->
+          <div>
+            <a href="${url}" target="_blank" rel="noopener noreferrer"
+               class="text-xs text-emerald-300 hover:text-emerald-200 break-all underline">
+              ${url}
+            </a>
+          </div>
+      
+        </div>
       `;
     });
   }
