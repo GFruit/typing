@@ -90,9 +90,9 @@ Livechat	https://www.livechat.com/typing-speed-test/#/	o	o	o	o	o	o
 Livetyper	https://livetyper.com/	o	o	o	o	o	o
 Lol-typing	https://lol-typing.com/	o	o	o	o	o	o
 Lyrhythmics	https://lyrhythmics.k327.eu/	o	o	o	o	o	o
-Lyrichero	https://lyrichero.onrender.com/	o	o	o	o	o	o
+Lyrichero	https://lyrichero.onrender.com/	o	o	o	x	o	o
 Lyricstype	https://lyricstype.com/	o	o	o	o	o	o
-Lyricstyping	https://lyricstyping.com/	o	o	o	o	o	o
+Lyricstyping	https://lyricstyping.com/	o	o	o	x	o	o
 Mario-Teaches-Typing	https://playclassic.games/games/educational-dos-games-online/play-mario-teaches-typing-online/play/	o	o	o	o	o	o
 Mecatype	https://mecatype.com	o	o	o	o	o	o
 Minimaltypingtest	https://minimaltypingtest.netlify.app/	o	o	o	o	o	o
@@ -197,8 +197,8 @@ Typeracer	https://play.typeracer.com/	o	o	o	o	x	o
 Typer.aphtech	https://typer.aphtech.org/	o	o	o	o	o	o
 Typerfast	https://www.typerfast.com/	o	o	o	o	o	o
 Typeroyale	https://typeroyale.cc/	o	o	o	o	o	o
-Typeroyale	https://foony.com/games/typeroyale	o	o	o	o	o	x
-Typersguild	https://typersguild.com/	o	o	o	o	o	o
+Typeroyale	https://foony.com/games/typeroyale	o	o	o	o	x	o
+Typersguild	https://typersguild.com/	o	x	o	o	o	o
 Typersworld	https://www.typersworld.com/	o	o	o	o	o	o
 Typespeedai	https://typespeedai.com/	o	o	o	o	o	o
 Typespider	https://typespider.com/	o	o	o	o	o	o
@@ -222,7 +222,7 @@ Typewizz	https://www.typewizz.com/	o	o	o	o	o	o
 Typewreck	https://typewreck.com/	o	o	o	o	o	o
 Typey Type	https://didoesdigital.com/typey-type/	o	o	o	o	o	o
 Typiebara	https://warpromo.github.io/typiebara/	o	o	o	o	o	o
-Typination	https://www.typination.com/	o	o	o	o	o	x
+Typination	https://www.typination.com/	o	o	o	o	x	o
 Typ.ing	https://typ.ing/	o	o	o	o	o	o
 Typing.com	https://www.typing.com/	x	o	o	o	o	o
 Typing12	https://typing12.com/	o	o	o	o	o	o
@@ -319,4 +319,4 @@ YTyping	https://ytyping.net/	o	o	o	o	o	o
 Zentype	https://zentype.app/	o	o	o	o	o	o
 Zentype.vercel.app	https://zentype.vercel.app/	o	o	o	o	o	o
 Zippywords	https://www.zippywords.com/	o	o	o	o	o	o
-Ztype	https://zty.pe/	o	o	o	o	o	o			
+Ztype	https://zty.pe/	o	o	o	o	o	o
