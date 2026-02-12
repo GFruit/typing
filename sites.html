@@ -28,6 +28,47 @@
 <link rel='icon' href="keyboard.ico" type='image-x-icon'/>
 <title>Typing Websites</title>
 <script src="https://cdn.tailwindcss.com"></script>
+<style>
+  .filter-btn {
+    cursor: pointer;
+    padding: 8px 16px;
+    margin: 5px;
+    border-radius: 20px;
+    background-color: var(--sub-color);
+    color: var(--text);
+    border: none;
+    transition: all 0.3s;
+    font-size: 1em;
+    display: inline-block;
+  }
+  
+  .filter-btn:hover {
+    background-color: var(--hover-color);
+  }
+  
+  .filter-btn.active {
+    background-color: var(--hover-color);
+    box-shadow: 0 0 10px var(--hover-color);
+  }
+  
+  .filters-container {
+    text-align: center;
+    margin: 30px auto;
+    max-width: 1200px;
+    padding: 0 20px;
+  }
+  
+  .filter-group {
+    margin-bottom: 20px;
+  }
+  
+  .filter-group-title {
+    color: var(--sub-color);
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+</style>
 </head>
 <body>
   <header>
@@ -41,30 +82,105 @@
       </ul>
     </nav>
   </header>
+  
+  <div class="filters-container">
+    <div class="filter-group">
+      <div class="filter-group-title">Filter by Features</div>
+      <button class="filter-btn" data-filter="login-required">No Login Required</button>
+      <button class="filter-btn" data-filter="learning">Learning</button>
+      <button class="filter-btn" data-filter="book-typing">Book Typing</button>
+      <button class="filter-btn" data-filter="code-typing">Code Typing</button>
+      <button class="filter-btn" data-filter="lyrics-typing">Lyrics Typing</button>
+      <button class="filter-btn" data-filter="live-multiplayer">Live Multiplayer</button>
+      <button class="filter-btn" data-filter="leaderboards">Leaderboards</button>
+    </div>
+  </div>
+  
   <div class="w-full max-w-7xl mx-auto px-4 py-10">
+    <div id="results-count" style="text-align: center; color: var(--sub-color); margin-bottom: 20px; font-size: 1.2em;"></div>
     <section id="site-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></section>
   </div>
+  
   <script>
+  let allSites = [];
+  let activeFilters = new Set();
+  
   async function loadSites() {
     const response = await fetch('sites.txt');
     const text = await response.text();
     const lines = text.split('\n').filter(line => line.trim() !== '');
-    const container = document.getElementById("site-list");
     
-    lines.forEach(line => {
-      const [name, url] = line.split(/\t+/); // split by tab(s)
-      if (!name || !url) return;
+    allSites = lines.map(line => {
+      const parts = line.split('\t');
+      return {
+        name: parts[0],
+        url: parts[1],
+        loginRequired: parts[2] === 'x',
+        learning: parts[3] === 'x',
+        bookTyping: parts[4] === 'x',
+        codeTyping: parts[5] === 'x',
+        lyricsTyping: parts[6] === 'x',
+        liveMultiplayer: parts[7] === 'x',
+        leaderboards: parts[8] === 'x'
+      };
+    });
+    
+    renderSites();
+  }
+  
+  function renderSites() {
+    const container = document.getElementById("site-list");
+    const resultsCount = document.getElementById("results-count");
+    container.innerHTML = '';
+    
+    const filteredSites = allSites.filter(site => {
+      if (activeFilters.size === 0) return true;
       
+      return Array.from(activeFilters).every(filter => {
+        switch(filter) {
+          case 'login-required': return !site.loginRequired;
+          case 'learning': return site.learning;
+          case 'book-typing': return site.bookTyping;
+          case 'code-typing': return site.codeTyping;
+          case 'lyrics-typing': return site.lyricsTyping;
+          case 'live-multiplayer': return site.liveMultiplayer;
+          case 'leaderboards': return site.leaderboards;
+          default: return true;
+        }
+      });
+    });
+    
+    resultsCount.textContent = `Showing ${filteredSites.length} of ${allSites.length} sites`;
+    
+    filteredSites.forEach(site => {
       container.innerHTML += `
-        <a href="${url}" target="_blank" rel="noopener noreferrer"
+        <a href="${site.url}" target="_blank" rel="noopener noreferrer"
            class="block rounded-xl p-6 transition-all text-center group">
           <h2 class="text-xl font-semibold text-white transition-colors">
-            ${name}
+            ${site.name}
           </h2>
         </a>
       `;
     });
   }
+  
+  // Setup filter buttons
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const filter = this.getAttribute('data-filter');
+      
+      if (activeFilters.has(filter)) {
+        activeFilters.delete(filter);
+        this.classList.remove('active');
+      } else {
+        activeFilters.add(filter);
+        this.classList.add('active');
+      }
+      
+      renderSites();
+    });
+  });
+  
   loadSites();
 </script>
  </body>
