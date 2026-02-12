@@ -1,4 +1,4 @@
-10fastfingers	https://10fastfingers.com/	o	o	o	o	o	o
+10fastfingers	https://10fastfingers.com/	o	o	o	o	o	x
 Abcya	https://www.abcya.com/games/category/typing	o	o	o	o	o	o
 Adazing	https://adazing.com/typing-speed-test/	o	o	o	o	o	o
 Advancedtypingtrainer	https://www.advancedtypingtrainer.com/	o	o	o	o	o	o
@@ -33,7 +33,7 @@ Cozytypes	https://cozytypes.com/	o	o	o	o	o	o
 Cybertype	https://cybertype.io/	o	o	o	o	o	o
 Dailytype	https://dailytype.net/	o	o	o	o	o	o
 Dataentrytester	https://www.dataentrytester.com/	o	o	o	o	o	o
-Devtype	https://devtype.pankajk.tech/	o	o	o	o	o	o
+Devtype	https://devtype.pankajk.tech/	o	o	x	o	o	o
 Ditchqwerty	https://www.ditchqwerty.com/	o	o	o	o	o	o
 Ducktype	https://ducktype.xyz/	o	o	o	o	o	o
 Dvorak.gruevy	http://dvorak.gruevy.com/	o	o	o	o	o	o
@@ -55,7 +55,7 @@ Gfruit	https://gfruit.github.io/typing/	o	o	o	o	o	o
 Glyphica	https://playglyphica.com/	o	o	o	o	o	o
 Gonnatype	https://www.gonnatype.com/data-entry-test/	o	o	o	o	o	o
 Goodtyping	https://www.goodtyping.com/	o	o	o	o	o	o
-Hackertype	https://www.hackertype.dev/	o	o	o	o	o	o
+Hackertype	https://www.hackertype.dev/	o	o	x	o	o	o
 Hancomtaja	https://tt.hancomtaja.com/en/	o	o	o	o	o	o
 How-to-type	https://www.how-to-type.com/	o	o	o	o	o	o
 Humanbenchmark	https://www.humanbenchmark.com/tests/typing	o	o	o	o	o	o
@@ -64,7 +64,7 @@ Hydrovolter	https://hydrovolter.com/typing/	o	o	o	o	o	o
 Indiatyping	http://indiatyping.com/	o	o	o	o	o	o
 Intersteno	https://www.intersteno.it/	o	o	o	o	o	o
 Justquicktools	https://justquicktools.com/typing-speed-test	o	o	o	o	o	o
-Karaoketype	https://memetrolls.net/KaraokeType/	o	o	o	o	o	o
+Karaoketype	https://memetrolls.net/KaraokeType/	o	o	o	x	o	o
 Keebacy	https://madnight.github.io/keebacy/	o	o	o	o	o	o
 Keybara	https://keybara.io/	o	o	o	o	o	o
 Keyboard-racing	https://keyboard-racing.com/	o	o	o	o	o	o
@@ -77,7 +77,7 @@ Keystroke Nitinjaswal	https://keystroke.nitinjaswal.me/type	o	o	o	o	o	o
 Keyzen-colemak	https://first20hours.github.io/keyzen-colemak/	o	o	o	o	o	o
 Keyzen-colemak-dh	https://ranelpadon.github.io/keyzen-colemak-dh/	o	o	o	o	o	o
 Keyzen-map	https://adamgradzki.com/keyzen-mab/	o	o	o	o	o	o
-Kickassfingers	https://kickassfingers.com/	o	o	o	o	o	o
+Kickassfingers	https://kickassfingers.com/	o	o	o	o	o	x
 Kidstyping	https://www.kidstyping.org/	o	o	o	o	o	o
 Kidztype	https://www.kidztype.com/	o	o	o	o	o	o
 Kinetype	https://www.kinetype.app/	o	o	o	o	o	o
@@ -96,7 +96,7 @@ Lyricstyping	https://lyricstyping.com/	o	o	o	x	o	o
 Mario-Teaches-Typing	https://playclassic.games/games/educational-dos-games-online/play-mario-teaches-typing-online/play/	o	o	o	o	o	o
 Mecatype	https://mecatype.com	o	o	o	o	o	o
 Minimaltypingtest	https://minimaltypingtest.netlify.app/	o	o	o	o	o	o
-Monkey-type	https://monkeytype.com/	o	o	o	o	o	o
+Monkeytype	https://monkeytype.com/	o	o	o	o	o	x
 Monkeytypeorg	https://monkey-type.org/	o	o	o	o	o	o
 Mtype	https://mtype.vercel.app/	o	o	o	o	o	o
 Music-typing	https://music-typing.netlify.app/	o	o	o	o	o	o
@@ -182,7 +182,7 @@ Typefast.app	https://typefast.app/	o	o	o	o	o	o
 Typefast.online	https://typefast.online/	o	o	o	o	o	o
 Typefast.rohitpaulk	https://typefast.rohitpaulk.com/	o	o	o	o	o	o
 Typeflix	https://typeflix.com/	o	o	o	x	o	o
-TypeGG	http://typegg.io/	o	o	o	o	x	o
+TypeGG	http://typegg.io/	o	o	o	o	x	x
 Typegym	https://typegym.com/	o	o	o	o	o	o
 Typele	https://typele.com/	o	o	o	o	o	o
 Typelit	https://www.typelit.io/	o	x	o	o	o	o
@@ -190,10 +190,10 @@ Typelo	https://www.typelo.tech/	o	o	o	o	o	o
 Typenconquer	https://typenconquer.io/	o	o	o	o	o	o
 Typeo	https://www.typeo.io/	o	o	o	o	o	o
 Typequicker	https://www.typequicker.com/	o	o	o	o	o	o
-Typer	https://typer.io/	o	o	o	o	o	o
+Typer	https://typer.io/	o	o	o	o	x	o
 Typer.vercel.app	https://typer.vercel.app/	o	o	o	o	o	o
 Typera	http://typera.net/	o	o	o	o	o	o
-Typeracer	https://play.typeracer.com/	o	o	o	o	x	o
+Typeracer	https://play.typeracer.com/	o	o	o	o	x	x
 Typer.aphtech	https://typer.aphtech.org/	o	o	o	o	o	o
 Typerfast	https://www.typerfast.com/	o	o	o	o	o	o
 Typeroyale	https://typeroyale.cc/	o	o	o	o	o	o
