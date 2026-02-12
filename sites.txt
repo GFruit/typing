@@ -5,7 +5,7 @@ Advancedtypingtrainer	https://www.advancedtypingtrainer.com/	o	o	o	o	o	o
 Agilefingers	https://agilefingers.com/	o	o	o	o	o	o
 Aitypingtutor	https://aitypingtutor.examyst.in/	o	o	o	o	o	o
 Alfatyping	https://www.alfatyping.com/	o	o	o	o	o	o
-Algotype	https://algotype.net/	o	o	o	o	o	o
+Algotype	https://algotype.net/	o	o	x	o	o	o
 Alphabetimals	https://alphabetimals.com/typer/	o	o	o	o	o	o
 Alphakeys	https://s0kpiseth.github.io/AlphaKeys/	o	o	o	o	o	o
 arealme	https://www.arealme.com/typing-test/en/	o	o	o	o	o	o
@@ -23,9 +23,9 @@ Blind-Typing-Tutor	https://blind-typing-tutor.wordmemo.net/en	o	o	o	o	o	o
 Boosttyping	https://boosttyping.com/	o	o	o	o	o	o
 Burst-Type-Pro	https://www.burst-type.pro/	o	o	o	o	o	o
 Codetype	https://codetype.keypcb.xyz/	o	o	x	o	o	o
-Codingspeedtest	https://codingspeedtest.com/	o	o	o	o	o	o
-Codesprints	https://codesprints.vercel.app/	o	o	o	o	o	o
-Code-type	https://code-type.vercel.app/	o	o	o	o	o	o
+Codingspeedtest	https://codingspeedtest.com/	o	o	x	o	o	o
+Codesprints	https://codesprints.vercel.app/	o	o	x	o	o	o
+Code-type	https://code-type.vercel.app/	o	o	x	o	o	o
 Colemakclub	https://gnusenpai.net/colemakclub/	o	o	o	o	o	o
 Coolmathgames	https://www.coolmathgames.com/c/typing-games	o	o	o	o	o	o
 Cosmotype	https://www.cosmotype.com/	o	o	o	o	o	o
@@ -40,7 +40,7 @@ Dvorak.gruevy	http://dvorak.gruevy.com/	o	o	o	o	o	o
 Easytype	https://www.easytype.org/	o	o	o	o	o	o
 Easytype	https://typing-web.vercel.app/	o	o	o	o	o	o
 Eletypes	https://www.eletypes.com/	o	o	o	o	o	o
-Entertrained	https://entertrained.app/	o	o	o	o	o	o
+Entertrained	https://entertrained.app/	o	x	o	o	o	o
 Fairy Type	https://lazyloop.itch.io/fairy-type	o	o	o	o	o	o
 Fastfingers	https://www.fastfingers.in/	o	o	o	o	o	o
 Fastfingers	https://fastfingers.net/	o	o	o	o	o	o
@@ -136,8 +136,8 @@ Sensational-cheesecake	https://sensational-cheesecake-981147.netlify.app/	o	o	o	
 Sense-lang	https://sense-lang.org/	o	o	o	o	o	o
 Slimekids	https://www.slimekids.com/games/typing-games/	o	o	o	o	o	o
 Space-typer	https://azjgard.github.io/space-typer/	o	o	o	o	o	o
-Speedcoder	http://www.speedcoder.net/	o	o	o	o	o	o
-Speedtyper	https://speedtyper.dev/	o	o	o	o	o	o
+Speedcoder	http://www.speedcoder.net/	o	o	x	o	o	o
+Speedtyper	https://speedtyper.dev/	o	o	x	o	o	o
 Speedtypeai	https://www.speedtype.ai/	o	o	o	o	o	o
 Speedtypingonline	https://www.speedtypingonline.com/home	o	o	o	o	o	o
 Starrune	https://www.starrune.net/	o	o	o	o	o	o
@@ -181,11 +181,11 @@ Typefast	https://typefast.io/	o	o	o	o	o	o
 Typefast.app	https://typefast.app/	o	o	o	o	o	o
 Typefast.online	https://typefast.online/	o	o	o	o	o	o
 Typefast.rohitpaulk	https://typefast.rohitpaulk.com/	o	o	o	o	o	o
-Typeflix	https://typeflix.com/	o	o	o	o	o	o
+Typeflix	https://typeflix.com/	o	o	o	x	o	o
 TypeGG	http://typegg.io/	o	o	o	o	x	o
 Typegym	https://typegym.com/	o	o	o	o	o	o
 Typele	https://typele.com/	o	o	o	o	o	o
-Typelit	https://www.typelit.io/	o	o	o	o	o	o
+x	https://www.typelit.io/	o	x	o	o	o	o
 Typelo	https://www.typelo.tech/	o	o	o	o	o	o
 Typenconquer	https://typenconquer.io/	o	o	o	o	o	o
 Typeo	https://www.typeo.io/	o	o	o	o	o	o
@@ -197,7 +197,7 @@ Typeracer	https://play.typeracer.com/	o	o	o	o	x	o
 Typer.aphtech	https://typer.aphtech.org/	o	o	o	o	o	o
 Typerfast	https://www.typerfast.com/	o	o	o	o	o	o
 Typeroyale	https://typeroyale.cc/	o	o	o	o	o	o
-Typeroyale	https://foony.com/games/typeroyale	o	o	o	o	o	o
+Typeroyale	https://foony.com/games/typeroyale	o	o	o	o	o	x
 Typersguild	https://typersguild.com/	o	o	o	o	o	o
 Typersworld	https://www.typersworld.com/	o	o	o	o	o	o
 Typespeedai	https://typespeedai.com/	o	o	o	o	o	o
@@ -222,9 +222,9 @@ Typewizz	https://www.typewizz.com/	o	o	o	o	o	o
 Typewreck	https://typewreck.com/	o	o	o	o	o	o
 Typey Type	https://didoesdigital.com/typey-type/	o	o	o	o	o	o
 Typiebara	https://warpromo.github.io/typiebara/	o	o	o	o	o	o
-Typination	https://www.typination.com/	o	o	o	o	o	o
+Typination	https://www.typination.com/	o	o	o	o	o	x
 Typ.ing	https://typ.ing/	o	o	o	o	o	o
-Typing.com	https://www.typing.com/	o	o	o	o	o	o
+Typing.com	https://www.typing.com/	x	o	o	o	o	o
 Typing12	https://typing12.com/	o	o	o	o	o	o
 Typing.io	https://typing.io/	o	o	o	o	o	o
 Typingacademy	https://www.typing.academy/	o	o	o	o	o	o
@@ -237,7 +237,7 @@ Typingbits	https://typingbits.com/	o	o	o	o	o	o
 Typingbolt	https://www.typingbolt.com/	o	o	o	o	o	o
 Typingbowl	https://typingbowl.com/	o	o	o	o	o	o
 Typingbrain	https://typingbrain.com/	o	o	o	o	o	o
-Typingclub	https://www.typingclub.com/	o	o	o	o	o	o
+Typingclub	https://www.typingclub.com/	x	o	o	o	o	o
 Typingcore	https://www.typingcore.com/	o	o	o	o	o	o
 Typingdungeoncrawler	https://typingdungeoncrawler.com/	o	o	o	o	o	o
 Typinggames	https://www.typinggames.zone/	o	o	o	o	o	o
