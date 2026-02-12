@@ -1,322 +1,322 @@
-10fastfingers	https://10fastfingers.com/	o	o	o	o	o	o	o
-Abcya	https://www.abcya.com/games/category/typing	o	o	o	o	o	o	o
-Adazing	https://adazing.com/typing-speed-test/	o	o	o	o	o	o	o
-Advancedtypingtrainer	https://www.advancedtypingtrainer.com/	o	o	o	o	o	o	o
-Agilefingers	https://agilefingers.com/	o	o	o	o	o	o	o
-Aitypingtutor	https://aitypingtutor.examyst.in/	o	o	o	o	o	o	o
-Alfatyping	https://www.alfatyping.com/	o	o	o	o	o	o	o
-Algotype	https://algotype.net/	o	o	o	o	o	o	o
-Alphabetimals	https://alphabetimals.com/typer/	o	o	o	o	o	o	o
-Alphakeys	https://s0kpiseth.github.io/AlphaKeys/	o	o	o	o	o	o	o
-arealme	https://www.arealme.com/typing-test/en/	o	o	o	o	o	o	o
-Arrrtype	https://www.arrrtype.com/	o	o	o	o	o	o	o
-Artypist	https://artypist.com/en/	o	o	o	o	o	o	o
-Asantyping	https://asantyping.com/	o	o	o	o	o	o	o
-Bagretype	https://bagretype.com/	o	o	o	o	o	o	o
-Battletyper	https://battletyper.com/	o	o	o	o	o	o	o
-Battle-typer	https://www.crazygames.com/game/battle-typer	o	o	o	o	o	o	o
-bayanbennett-faster-phalanges	https://www.bayanbennett.com/projects/faster-phalanges/	o	o	o	o	o	o	o
-bayanbennett-rnn-typing-practice	https://www.bayanbennett.com/projects/rnn-typing-practice/	o	o	o	o	o	o	o
-Bigbrownbear	https://www.bigbrownbear.co.uk/	o	o	o	o	o	o	o
-Blindtyping	https://blindtyping.com/	o	o	o	o	o	o	o
-Blind-Typing-Tutor	https://blind-typing-tutor.wordmemo.net/en	o	o	o	o	o	o	o
-Boosttyping	https://boosttyping.com/	o	o	o	o	o	o	o
-Burst-Type-Pro	https://www.burst-type.pro/	o	o	o	o	o	o	o
-Codetype	https://codetype.keypcb.xyz/	o	o	o	x	o	o	o
-Codingspeedtest	https://codingspeedtest.com/	o	o	o	o	o	o	o
-Codesprints	https://codesprints.vercel.app/	o	o	o	o	o	o	o
-Code-type	https://code-type.vercel.app/	o	o	o	o	o	o	o
-Colemakclub	https://gnusenpai.net/colemakclub/	o	o	o	o	o	o	o
-Coolmathgames	https://www.coolmathgames.com/c/typing-games	o	o	o	o	o	o	o
-Cosmotype	https://www.cosmotype.com/	o	o	o	o	o	o	o
-Cozytypes	https://cozytypes.com/	o	o	o	o	o	o	o
-Cybertype	https://cybertype.io/	o	o	o	o	o	o	o
-Dailytype	https://dailytype.net/	o	o	o	o	o	o	o
-Dataentrytester	https://www.dataentrytester.com/	o	o	o	o	o	o	o
-Devtype	https://devtype.pankajk.tech/	o	o	o	o	o	o	o
-Ditchqwerty	https://www.ditchqwerty.com/	o	o	o	o	o	o	o
-Ducktype	https://ducktype.xyz/	o	o	o	o	o	o	o
-Dvorak.gruevy	http://dvorak.gruevy.com/	o	o	o	o	o	o	o
-Easytype	https://www.easytype.org/	o	o	o	o	o	o	o
-Easytype	https://typing-web.vercel.app/	o	o	o	o	o	o	o
-Eletypes	https://www.eletypes.com/	o	o	o	o	o	o	o
-Entertrained	https://entertrained.app/	o	o	o	o	o	o	o
-Fairy Type	https://lazyloop.itch.io/fairy-type	o	o	o	o	o	o	o
-Fastfingers	https://www.fastfingers.in/	o	o	o	o	o	o	o
-Fastfingers	https://fastfingers.net/	o	o	o	o	o	o	o
-Fast-typer-3	https://poki.com/de/g/fast-typer-3	o	o	o	o	o	o	o
-Fast-typing	https://www.fast-typing.com/	o	o	o	o	o	o	o
-Fingertune	https://fingertune.com/	o	o	o	o	o	o	o
-Freetypingcamp	https://www.freetypingcamp.com/	o	o	o	o	o	o	o
-Freetypinggame	https://www.freetypinggame.net/	o	o	o	o	o	o	o
-Freetypinglessons	https://www.freetypinglessons.club/	o	o	o	o	o	o	o
-Galaxytyping	https://www.galaxytyping.com/	o	o	o	o	o	o	o
-Gfruit	https://gfruit.github.io/typing/	o	o	o	o	o	o	o
-Glyphica	https://playglyphica.com/	o	o	o	o	o	o	o
-Gonnatype	https://www.gonnatype.com/data-entry-test/	o	o	o	o	o	o	o
-Goodtyping	https://www.goodtyping.com/	o	o	o	o	o	o	o
-Hackertype	https://www.hackertype.dev/	o	o	o	o	o	o	o
-Hancomtaja	https://tt.hancomtaja.com/en/	o	o	o	o	o	o	o
-How-to-type	https://www.how-to-type.com/	o	o	o	o	o	o	o
-Humanbenchmark	https://www.humanbenchmark.com/tests/typing	o	o	o	o	o	o	o
-Hurtig	https://hurtig.vercel.app/	o	o	o	o	o	o	o
-Hydrovolter	https://hydrovolter.com/typing/	o	o	o	o	o	o	o
-Indiatyping	http://indiatyping.com/	o	o	o	o	o	o	o
-Intersteno	https://www.intersteno.it/	o	o	o	o	o	o	o
-Justquicktools	https://justquicktools.com/typing-speed-test	o	o	o	o	o	o	o
-Karaoketype	https://memetrolls.net/KaraokeType/	o	o	o	o	o	o	o
-Keebacy	https://madnight.github.io/keebacy/	o	o	o	o	o	o	o
-Keybara	https://keybara.io/	o	o	o	o	o	o	o
-Keyboard-racing	https://keyboard-racing.com/	o	o	o	o	o	o	o
-Keybr	https://www.keybr.com/	o	o	o	o	o	o	o
-Keyfight	https://keyfight.net/	o	o	o	o	o	o	o
-Keyhero	https://www.keyhero.com/	o	o	o	o	o	o	o
-Keymash	http://keymash.io/	o	o	o	o	o	o	o
-Keystreaks	https://keystreaks.com/	o	o	o	o	o	o	o
-Keystroke Nitinjaswal	https://keystroke.nitinjaswal.me/type	o	o	o	o	o	o	o
-Keyzen-colemak	https://first20hours.github.io/keyzen-colemak/	o	o	o	o	o	o	o
-Keyzen-colemak-dh	https://ranelpadon.github.io/keyzen-colemak-dh/	o	o	o	o	o	o	o
-Keyzen-map	https://adamgradzki.com/keyzen-mab/	o	o	o	o	o	o	o
-Kickassfingers	https://kickassfingers.com/	o	o	o	o	o	o	o
-Kidstyping	https://www.kidstyping.org/	o	o	o	o	o	o	o
-Kidztype	https://www.kidztype.com/	o	o	o	o	o	o	o
-Kinetype	https://www.kinetype.app/	o	o	o	o	o	o	o
-Klavia	https://www.playklavia.com/	o	o	o	o	o	o	o
-Klavogonki	https://klavogonki.ru/	o	o	o	o	o	o	o
-Learncolemak	https://www.learncolemak.com/	o	o	o	o	o	o	o
-Learndvorak	https://learn.dvorak.nl/	o	o	o	o	o	o	o
-Learntyping	https://www.learntyping.org/	o	o	o	o	o	o	o
-Livechat	https://www.livechat.com/typing-speed-test/#/	o	o	o	o	o	o	o
-Livetyper	https://livetyper.com/	o	o	o	o	o	o	o
-Lol-typing	https://lol-typing.com/	o	o	o	o	o	o	o
-Lyrhythmics	https://lyrhythmics.k327.eu/	o	o	o	o	o	o	o
-Lyrichero	https://lyrichero.onrender.com/	o	o	o	o	o	o	o
-Lyricstype	https://lyricstype.com/	o	o	o	o	o	o	o
-Lyricstyping	https://lyricstyping.com/	o	o	o	o	o	o	o
-Mario-Teaches-Typing	https://playclassic.games/games/educational-dos-games-online/play-mario-teaches-typing-online/play/	o	o	o	o	o	o	o
-Mecatype	https://mecatype.com	o	o	o	o	o	o	o
-Minimaltypingtest	https://minimaltypingtest.netlify.app/	o	o	o	o	o	o	o
-Monkey-type	https://monkeytype.com/	o	o	o	o	o	o	o
-Monkeytypeorg	https://monkey-type.org/	o	o	o	o	o	o	o
-Mtype	https://mtype.vercel.app/	o	o	o	o	o	o	o
-Music-typing	https://music-typing.netlify.app/	o	o	o	o	o	o	o
-Musitype	https://musitype.netlify.app/	o	o	o	o	o	o	o
-Mytypingjourney	https://www.mytypingjourney.com/	o	o	o	o	o	o	o
-Ngram-type	https://ranelpadon.github.io/ngram-type/	o	o	o	o	o	o	o
-Ninjatype	https://www.ninjatype.com/	o	o	o	o	o	o	o
-Nitrotype	https://www.nitrotype.com/	o	o	o	o	o	x	o
-OceanAscending	https://tutte2k.github.io/TypingGame-OceanAscending/	o	o	o	o	o	o	o
-OceanAscendingv2	https://tutte2k.github.io/OceanAscendingV2/	o	o	o	o	o	o	o
-Official-typing-test	https://official-typing-test.com/	o	o	o	o	o	o	o
-Onlinetyping	https://onlinetyping.org/	o	o	o	o	o	o	o
-Onlinetypingtest	https://www.onlinetypingtest.net/	o	o	o	o	o	o	o
-Pairtype	https://www.pairtype.com/	o	o	o	o	o	o	o
-Patorjk	http://patorjk.com/typing-speed-test/	o	o	o	o	o	o	o
-Penguintype	https://penguintype.vercel.app/	o	o	o	o	o	o	o
-Pngtyping	https://png-typing.netlify.app/	o	o	o	o	o	o	o
-Powertyping	https://powertyping.com/	o	o	o	o	o	o	o
-Practice-typing	https://www.practice-typing.com/	o	o	o	o	o	o	o
-Problemwords	https://problemwords.com/	o	o	o	o	o	o	o
-Protypist	https://protypist.netlify.app/	o	o	o	o	o	o	o
-Quickfox	https://quick-fox.lovable.app/	o	o	o	o	o	o	o
-Qwertron	https://qwertron.com/home	o	o	o	o	o	o	o
-Qwerty Learner	https://qwerty.kaiyi.cool/	o	o	o	o	o	o	o
-Qwerty School	https://qwerty.school/	o	o	o	o	o	o	o
-Randomracer	http://www.randomracer.com/	o	o	o	o	o	o	o
-Rapidtyping	https://rapidtyping.com/	o	o	o	o	o	o	o
-Ratatype	https://www.ratatype.com/	o	o	o	o	o	o	o
-Reactokey	https://reactokey.com/	o	o	o	o	o	o	o
-React-Typing-Speed	https://react-typing-speed.netlify.app/	o	o	o	o	o	o	o
-Reverstype	https://reversetype.fun/	o	o	o	o	o	o	o
-Rhythmtyping	https://www.rhythmtyping.com/	o	o	o	o	o	o	o
-Rlytype	https://rlytype.vercel.app/	o	o	o	o	o	o	o
-Roomrecess	https://www.roomrecess.com/mobile/WPM/play.html	o	o	o	o	o	o	o
-Senpaitype	https://effortless-starship-5cd209.netlify.app/	o	o	o	o	o	o	o
-Sensational-cheesecake	https://sensational-cheesecake-981147.netlify.app/	o	o	o	o	o	o	o
-Sense-lang	https://sense-lang.org/	o	o	o	o	o	o	o
-Slimekids	https://www.slimekids.com/games/typing-games/	o	o	o	o	o	o	o
-Space-typer	https://azjgard.github.io/space-typer/	o	o	o	o	o	o	o
-Speedcoder	http://www.speedcoder.net/	o	o	o	o	o	o	o
-Speedtyper	https://speedtyper.dev/	o	o	o	o	o	o	o
-Speedtypeai	https://www.speedtype.ai/	o	o	o	o	o	o	o
-Speedtypingonline	https://www.speedtypingonline.com/home	o	o	o	o	o	o	o
-Starrune	https://www.starrune.net/	o	o	o	o	o	o	o
-Swift-type	https://swift-type-7007d.web.app/	o	o	o	o	o	o	o
-Tewter	https://www.tewter.to/typing	o	o	o	o	o	o	o
-Textmagic	https://freetools.textmagic.com/texting-speed-challenge	o	o	o	o	o	o	o
-Themonkeytype	https://themonkeytype.com/	o	o	o	o	o	o	o
-Thepracticetest	https://thepracticetest.com/	o	o	o	o	o	o	o
-Thetypingcat	https://thetypingcat.com/	o	o	o	o	o	o	o
-Thetypingpractice	https://www.thetypingpractice.com/	o	o	o	o	o	o	o
-Thundertype	https://thunder-type.vercel.app/	o	o	o	o	o	o	o
-Tidio	https://www.tidio.com/typing-test	o	o	o	o	o	o	o
-Tipohiz	https://tipohiz.vercel.app/	o	o	o	o	o	o	o
-Tipp10	https://www.tipp10.com/en/	o	o	o	o	o	o	o
-Tonicminds	https://tonicminds.io/	o	o	o	o	o	o	o
-Toptypingtest	http://www.toptypingtest.com/	o	o	o	o	o	o	o
-Touchpianist	https://touchpianist.com/	o	o	o	o	o	o	o
-Touchtypo	https://touchtypo.com/	o	o	o	o	o	o	o
-Touchtyper	http://touchtyper.net/en/	o	o	o	o	o	o	o
-Touchtyping.online	https://www.touchtyping.online/	o	o	o	o	o	o	o
-Turbotype	https://www.turbotype.co/	o	o	o	o	o	o	o
-Turtlediary	https://www.turtlediary.com/game/rapid-typing.html	o	o	o	o	o	o	o
-Type4Fun	https://www.type4fun.com/	o	o	o	o	o	o	o
-Typeabook	https://typeabook.co.uk/	o	o	o	o	o	o	o
-Typeaboutit	https://typeaboutit.com/	o	o	o	o	o	o	o
-Typebiz	https://type.biz/	o	o	o	o	o	o	o
-Typeblitz	https://typeblitz.com/	o	o	o	o	o	o	o
-Typeblitz	https://typeblitz.vercel.app/	o	o	o	o	o	o	o
-Typecast	https://not-jam.itch.io/typecast	o	o	o	o	o	o	o
-Typecelerate	https://typecelerate.com/	o	o	o	o	o	o	o
-Typechamp	https://typechamp.com/	o	o	o	o	o	o	o
-Typeclash	https://versatiletechnology.in/Typeclash	o	o	o	o	o	o	o
-Typecome	https://typecome.com/	o	o	o	o	o	o	o
-Typeconomy	https://typeconomy.vercel.app/	o	o	o	o	o	o	o
-Typecraft	https://typecraft.replit.app/	o	o	o	o	o	o	o
-Typedojo	https://www.typedojo.com/	o	o	o	o	o	o	o
-Type-Dojo	https://typo-dojo.com/	o	o	o	o	o	o	o
-Typeduel	https://www.typeduel.fun/	o	o	o	o	o	o	o
-Type-fu	https://type-fu.com/	o	o	o	o	o	o	o
-Typefast	https://typefast.io/	o	o	o	o	o	o	o
-Typefast.app	https://typefast.app/	o	o	o	o	o	o	o
-Typefast.online	https://typefast.online/	o	o	o	o	o	o	o
-Typefast.rohitpaulk	https://typefast.rohitpaulk.com/	o	o	o	o	o	o	o
-Typeflix	https://typeflix.com/	o	o	o	o	o	o	o
-TypeGG	http://typegg.io/	o	o	o	o	o	x	o
-Typegym	https://typegym.com/	o	o	o	o	o	o	o
-Typele	https://typele.com/	o	o	o	o	o	o	o
-Typelit	https://www.typelit.io/	o	o	o	o	o	o	o
-Typelo	https://www.typelo.tech/	o	o	o	o	o	o	o
-Typenconquer	https://typenconquer.io/	o	o	o	o	o	o	o
-Typeo	https://www.typeo.io/	o	o	o	o	o	o	o
-Typequicker	https://www.typequicker.com/	o	o	o	o	o	o	o
-Typer	https://typer.io/	o	o	o	o	o	o	o
-Typer.vercel.app	https://typer.vercel.app/	o	o	o	o	o	o	o
-Typera	http://typera.net/	o	o	o	o	o	o	o
-Typeracer	https://play.typeracer.com/	o	o	o	o	o	x	o
-Typer.aphtech	https://typer.aphtech.org/	o	o	o	o	o	o	o
-Typerfast	https://www.typerfast.com/	o	o	o	o	o	o	o
-Typeroyale	https://typeroyale.cc/	o	o	o	o	o	o	o
-Typeroyale	https://foony.com/games/typeroyale	o	o	o	o	o	o	o
-Typersguild	https://typersguild.com/	o	o	o	o	o	o	o
-Typersworld	https://www.typersworld.com/	o	o	o	o	o	o	o
-Typespeedai	https://typespeedai.com/	o	o	o	o	o	o	o
-Typespider	https://typespider.com/	o	o	o	o	o	o	o
-Typesprout	https://typesprout.com/	o	o	o	o	o	o	o
-Typester	https://tst-coral.vercel.app/	o	o	o	o	o	o	o
-Typestreak	https://type-streak.emirguvenni.com/	o	o	o	o	o	o	o
-Typesy	https://www.typesy.com/	o	o	o	o	o	o	o
-Typerush	https://www.typerush.com/	o	o	o	o	o	o	o
-Type-rush-theta	https://type-rush-theta.vercel.app/	o	o	o	o	o	o	o
-Typetastic	https://typetastic.com/	o	o	o	o	o	o	o
-Typetest	https://typetest.io/	o	o	o	o	o	o	o
-Typetest.minilabs	https://typetest.minilabs.online/	o	o	o	o	o	o	o
-Typetherhythm	https://typetherhythm.com/	o	o	o	o	o	o	o
-Typetheword	https://www.typetheword.site/	o	o	o	o	o	o	o
-Typetris	https://valorance.net/typetris/	o	o	o	o	o	o	o
-Typetype	https://type-type.vercel.app/	o	o	o	o	o	o	o
-Typeuniverse	https://typeuniverse.com/	o	o	o	o	o	o	o
-Typeverse	https://typerverse.com/	o	o	o	o	o	o	o
-Typewars	https://typewars.com/	o	o	o	o	o	o	o
-Typewizz	https://www.typewizz.com/	o	o	o	o	o	o	o
-Typewreck	https://typewreck.com/	o	o	o	o	o	o	o
-Typey Type	https://didoesdigital.com/typey-type/	o	o	o	o	o	o	o
-Typiebara	https://warpromo.github.io/typiebara/	o	o	o	o	o	o	o
-Typination	https://www.typination.com/	o	o	o	o	o	o	o
-Typ.ing	https://typ.ing/	o	o	o	o	o	o	o
-Typing.com	https://www.typing.com/	o	o	o	o	o	o	o
-Typing12	https://typing12.com/	o	o	o	o	o	o	o
-Typing.io	https://typing.io/	o	o	o	o	o	o	o
-Typingacademy	https://www.typing.academy/	o	o	o	o	o	o	o
-Typingai	https://www.typingai.com/	o	o	o	o	o	o	o
-Typingbaba	http://www.typingbaba.com/	o	o	o	o	o	o	o
-Typingbattle	https://typingbattle.com/	o	o	o	o	o	o	o
-Typingbeast	https://typingbeast.com/	o	o	o	o	o	o	o
-Typingbird	https://typingbird.com/	o	o	o	o	o	o	o
-Typingbits	https://typingbits.com/	o	o	o	o	o	o	o
-Typingbolt	https://www.typingbolt.com/	o	o	o	o	o	o	o
-Typingbowl	https://typingbowl.com/	o	o	o	o	o	o	o
-Typingbrain	https://typingbrain.com/	o	o	o	o	o	o	o
-Typingclub	https://www.typingclub.com/	o	o	o	o	o	o	o
-Typingcore	https://www.typingcore.com/	o	o	o	o	o	o	o
-Typingdungeoncrawler	https://typingdungeoncrawler.com/	o	o	o	o	o	o	o
-Typinggames	https://www.typinggames.zone/	o	o	o	o	o	o	o
-Typingenius	https://typingenius.com/	o	o	o	o	o	o	o
-Typingerz	https://en.typingerz.com/	o	o	o	o	o	o	o
-Typingfirst	https://www.typingfirst.com/	o	o	o	o	o	o	o
-TypingGym	https://www.typinggym.com/	o	o	o	o	o	o	o
-Typinghq	http://www.typinghq.com/	o	o	o	o	o	o	o
-Typingkaro	https://www.typingkaro.com/	o	o	o	o	o	o	o
-Typingkeyboards	https://typingkeyboards.com/	o	o	o	o	o	o	o
-Typingkitties	https://www.typingkitties.com/	o	o	o	o	o	o	o
-Typingkoala	https://typingkoala.com/	o	o	o	o	o	o	o
-Typinglessons-online	https://www.typinglessons-online.com/	o	o	o	o	o	o	o
-Typing-lessons	https://www.typing-lessons.org/	o	o	o	o	o	o	o
-Typinglounge	https://www.typinglounge.com/	o	o	o	o	o	o	o
-Typingmania	https://v2.typingmania.net/	o	o	o	o	o	o	o
-Typingmaniac	https://wi-typingmaniac.netlify.app/	o	o	o	o	o	o	o
-Typingmaster	https://www.typingmaster.com/	o	o	o	o	o	o	o
-Typing-master	https://typing-master-one-tau.vercel.app/	o	o	o	o	o	o	o
-Typingmatch	https://typingmatch.com/	o	o	o	o	o	o	o
-Typingme	http://www.typingme.com/touch-typing/typing-tutor.php	o	o	o	o	o	o	o
-Typingmentor	https://typingmentor.com/typing-test/	o	o	o	o	o	o	o
-Typingmonkey	https://www.typingmonkey.in/	o	o	o	o	o	o	o
-Typingmuscle	https://www.typingmuscle.com/	o	o	o	o	o	o	o
-Typingnewtum	https://typing.newtum.com/	o	o	o	o	o	o	o
-Typing-nvim	https://typing-nvim.github.io/kinesis360/	o	o	o	o	o	o	o
-Typingowl	https://typingowl.com/	o	o	o	o	o	o	o
-Typingpal	https://www.typingpal.com/en	o	o	o	o	o	o	o
-Typingpractice	https://typingpractice.org/	o	o	o	o	o	o	o
-Typingrace	https://typing-speed-app-192d3.web.app/	o	o	o	o	o	o	o
-Typingrush	https://typingrush-gamma.vercel.app/	o	o	o	o	o	o	o
-Typings	https://typings.gg/	o	o	o	o	o	o	o
-Typing-speed	https://typing-speed.net/	o	o	o	o	o	o	o
-Typing-speed-test	https://typing-speed-test.aoeu.eu/	o	o	o	o	o	o	o
-Typingspeedtestwebsite	https://gaurav-aditya.github.io/typing-test/	o	o	o	o	o	o	o
-Typingschool	https://typing-school.vercel.app/	o	o	o	o	o	o	o
-Typingstudy	https://www.typingstudy.com/	o	o	o	o	o	o	o
-Typingtest	https://www.typingtest.com/	o	o	o	o	o	o	o
-Typingtestfast	https://www.typingtestfast.com/	o	o	o	o	o	o	o
-Typingtestgo	https://typingtestgo.com/	o	o	o	o	o	o	o
-Typingtestnow	https://typingtestnow.com/	o	o	o	o	o	o	o
-Typingtestonline	http://typingtestonline.org/	o	o	o	o	o	o	o
-Typingtestrounak	https://typing-test-rounak.netlify.app/	o	o	o	o	o	o	o
-Typingtest Skillrage	https://typingtest.skillrage.com/	o	o	o	o	o	o	o
-Typingtiger	https://www.typingtiger.com/	o	o	o	o	o	o	o
-Typingtom	https://www.typingtom.com/english/typing-test/1m	o	o	o	o	o	o	o
-Typingtournament	https://www.typingtournament.com/	o	o	o	o	o	o	o
-Typingtop	https://typingtop.com/english	o	o	o	o	o	o	o
-Typing-tube	https://typing-tube.net/	o	o	o	o	o	o	o
-Typingtunes	https://www.typingtunes.com/	o	o	o	o	o	o	o
-Typingtutor-online	https://www.typingtutor-online.com/	o	o	o	o	o	o	o
-Typingtyping	https://www.typingtyping.com/	o	o	o	o	o	o	o
-Typingworks	https://typing.works/	o	o	o	o	o	o	o
-Typingzen	https://typingzen.com/	o	o	o	o	o	o	o
-Typocalypsestorm	https://typocalypsestorm.com/	o	o	o	o	o	o	o
-Typometry	https://typometry.io/	o	o	o	o	o	o	o
-Typr	https://vikashkumar125.github.io/Typr/	o	o	o	o	o	o	o
-Typrr	https://typrr.netlify.app/	o	o	o	o	o	o	o
-Typrx	http://app.typrx.com/	o	o	o	o	o	o	o
-Ustaadtyping	https://web.ustaadtyping.com/	o	o	o	o	o	o	o
-Velocitykeys	https://velocitykeys.com/	o	o	o	o	o	o	o
-Versustype	https://versustype.sahaj.dev/	o	o	o	o	o	o	o
-Viatyping	https://www.viatyping.com/typing-test/	o	o	o	o	o	o	o
-Vigorous-Bose	https://vigorous-bose-126191.netlify.app/#/	o	o	o	o	o	o	o
-V-type	https://vishesh-pandey.github.io/v-type/	o	o	o	o	o	o	o
-Vybetype	https://vibetype.net/	o	o	o	o	o	o	o
-W3schools	https://www.w3schools.com/typingspeed/	o	o	o	o	o	o	o
-Warp-Type	https://warp-type.vercel.app/	o	o	o	o	o	o	o
-Webspeedtests	https://webspeedtests.com/typing-speed-test	o	o	o	o	o	o	o
-Werntype	https://werntype.web.app/	o	o	o	o	o	o	o
-Wiztype	https://wiztype.vercel.app/	o	o	o	o	o	o	o
-Wordsmash	https://wordsmash.apsquared.co/	o	o	o	o	o	o	o
-Wordsurvivor	https://wordsurvivor.com/	o	o	o	o	o	o	o
-Wpmonster	https://wpmonster.netlify.app/	o	o	o	o	o	o	o
-Wpmtestnow	https://wpmtestnow.com/	o	o	o	o	o	o	o
-Xsentence	https://xsentence.com/	o	o	o	o	o	o	o
-Yourtypingspeed	https://your-typing-speed.netlify.app/	o	o	o	o	o	o	o
-YTyping	https://ytyping.net/	o	o	o	o	o	o	o
-Zentype	https://zentype.app/	o	o	o	o	o	o	o
-Zentype.vercel.app	https://zentype.vercel.app/	o	o	o	o	o	o	o
-Zippywords	https://www.zippywords.com/	o	o	o	o	o	o	o
-Ztype	https://zty.pe/	o	o	o	o	o	o	o								
+10fastfingers	https://10fastfingers.com/	o	o	o	o	o	o
+Abcya	https://www.abcya.com/games/category/typing	o	o	o	o	o	o
+Adazing	https://adazing.com/typing-speed-test/	o	o	o	o	o	o
+Advancedtypingtrainer	https://www.advancedtypingtrainer.com/	o	o	o	o	o	o
+Agilefingers	https://agilefingers.com/	o	o	o	o	o	o
+Aitypingtutor	https://aitypingtutor.examyst.in/	o	o	o	o	o	o
+Alfatyping	https://www.alfatyping.com/	o	o	o	o	o	o
+Algotype	https://algotype.net/	o	o	o	o	o	o
+Alphabetimals	https://alphabetimals.com/typer/	o	o	o	o	o	o
+Alphakeys	https://s0kpiseth.github.io/AlphaKeys/	o	o	o	o	o	o
+arealme	https://www.arealme.com/typing-test/en/	o	o	o	o	o	o
+Arrrtype	https://www.arrrtype.com/	o	o	o	o	o	o
+Artypist	https://artypist.com/en/	o	o	o	o	o	o
+Asantyping	https://asantyping.com/	o	o	o	o	o	o
+Bagretype	https://bagretype.com/	o	o	o	o	o	o
+Battletyper	https://battletyper.com/	o	o	o	o	o	o
+Battle-typer	https://www.crazygames.com/game/battle-typer	o	o	o	o	o	o
+bayanbennett-faster-phalanges	https://www.bayanbennett.com/projects/faster-phalanges/	o	o	o	o	o	o
+bayanbennett-rnn-typing-practice	https://www.bayanbennett.com/projects/rnn-typing-practice/	o	o	o	o	o	o
+Bigbrownbear	https://www.bigbrownbear.co.uk/	o	o	o	o	o	o
+Blindtyping	https://blindtyping.com/	o	o	o	o	o	o
+Blind-Typing-Tutor	https://blind-typing-tutor.wordmemo.net/en	o	o	o	o	o	o
+Boosttyping	https://boosttyping.com/	o	o	o	o	o	o
+Burst-Type-Pro	https://www.burst-type.pro/	o	o	o	o	o	o
+Codetype	https://codetype.keypcb.xyz/	o	o	x	o	o	o
+Codingspeedtest	https://codingspeedtest.com/	o	o	o	o	o	o
+Codesprints	https://codesprints.vercel.app/	o	o	o	o	o	o
+Code-type	https://code-type.vercel.app/	o	o	o	o	o	o
+Colemakclub	https://gnusenpai.net/colemakclub/	o	o	o	o	o	o
+Coolmathgames	https://www.coolmathgames.com/c/typing-games	o	o	o	o	o	o
+Cosmotype	https://www.cosmotype.com/	o	o	o	o	o	o
+Cozytypes	https://cozytypes.com/	o	o	o	o	o	o
+Cybertype	https://cybertype.io/	o	o	o	o	o	o
+Dailytype	https://dailytype.net/	o	o	o	o	o	o
+Dataentrytester	https://www.dataentrytester.com/	o	o	o	o	o	o
+Devtype	https://devtype.pankajk.tech/	o	o	o	o	o	o
+Ditchqwerty	https://www.ditchqwerty.com/	o	o	o	o	o	o
+Ducktype	https://ducktype.xyz/	o	o	o	o	o	o
+Dvorak.gruevy	http://dvorak.gruevy.com/	o	o	o	o	o	o
+Easytype	https://www.easytype.org/	o	o	o	o	o	o
+Easytype	https://typing-web.vercel.app/	o	o	o	o	o	o
+Eletypes	https://www.eletypes.com/	o	o	o	o	o	o
+Entertrained	https://entertrained.app/	o	o	o	o	o	o
+Fairy Type	https://lazyloop.itch.io/fairy-type	o	o	o	o	o	o
+Fastfingers	https://www.fastfingers.in/	o	o	o	o	o	o
+Fastfingers	https://fastfingers.net/	o	o	o	o	o	o
+Fast-typer-3	https://poki.com/de/g/fast-typer-3	o	o	o	o	o	o
+Fast-typing	https://www.fast-typing.com/	o	o	o	o	o	o
+Fingertune	https://fingertune.com/	o	o	o	o	o	o
+Freetypingcamp	https://www.freetypingcamp.com/	o	o	o	o	o	o
+Freetypinggame	https://www.freetypinggame.net/	o	o	o	o	o	o
+Freetypinglessons	https://www.freetypinglessons.club/	o	o	o	o	o	o
+Galaxytyping	https://www.galaxytyping.com/	o	o	o	o	o	o
+Gfruit	https://gfruit.github.io/typing/	o	o	o	o	o	o
+Glyphica	https://playglyphica.com/	o	o	o	o	o	o
+Gonnatype	https://www.gonnatype.com/data-entry-test/	o	o	o	o	o	o
+Goodtyping	https://www.goodtyping.com/	o	o	o	o	o	o
+Hackertype	https://www.hackertype.dev/	o	o	o	o	o	o
+Hancomtaja	https://tt.hancomtaja.com/en/	o	o	o	o	o	o
+How-to-type	https://www.how-to-type.com/	o	o	o	o	o	o
+Humanbenchmark	https://www.humanbenchmark.com/tests/typing	o	o	o	o	o	o
+Hurtig	https://hurtig.vercel.app/	o	o	o	o	o	o
+Hydrovolter	https://hydrovolter.com/typing/	o	o	o	o	o	o
+Indiatyping	http://indiatyping.com/	o	o	o	o	o	o
+Intersteno	https://www.intersteno.it/	o	o	o	o	o	o
+Justquicktools	https://justquicktools.com/typing-speed-test	o	o	o	o	o	o
+Karaoketype	https://memetrolls.net/KaraokeType/	o	o	o	o	o	o
+Keebacy	https://madnight.github.io/keebacy/	o	o	o	o	o	o
+Keybara	https://keybara.io/	o	o	o	o	o	o
+Keyboard-racing	https://keyboard-racing.com/	o	o	o	o	o	o
+Keybr	https://www.keybr.com/	o	o	o	o	o	o
+Keyfight	https://keyfight.net/	o	o	o	o	o	o
+Keyhero	https://www.keyhero.com/	o	o	o	o	o	o
+Keymash	http://keymash.io/	o	o	o	o	o	o
+Keystreaks	https://keystreaks.com/	o	o	o	o	o	o
+Keystroke Nitinjaswal	https://keystroke.nitinjaswal.me/type	o	o	o	o	o	o
+Keyzen-colemak	https://first20hours.github.io/keyzen-colemak/	o	o	o	o	o	o
+Keyzen-colemak-dh	https://ranelpadon.github.io/keyzen-colemak-dh/	o	o	o	o	o	o
+Keyzen-map	https://adamgradzki.com/keyzen-mab/	o	o	o	o	o	o
+Kickassfingers	https://kickassfingers.com/	o	o	o	o	o	o
+Kidstyping	https://www.kidstyping.org/	o	o	o	o	o	o
+Kidztype	https://www.kidztype.com/	o	o	o	o	o	o
+Kinetype	https://www.kinetype.app/	o	o	o	o	o	o
+Klavia	https://www.playklavia.com/	o	o	o	o	o	o
+Klavogonki	https://klavogonki.ru/	o	o	o	o	o	o
+Learncolemak	https://www.learncolemak.com/	o	o	o	o	o	o
+Learndvorak	https://learn.dvorak.nl/	o	o	o	o	o	o
+Learntyping	https://www.learntyping.org/	o	o	o	o	o	o
+Livechat	https://www.livechat.com/typing-speed-test/#/	o	o	o	o	o	o
+Livetyper	https://livetyper.com/	o	o	o	o	o	o
+Lol-typing	https://lol-typing.com/	o	o	o	o	o	o
+Lyrhythmics	https://lyrhythmics.k327.eu/	o	o	o	o	o	o
+Lyrichero	https://lyrichero.onrender.com/	o	o	o	o	o	o
+Lyricstype	https://lyricstype.com/	o	o	o	o	o	o
+Lyricstyping	https://lyricstyping.com/	o	o	o	o	o	o
+Mario-Teaches-Typing	https://playclassic.games/games/educational-dos-games-online/play-mario-teaches-typing-online/play/	o	o	o	o	o	o
+Mecatype	https://mecatype.com	o	o	o	o	o	o
+Minimaltypingtest	https://minimaltypingtest.netlify.app/	o	o	o	o	o	o
+Monkey-type	https://monkeytype.com/	o	o	o	o	o	o
+Monkeytypeorg	https://monkey-type.org/	o	o	o	o	o	o
+Mtype	https://mtype.vercel.app/	o	o	o	o	o	o
+Music-typing	https://music-typing.netlify.app/	o	o	o	o	o	o
+Musitype	https://musitype.netlify.app/	o	o	o	o	o	o
+Mytypingjourney	https://www.mytypingjourney.com/	o	o	o	o	o	o
+Ngram-type	https://ranelpadon.github.io/ngram-type/	o	o	o	o	o	o
+Ninjatype	https://www.ninjatype.com/	o	o	o	o	o	o
+Nitrotype	https://www.nitrotype.com/	o	o	o	o	x	o
+OceanAscending	https://tutte2k.github.io/TypingGame-OceanAscending/	o	o	o	o	o	o
+OceanAscendingv2	https://tutte2k.github.io/OceanAscendingV2/	o	o	o	o	o	o
+Official-typing-test	https://official-typing-test.com/	o	o	o	o	o	o
+Onlinetyping	https://onlinetyping.org/	o	o	o	o	o	o
+Onlinetypingtest	https://www.onlinetypingtest.net/	o	o	o	o	o	o
+Pairtype	https://www.pairtype.com/	o	o	o	o	o	o
+Patorjk	http://patorjk.com/typing-speed-test/	o	o	o	o	o	o
+Penguintype	https://penguintype.vercel.app/	o	o	o	o	o	o
+Pngtyping	https://png-typing.netlify.app/	o	o	o	o	o	o
+Powertyping	https://powertyping.com/	o	o	o	o	o	o
+Practice-typing	https://www.practice-typing.com/	o	o	o	o	o	o
+Problemwords	https://problemwords.com/	o	o	o	o	o	o
+Protypist	https://protypist.netlify.app/	o	o	o	o	o	o
+Quickfox	https://quick-fox.lovable.app/	o	o	o	o	o	o
+Qwertron	https://qwertron.com/home	o	o	o	o	o	o
+Qwerty Learner	https://qwerty.kaiyi.cool/	o	o	o	o	o	o
+Qwerty School	https://qwerty.school/	o	o	o	o	o	o
+Randomracer	http://www.randomracer.com/	o	o	o	o	o	o
+Rapidtyping	https://rapidtyping.com/	o	o	o	o	o	o
+Ratatype	https://www.ratatype.com/	o	o	o	o	o	o
+Reactokey	https://reactokey.com/	o	o	o	o	o	o
+React-Typing-Speed	https://react-typing-speed.netlify.app/	o	o	o	o	o	o
+Reverstype	https://reversetype.fun/	o	o	o	o	o	o
+Rhythmtyping	https://www.rhythmtyping.com/	o	o	o	o	o	o
+Rlytype	https://rlytype.vercel.app/	o	o	o	o	o	o
+Roomrecess	https://www.roomrecess.com/mobile/WPM/play.html	o	o	o	o	o	o
+Senpaitype	https://effortless-starship-5cd209.netlify.app/	o	o	o	o	o	o
+Sensational-cheesecake	https://sensational-cheesecake-981147.netlify.app/	o	o	o	o	o	o
+Sense-lang	https://sense-lang.org/	o	o	o	o	o	o
+Slimekids	https://www.slimekids.com/games/typing-games/	o	o	o	o	o	o
+Space-typer	https://azjgard.github.io/space-typer/	o	o	o	o	o	o
+Speedcoder	http://www.speedcoder.net/	o	o	o	o	o	o
+Speedtyper	https://speedtyper.dev/	o	o	o	o	o	o
+Speedtypeai	https://www.speedtype.ai/	o	o	o	o	o	o
+Speedtypingonline	https://www.speedtypingonline.com/home	o	o	o	o	o	o
+Starrune	https://www.starrune.net/	o	o	o	o	o	o
+Swift-type	https://swift-type-7007d.web.app/	o	o	o	o	o	o
+Tewter	https://www.tewter.to/typing	o	o	o	o	o	o
+Textmagic	https://freetools.textmagic.com/texting-speed-challenge	o	o	o	o	o	o
+Themonkeytype	https://themonkeytype.com/	o	o	o	o	o	o
+Thepracticetest	https://thepracticetest.com/	o	o	o	o	o	o
+Thetypingcat	https://thetypingcat.com/	o	o	o	o	o	o
+Thetypingpractice	https://www.thetypingpractice.com/	o	o	o	o	o	o
+Thundertype	https://thunder-type.vercel.app/	o	o	o	o	o	o
+Tidio	https://www.tidio.com/typing-test	o	o	o	o	o	o
+Tipohiz	https://tipohiz.vercel.app/	o	o	o	o	o	o
+Tipp10	https://www.tipp10.com/en/	o	o	o	o	o	o
+Tonicminds	https://tonicminds.io/	o	o	o	o	o	o
+Toptypingtest	http://www.toptypingtest.com/	o	o	o	o	o	o
+Touchpianist	https://touchpianist.com/	o	o	o	o	o	o
+Touchtypo	https://touchtypo.com/	o	o	o	o	o	o
+Touchtyper	http://touchtyper.net/en/	o	o	o	o	o	o
+Touchtyping.online	https://www.touchtyping.online/	o	o	o	o	o	o
+Turbotype	https://www.turbotype.co/	o	o	o	o	o	o
+Turtlediary	https://www.turtlediary.com/game/rapid-typing.html	o	o	o	o	o	o
+Type4Fun	https://www.type4fun.com/	o	o	o	o	o	o
+Typeabook	https://typeabook.co.uk/	o	o	o	o	o	o
+Typeaboutit	https://typeaboutit.com/	o	o	o	o	o	o
+Typebiz	https://type.biz/	o	o	o	o	o	o
+Typeblitz	https://typeblitz.com/	o	o	o	o	o	o
+Typeblitz	https://typeblitz.vercel.app/	o	o	o	o	o	o
+Typecast	https://not-jam.itch.io/typecast	o	o	o	o	o	o
+Typecelerate	https://typecelerate.com/	o	o	o	o	o	o
+Typechamp	https://typechamp.com/	o	o	o	o	o	o
+Typeclash	https://versatiletechnology.in/Typeclash	o	o	o	o	o	o
+Typecome	https://typecome.com/	o	o	o	o	o	o
+Typeconomy	https://typeconomy.vercel.app/	o	o	o	o	o	o
+Typecraft	https://typecraft.replit.app/	o	o	o	o	o	o
+Typedojo	https://www.typedojo.com/	o	o	o	o	o	o
+Type-Dojo	https://typo-dojo.com/	o	o	o	o	o	o
+Typeduel	https://www.typeduel.fun/	o	o	o	o	o	o
+Type-fu	https://type-fu.com/	o	o	o	o	o	o
+Typefast	https://typefast.io/	o	o	o	o	o	o
+Typefast.app	https://typefast.app/	o	o	o	o	o	o
+Typefast.online	https://typefast.online/	o	o	o	o	o	o
+Typefast.rohitpaulk	https://typefast.rohitpaulk.com/	o	o	o	o	o	o
+Typeflix	https://typeflix.com/	o	o	o	o	o	o
+TypeGG	http://typegg.io/	o	o	o	o	x	o
+Typegym	https://typegym.com/	o	o	o	o	o	o
+Typele	https://typele.com/	o	o	o	o	o	o
+Typelit	https://www.typelit.io/	o	o	o	o	o	o
+Typelo	https://www.typelo.tech/	o	o	o	o	o	o
+Typenconquer	https://typenconquer.io/	o	o	o	o	o	o
+Typeo	https://www.typeo.io/	o	o	o	o	o	o
+Typequicker	https://www.typequicker.com/	o	o	o	o	o	o
+Typer	https://typer.io/	o	o	o	o	o	o
+Typer.vercel.app	https://typer.vercel.app/	o	o	o	o	o	o
+Typera	http://typera.net/	o	o	o	o	o	o
+Typeracer	https://play.typeracer.com/	o	o	o	o	x	o
+Typer.aphtech	https://typer.aphtech.org/	o	o	o	o	o	o
+Typerfast	https://www.typerfast.com/	o	o	o	o	o	o
+Typeroyale	https://typeroyale.cc/	o	o	o	o	o	o
+Typeroyale	https://foony.com/games/typeroyale	o	o	o	o	o	o
+Typersguild	https://typersguild.com/	o	o	o	o	o	o
+Typersworld	https://www.typersworld.com/	o	o	o	o	o	o
+Typespeedai	https://typespeedai.com/	o	o	o	o	o	o
+Typespider	https://typespider.com/	o	o	o	o	o	o
+Typesprout	https://typesprout.com/	o	o	o	o	o	o
+Typester	https://tst-coral.vercel.app/	o	o	o	o	o	o
+Typestreak	https://type-streak.emirguvenni.com/	o	o	o	o	o	o
+Typesy	https://www.typesy.com/	o	o	o	o	o	o
+Typerush	https://www.typerush.com/	o	o	o	o	o	o
+Type-rush-theta	https://type-rush-theta.vercel.app/	o	o	o	o	o	o
+Typetastic	https://typetastic.com/	o	o	o	o	o	o
+Typetest	https://typetest.io/	o	o	o	o	o	o
+Typetest.minilabs	https://typetest.minilabs.online/	o	o	o	o	o	o
+Typetherhythm	https://typetherhythm.com/	o	o	o	o	o	o
+Typetheword	https://www.typetheword.site/	o	o	o	o	o	o
+Typetris	https://valorance.net/typetris/	o	o	o	o	o	o
+Typetype	https://type-type.vercel.app/	o	o	o	o	o	o
+Typeuniverse	https://typeuniverse.com/	o	o	o	o	o	o
+Typeverse	https://typerverse.com/	o	o	o	o	o	o
+Typewars	https://typewars.com/	o	o	o	o	o	o
+Typewizz	https://www.typewizz.com/	o	o	o	o	o	o
+Typewreck	https://typewreck.com/	o	o	o	o	o	o
+Typey Type	https://didoesdigital.com/typey-type/	o	o	o	o	o	o
+Typiebara	https://warpromo.github.io/typiebara/	o	o	o	o	o	o
+Typination	https://www.typination.com/	o	o	o	o	o	o
+Typ.ing	https://typ.ing/	o	o	o	o	o	o
+Typing.com	https://www.typing.com/	o	o	o	o	o	o
+Typing12	https://typing12.com/	o	o	o	o	o	o
+Typing.io	https://typing.io/	o	o	o	o	o	o
+Typingacademy	https://www.typing.academy/	o	o	o	o	o	o
+Typingai	https://www.typingai.com/	o	o	o	o	o	o
+Typingbaba	http://www.typingbaba.com/	o	o	o	o	o	o
+Typingbattle	https://typingbattle.com/	o	o	o	o	o	o
+Typingbeast	https://typingbeast.com/	o	o	o	o	o	o
+Typingbird	https://typingbird.com/	o	o	o	o	o	o
+Typingbits	https://typingbits.com/	o	o	o	o	o	o
+Typingbolt	https://www.typingbolt.com/	o	o	o	o	o	o
+Typingbowl	https://typingbowl.com/	o	o	o	o	o	o
+Typingbrain	https://typingbrain.com/	o	o	o	o	o	o
+Typingclub	https://www.typingclub.com/	o	o	o	o	o	o
+Typingcore	https://www.typingcore.com/	o	o	o	o	o	o
+Typingdungeoncrawler	https://typingdungeoncrawler.com/	o	o	o	o	o	o
+Typinggames	https://www.typinggames.zone/	o	o	o	o	o	o
+Typingenius	https://typingenius.com/	o	o	o	o	o	o
+Typingerz	https://en.typingerz.com/	o	o	o	o	o	o
+Typingfirst	https://www.typingfirst.com/	o	o	o	o	o	o
+TypingGym	https://www.typinggym.com/	o	o	o	o	o	o
+Typinghq	http://www.typinghq.com/	o	o	o	o	o	o
+Typingkaro	https://www.typingkaro.com/	o	o	o	o	o	o
+Typingkeyboards	https://typingkeyboards.com/	o	o	o	o	o	o
+Typingkitties	https://www.typingkitties.com/	o	o	o	o	o	o
+Typingkoala	https://typingkoala.com/	o	o	o	o	o	o
+Typinglessons-online	https://www.typinglessons-online.com/	o	o	o	o	o	o
+Typing-lessons	https://www.typing-lessons.org/	o	o	o	o	o	o
+Typinglounge	https://www.typinglounge.com/	o	o	o	o	o	o
+Typingmania	https://v2.typingmania.net/	o	o	o	o	o	o
+Typingmaniac	https://wi-typingmaniac.netlify.app/	o	o	o	o	o	o
+Typingmaster	https://www.typingmaster.com/	o	o	o	o	o	o
+Typing-master	https://typing-master-one-tau.vercel.app/	o	o	o	o	o	o
+Typingmatch	https://typingmatch.com/	o	o	o	o	o	o
+Typingme	http://www.typingme.com/touch-typing/typing-tutor.php	o	o	o	o	o	o
+Typingmentor	https://typingmentor.com/typing-test/	o	o	o	o	o	o
+Typingmonkey	https://www.typingmonkey.in/	o	o	o	o	o	o
+Typingmuscle	https://www.typingmuscle.com/	o	o	o	o	o	o
+Typingnewtum	https://typing.newtum.com/	o	o	o	o	o	o
+Typing-nvim	https://typing-nvim.github.io/kinesis360/	o	o	o	o	o	o
+Typingowl	https://typingowl.com/	o	o	o	o	o	o
+Typingpal	https://www.typingpal.com/en	o	o	o	o	o	o
+Typingpractice	https://typingpractice.org/	o	o	o	o	o	o
+Typingrace	https://typing-speed-app-192d3.web.app/	o	o	o	o	o	o
+Typingrush	https://typingrush-gamma.vercel.app/	o	o	o	o	o	o
+Typings	https://typings.gg/	o	o	o	o	o	o
+Typing-speed	https://typing-speed.net/	o	o	o	o	o	o
+Typing-speed-test	https://typing-speed-test.aoeu.eu/	o	o	o	o	o	o
+Typingspeedtestwebsite	https://gaurav-aditya.github.io/typing-test/	o	o	o	o	o	o
+Typingschool	https://typing-school.vercel.app/	o	o	o	o	o	o
+Typingstudy	https://www.typingstudy.com/	o	o	o	o	o	o
+Typingtest	https://www.typingtest.com/	o	o	o	o	o	o
+Typingtestfast	https://www.typingtestfast.com/	o	o	o	o	o	o
+Typingtestgo	https://typingtestgo.com/	o	o	o	o	o	o
+Typingtestnow	https://typingtestnow.com/	o	o	o	o	o	o
+Typingtestonline	http://typingtestonline.org/	o	o	o	o	o	o
+Typingtestrounak	https://typing-test-rounak.netlify.app/	o	o	o	o	o	o
+Typingtest Skillrage	https://typingtest.skillrage.com/	o	o	o	o	o	o
+Typingtiger	https://www.typingtiger.com/	o	o	o	o	o	o
+Typingtom	https://www.typingtom.com/english/typing-test/1m	o	o	o	o	o	o
+Typingtournament	https://www.typingtournament.com/	o	o	o	o	o	o
+Typingtop	https://typingtop.com/english	o	o	o	o	o	o
+Typing-tube	https://typing-tube.net/	o	o	o	o	o	o
+Typingtunes	https://www.typingtunes.com/	o	o	o	o	o	o
+Typingtutor-online	https://www.typingtutor-online.com/	o	o	o	o	o	o
+Typingtyping	https://www.typingtyping.com/	o	o	o	o	o	o
+Typingworks	https://typing.works/	o	o	o	o	o	o
+Typingzen	https://typingzen.com/	o	o	o	o	o	o
+Typocalypsestorm	https://typocalypsestorm.com/	o	o	o	o	o	o
+Typometry	https://typometry.io/	o	o	o	o	o	o
+Typr	https://vikashkumar125.github.io/Typr/	o	o	o	o	o	o
+Typrr	https://typrr.netlify.app/	o	o	o	o	o	o
+Typrx	http://app.typrx.com/	o	o	o	o	o	o
+Ustaadtyping	https://web.ustaadtyping.com/	o	o	o	o	o	o
+Velocitykeys	https://velocitykeys.com/	o	o	o	o	o	o
+Versustype	https://versustype.sahaj.dev/	o	o	o	o	o	o
+Viatyping	https://www.viatyping.com/typing-test/	o	o	o	o	o	o
+Vigorous-Bose	https://vigorous-bose-126191.netlify.app/#/	o	o	o	o	o	o
+V-type	https://vishesh-pandey.github.io/v-type/	o	o	o	o	o	o
+Vybetype	https://vibetype.net/	o	o	o	o	o	o
+W3schools	https://www.w3schools.com/typingspeed/	o	o	o	o	o	o
+Warp-Type	https://warp-type.vercel.app/	o	o	o	o	o	o
+Webspeedtests	https://webspeedtests.com/typing-speed-test	o	o	o	o	o	o
+Werntype	https://werntype.web.app/	o	o	o	o	o	o
+Wiztype	https://wiztype.vercel.app/	o	o	o	o	o	o
+Wordsmash	https://wordsmash.apsquared.co/	o	o	o	o	o	o
+Wordsurvivor	https://wordsurvivor.com/	o	o	o	o	o	o
+Wpmonster	https://wpmonster.netlify.app/	o	o	o	o	o	o
+Wpmtestnow	https://wpmtestnow.com/	o	o	o	o	o	o
+Xsentence	https://xsentence.com/	o	o	o	o	o	o
+Yourtypingspeed	https://your-typing-speed.netlify.app/	o	o	o	o	o	o
+YTyping	https://ytyping.net/	o	o	o	o	o	o
+Zentype	https://zentype.app/	o	o	o	o	o	o
+Zentype.vercel.app	https://zentype.vercel.app/	o	o	o	o	o	o
+Zippywords	https://www.zippywords.com/	o	o	o	o	o	o
+Ztype	https://zty.pe/	o	o	o	o	o	o
