@@ -71,7 +71,7 @@ Keyboard-racing	https://keyboard-racing.com/	o	o	o	o	o	o
 Keybr	https://www.keybr.com/	x	o	o	o	o	o
 Keyfight	https://keyfight.net/	o	o	o	o	o	o
 Keyhero	https://www.keyhero.com/	o	o	o	o	o	o
-Keymash	http://keymash.io/	o	o	o	o	o	o
+Keymash	http://keymash.io/	o	o	o	o	x	o
 Keystreaks	https://keystreaks.com/	o	o	o	o	o	o
 Keystroke Nitinjaswal	https://keystroke.nitinjaswal.me/type	o	o	o	o	o	o
 Keyzen-colemak	https://first20hours.github.io/keyzen-colemak/	o	o	o	o	o	o
@@ -81,7 +81,7 @@ Kickassfingers	https://kickassfingers.com/	o	o	o	o	o	x
 Kidstyping	https://www.kidstyping.org/	o	o	o	o	o	o
 Kidztype	https://www.kidztype.com/	o	o	o	o	o	o
 Kinetype	https://www.kinetype.app/	o	o	o	o	o	o
-Klavia	https://www.playklavia.com/	o	o	o	o	o	o
+Klavia	https://www.playklavia.com/	o	o	o	o	x	o
 Klavogonki	https://klavogonki.ru/	o	o	o	o	o	o
 Learncolemak	https://www.learncolemak.com/	o	o	o	o	o	o
 Learndvorak	https://learn.dvorak.nl/	o	o	o	o	o	o
@@ -199,7 +199,7 @@ Typerfast	https://www.typerfast.com/	o	o	o	o	o	o
 Typeroyale	https://typeroyale.cc/	o	o	o	o	o	o
 Typeroyale	https://foony.com/games/typeroyale	o	o	o	o	x	o
 Typersguild	https://typersguild.com/	o	x	o	o	o	o
-Typersworld	https://www.typersworld.com/	o	o	o	o	o	o
+Typersworld	https://www.typersworld.com/	o	o	o	o	x	o
 Typespeedai	https://typespeedai.com/	o	o	o	o	o	o
 Typespider	https://typespider.com/	o	o	o	o	o	o
 Typesprout	https://typesprout.com/	o	o	o	o	o	o
@@ -296,7 +296,7 @@ Typocalypsestorm	https://typocalypsestorm.com/	o	o	o	o	o	o
 Typometry	https://typometry.io/	o	o	o	o	o	o
 Typr	https://vikashkumar125.github.io/Typr/	o	o	o	o	o	o
 Typrr	https://typrr.netlify.app/	o	o	o	o	o	o
-Typrx	http://app.typrx.com/	o	o	o	o	o	o
+Typrx	http://app.typrx.com/	o	o	o	o	x	o
 Ustaadtyping	https://web.ustaadtyping.com/	o	o	o	o	o	o
 Velocitykeys	https://velocitykeys.com/	o	o	o	o	o	o
 Versustype	https://versustype.sahaj.dev/	o	o	o	o	o	o
