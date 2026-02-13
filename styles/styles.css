@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
 
+* {
+    font-family: 'JetBrains Mono', monospace; /* Instead of just 'monospace' */
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -20,7 +24,7 @@ ul {
 
 * {
 	box-sizing: border-box;
-	font-family: font-family: 'JetBrains Mono', monospace;
+	font-family: monospace;
 	scroll-behavior: smooth;
 }
 
