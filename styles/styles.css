@@ -68,7 +68,7 @@ li {
 }
 li a {
 	display: block;
-	padding: 8px;
+	padding: 12px 24px;
 	text-align: center;
 	text-decoration: none;
 }
@@ -85,16 +85,11 @@ li a {
 }
 
 #textdisplay {
-	color: rgba(180, 179, 179, 0.336);
-	margin-bottom: 10px;
-	margin: auto;
-	/*border: 3px solid rgb(82, 34, 34);*/
-	width: 80%;
-	text-align: center;
-	white-space: pre-wrap;
-	font-size: 2em;
-	line-height: 40px;
+    padding: 2rem 3rem;
+    line-height: 2em;
+    font-size: 2.5em;
 }
+
 #refresh {
 	/*border: 3px solid black;*/
 	text-align: center;
