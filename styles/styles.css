@@ -1,942 +1,492 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=JetBrains+Mono:wght@300;400;500;600&family=DM+Sans:wght@400;500;600;700&display=swap');
 
-/* ================================
-   RESET & VARIABLES
-   ================================ */
-* {
-    box-sizing: border-box;
+body {
+    margin: 0;
+    padding: 0;
+}
+
+ul {
     margin: 0;
     padding: 0;
 }
 
 :root {
-    /* Primary palette */
-    --background: #0a0e1a;
-    --surface: #141827;
-    --surface-elevated: #1c2133;
-    
-    /* Accent colors */
-    --primary: #00d9ff;
-    --primary-bright: #33e3ff;
-    --primary-dim: #0099b3;
-    --secondary: #7c3aed;
-    --accent: #ff3d71;
-    
-    /* Text colors */
-    --text-primary: #ffffff;
-    --text-secondary: #a0a8c5;
-    --text-dim: #6b7494;
-    
-    /* Semantic colors */
-    --correct: #00ff88;
-    --error: #ff3d71;
-    --warning: #ffa500;
-    
-    /* Effects */
-    --glow: 0 0 20px rgba(0, 217, 255, 0.3);
-    --glow-strong: 0 0 30px rgba(0, 217, 255, 0.5), 0 0 60px rgba(0, 217, 255, 0.2);
-    
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-    --gradient-surface: linear-gradient(135deg, var(--surface) 0%, var(--surface-elevated) 100%);
-    
-    /* Typography */
-    --font-display: 'Space Mono', monospace;
-    --font-mono: 'JetBrains Mono', monospace;
-    --font-body: 'DM Sans', sans-serif;
+	--background: #000d30;
+	--text: #ffffff;
+	--sub-color: #00899b;
+	--hover-color: #00f0f8;
+	--caret-color: var(--text);
+}
+
+* {
+	box-sizing: border-box;
+	font-family: monospace;
+	scroll-behavior: smooth;
+}
+
+.correct {
+	color: rgb(0,240,248, 0.336);
+}
+
+.error {
+	color: rgba(145, 0, 0, 0.336);
+}
+
+.space-error {
+	border-bottom: 1px solid rgba(145, 0, 0, 0.336);
+}
+
+.highlight {
+	background-color: #0076d727;
 }
 
 body {
-    background: var(--background);
-    color: var(--text-primary);
-    font-family: var(--font-body);
-    line-height: 1.6;
-    overflow-x: hidden;
-    position: relative;
+	background:hsl(0, 6%, 13%);
+	color: white;
 }
 
-/* Animated background effect */
-body::before {
-    content: '';
-    position: fixed;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: 
-        radial-gradient(circle at 20% 50%, rgba(124, 58, 237, 0.08) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(0, 217, 255, 0.06) 0%, transparent 50%),
-        radial-gradient(circle at 40% 20%, rgba(255, 61, 113, 0.04) 0%, transparent 50%);
-    animation: backgroundPulse 20s ease-in-out infinite;
-    pointer-events: none;
-    z-index: 0;
+.headerlink:link, .headerlink:visited {
+	color: white;
+	background-color: darkgrey;
+}
+.headerlink.active {
+	background-color: var(--sub-color);
+	
+}
+.headerlink:hover:not(.active) {
+	background-color:var(--hover-color);
+}
+ul {
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
 }
 
-@keyframes backgroundPulse {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    33% { transform: translate(-5%, 5%) scale(1.05); }
-    66% { transform: translate(5%, -5%) scale(0.95); }
+li {
+	float: left;
+	width: 25%;
 }
-
-/* Ensure content is above background */
-header, #main, main {
-    position: relative;
-    z-index: 1;
-}
-
-/* ================================
-   NAVIGATION
-   ================================ */
-header {
-    backdrop-filter: blur(10px);
-    background: rgba(10, 14, 26, 0.8);
-    border-bottom: 1px solid rgba(0, 217, 255, 0.1);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
-nav ul {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    gap: 0;
-    padding: 0;
-    margin: 0;
-}
-
-nav li {
-    float: none;
-    width: auto;
-}
-
-nav li a {
-    display: block;
-    padding: 1.2rem 2rem;
-    color: var(--text-secondary);
-    text-decoration: none;
-    font-family: var(--font-mono);
-    font-size: 0.9rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    position: relative;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-nav li a::before {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    width: 0;
-    height: 2px;
-    background: var(--gradient-primary);
-    transform: translateX(-50%);
-    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-nav li a:hover,
-nav li a.active {
-    color: var(--primary);
-    background: rgba(0, 217, 255, 0.05);
-}
-
-nav li a.active::before {
-    width: 80%;
-}
-
-nav li a:hover::before {
-    width: 80%;
-}
-
-/* ================================
-   TYPOGRAPHY
-   ================================ */
-h1 {
-    font-family: var(--font-display);
-    font-size: clamp(2rem, 5vw, 4rem);
-    font-weight: 700;
-    text-align: center;
-    margin: 2rem 0;
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    letter-spacing: -1px;
-    position: relative;
-    animation: fadeInDown 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-@keyframes fadeInDown {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-h2 {
-    font-family: var(--font-display);
-    font-size: clamp(1.5rem, 3vw, 2.5rem);
-    color: var(--primary);
-    margin: 3rem 0 1.5rem;
-    font-weight: 700;
-}
-
-h3 {
-    font-family: var(--font-mono);
-    font-size: 1.3rem;
-    color: var(--primary-bright);
-    margin: 2rem 0 1rem;
-    font-weight: 600;
-}
-
-p {
-    color: var(--text-secondary);
-    font-size: 1.05rem;
-    line-height: 1.8;
-    margin-bottom: 1rem;
-}
-
-kbd {
-    font-family: var(--font-mono);
-    background: var(--surface-elevated);
-    border: 1px solid rgba(0, 217, 255, 0.2);
-    border-radius: 4px;
-    padding: 0.2rem 0.5rem;
-    font-size: 0.9em;
-    color: var(--primary);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-/* ================================
-   MODES SELECTION
-   ================================ */
-#modes, #toggleStats {
-    text-align: center;
-    margin: 3rem 0;
-    animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s both;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+li a {
+	display: block;
+	padding: 8px;
+	text-align: center;
+	text-decoration: none;
 }
 
 #modes ul, #toggleStats ul {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-    padding: 0;
+    text-align: center;
 }
 
 #modes ul li, #toggleStats ul li {
     float: none;
+    display: inline-block;
     width: auto;
-    display: inline-block;
-    margin: 0;
-}
-
-.modes span, .toggleStats span {
-    display: inline-block;
-    padding: 0.8rem 2rem;
-    font-family: var(--font-mono);
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--text-secondary);
-    background: var(--surface);
-    border: 2px solid rgba(0, 217, 255, 0.2);
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-}
-
-.modes span::before, .toggleStats span::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    border-radius: 50%;
-    background: rgba(0, 217, 255, 0.1);
-    transform: translate(-50%, -50%);
-    transition: width 0.4s, height 0.4s;
-}
-
-.modes span:hover::before, .toggleStats span:hover::before {
-    width: 300px;
-    height: 300px;
-}
-
-.modes span:hover, .toggleStats span:hover {
-    color: var(--primary-bright);
-    border-color: var(--primary);
-    box-shadow: var(--glow);
-    transform: translateY(-2px);
-}
-
-#modes #top200.active span,
-#modes #top1000.active span,
-#modes #quotes.active span,
-#toggleStats #errors.active span,
-#toggleStats #accuracy.active span,
-#toggleStats #speed.active span {
-    color: var(--text-primary);
-    background: var(--gradient-primary);
-    border-color: transparent;
-    box-shadow: var(--glow-strong);
-}
-
-/* ================================
-   TYPING AREA
-   ================================ */
-#typing-input {
-    position: absolute;
-    opacity: 0.000001;
-    left: -9999px;
-    pointer-events: none;
-}
-
-#typingarea {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
+    margin: 0 20px;
 }
 
 #textdisplay {
-    font-family: var(--font-mono);
-    font-size: clamp(1.5rem, 3vw, 2.2rem);
-    line-height: 1.8;
-    color: var(--text-dim);
-    text-align: center;
-    margin: 3rem auto;
-    padding: 3rem;
-    background: var(--gradient-surface);
-    border: 1px solid rgba(0, 217, 255, 0.1);
-    border-radius: 20px;
-    white-space: pre-wrap;
-    cursor: text;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    animation: slideUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s both;
+	color: rgba(180, 179, 179, 0.336);
+	margin-bottom: 10px;
+	margin: auto;
+	/*border: 3px solid rgb(82, 34, 34);*/
+	width: 80%;
+	text-align: center;
+	white-space: pre-wrap;
+	font-size: 2em;
+	line-height: 40px;
 }
-
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-#textdisplay::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(0, 217, 255, 0.05), transparent);
-    transition: left 0.5s;
-}
-
-#textdisplay:hover::before {
-    left: 100%;
-}
-
-#textdisplay:hover {
-    border-color: rgba(0, 217, 255, 0.3);
-    box-shadow: 0 8px 32px rgba(0, 217, 255, 0.1);
-}
-
-/* Letter states */
-#typing-input:focus ~ #typingarea > #textdisplay > word > letter {
-    color: var(--text-primary);
-}
-
-#typing-input:focus ~ #typingarea > #textdisplay > word > letter.correct,
-word > letter.correct {
-    color: var(--correct);
-    text-shadow: 0 0 8px rgba(0, 255, 136, 0.3);
-}
-
-#typing-input:focus ~ #typingarea > #textdisplay > word > letter.error,
-word > letter.error {
-    color: var(--error);
-    text-shadow: 0 0 8px rgba(255, 61, 113, 0.3);
-    animation: shake 0.3s;
-}
-
-@keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-3px); }
-    75% { transform: translateX(3px); }
-}
-
-letter.space-error,
-#typing-input:focus ~ #typingarea > #textdisplay > letter.space-error {
-    border-bottom: 2px solid var(--error);
-}
-
-letter.highlight,
-#typing-input:focus ~ #typingarea > #textdisplay letter.highlight {
-    background: rgba(0, 217, 255, 0.2);
-    border-radius: 4px;
-    padding: 0 2px;
-}
-
-/* Caret animations */
-#caret {
-    border-left: 3px solid var(--primary);
-    animation: caretFlash 1.06s infinite;
-    animation-delay: 0.53s;
-    margin-left: -1px;
-}
-
-#rightcaret {
-    border-right: 3px solid var(--primary);
-    animation: rightCaretFlash 1.06s infinite;
-    animation-delay: 0.53s;
-    margin-right: -1px;
-}
-
-@keyframes caretFlash {
-    0%, 100% { border-left-color: var(--primary); opacity: 1; }
-    50% { border-left-color: transparent; opacity: 0.3; }
-}
-
-@keyframes rightCaretFlash {
-    0%, 100% { border-right-color: var(--primary); opacity: 1; }
-    50% { border-right-color: transparent; opacity: 0.3; }
-}
-
-/* ================================
-   BUTTONS
-   ================================ */
-input[type="button"],
-.linkbutton {
-    font-family: var(--font-mono);
-    font-size: 1.1rem;
-    font-weight: 600;
-    padding: 1rem 2.5rem;
-    border: none;
-    border-radius: 12px;
-    background: var(--gradient-primary);
-    color: var(--text-primary);
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    text-decoration: none;
-    display: inline-block;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 4px 16px rgba(0, 217, 255, 0.3);
-}
-
-input[type="button"]::after,
-.linkbutton::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.2);
-    transform: translate(-50%, -50%);
-    transition: width 0.5s, height 0.5s;
-}
-
-input[type="button"]:hover::after,
-.linkbutton:hover::after {
-    width: 300px;
-    height: 300px;
-}
-
-input[type="button"]:hover,
-.linkbutton:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--glow-strong);
-}
-
-input[type="button"]:active,
-.linkbutton:active {
-    transform: translateY(0);
-}
-
-#clearstatsbutton,
-#hidestatsbutton,
-#togglesortbutton {
-    font-size: 0.9rem;
-    padding: 0.6rem 1.5rem;
-    border-radius: 8px;
-    margin: 0.5rem;
-}
-
 #refresh {
-    text-align: center;
-    margin: 2rem 0;
+	/*border: 3px solid black;*/
+	text-align: center;
+	margin-top: 5px;
+	margin-bottom: 100px;
+}
+#refresh > input:focus {
+	background-color: var(--hover-color);
 }
 
-#buttons {
-    text-align: center;
-    margin: 3rem 0;
-    clear: both;
+#typing-input {
+	position: absolute;
+	top: 25em;
+	left: 5px;
+	
+	opacity: 0.000001;
+	
+	
+	border: none;
+	outline: none;
+	padding: 0px;
 }
 
-#buttons .linkbutton {
-    margin: 0.5rem;
+#typing-input:focus ~ #typingarea > #textdisplay > word > letter{
+	color: white;
 }
 
-/* ================================
-   FORM INPUTS
-   ================================ */
-input[type="number"],
-input[type="text"],
-select {
-    font-family: var(--font-mono);
-    font-size: 1rem;
-    padding: 0.7rem 1rem;
-    background: var(--surface);
-    border: 2px solid rgba(0, 217, 255, 0.2);
-    border-radius: 8px;
-    color: var(--text-primary);
-    outline: none;
-    transition: all 0.3s ease;
-    margin: 0.5rem;
+#typing-input:focus ~ #typingarea > #textdisplay > word > letter.correct{
+	color: var(--hover-color);
 }
 
-input[type="number"]:focus,
-input[type="text"]:focus,
+#typing-input:focus ~ #typingarea > #textdisplay > word > letter.error{
+	color: rgb(255, 81, 0);
+}
+
+#typing-input:focus ~ #typingarea > #textdisplay > letter.space-error {
+	border-bottom: 1px solid rgb(255, 81, 0);
+}
+
+#typing-input:focus ~ #typingarea > #textdisplay letter.highlight {
+	background-color: #66edff44;
+}
+
+body {
+	background: var(--background);
+	color: white;
+}
+
+h1 {
+	color: var(--sub-color);
+	text-align: center;
+	font-size: 3em;
+}
+
+#result {
+	width: 100%;
+	height: 20vh;
+	border: 0;
+	padding: 0;
+	outline: none;
+	background-color: var(--background);
+	color: var(--text);
+}
+
+#copy, #shuffle {
+	visibility: hidden;
+}
+
+
+
+.text, input[type="number"], select {
+	margin: 3px;
+	border-radius: 5px;
+	border-color: var(--sub-color);
+	border-width: 3px;
+	width: auto;
+	outline: none;
+}
+
 select:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(0, 217, 255, 0.1);
-}
-
-input[type="number"]:hover,
-input[type="text"]:hover,
-select:hover {
-    border-color: rgba(0, 217, 255, 0.4);
+	outline: none;
 }
 
 #min, #max {
-    max-width: 100px;
+	max-width: 70px;
 }
 
-/* Custom checkbox */
-.container {
-    position: relative;
-    padding-left: 35px;
-    margin-bottom: 15px;
-    font-size: 1.1rem;
-    cursor: pointer;
-    user-select: none;
-    display: inline-block;
+input[type="button"] {
+	border-radius: 20em;
+	font-size: 3em;
+	padding: 10px;
+	color: var(--text);
+	background-color: var(--sub-color);
+	outline: none;
+	border: none;
+	cursor: pointer;
 }
 
-.container input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
-    width: 0;
+#clearstatsbutton, #hidestatsbutton, #togglesortbutton, #min {
+	font-size: 1em;
+	border-radius: 20em;
+	padding: 5px;
+	width: 90px;
+	height: 25px;
 }
 
-.checkmark {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 24px;
-    width: 24px;
-    background: var(--surface);
-    border: 2px solid rgba(0, 217, 255, 0.3);
-    border-radius: 6px;
-    transition: all 0.3s ease;
+#site-list a {
+	background-color: var(--sub-color);
 }
 
-.container:hover .checkmark {
-    border-color: var(--primary);
-    background: var(--surface-elevated);
+input[type="button"]:hover, #site-list a:hover {
+	background-color: var(--hover-color);
 }
 
-.container input:checked ~ .checkmark {
-    background: var(--gradient-primary);
-    border-color: transparent;
-    box-shadow: 0 0 12px rgba(0, 217, 255, 0.4);
+#buttons {
+	text-align: center;
+	clear: both;
 }
 
-.checkmark:after {
-    content: "";
-    position: absolute;
-    display: none;
-    left: 7px;
-    top: 3px;
-    width: 5px;
-    height: 10px;
-    border: solid white;
-    border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
+form {
+	text-align: center;
 }
 
-.container input:checked ~ .checkmark:after {
-    display: block;
+#status {
+	text-align: center;
 }
 
-/* ================================
-   STATS SECTION
-   ================================ */
-#statsOperators,
-#minAmount {
-    text-align: center;
-    margin: 2rem 0;
-}
-
-#statsstatus {
-    text-align: center;
-    font-family: var(--font-display);
-    font-size: 1.8rem;
-    margin: 2rem 0;
-    color: var(--primary);
-}
-
-#analysis-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-    margin: 3rem auto;
-    max-width: 1400px;
-    padding: 0 2rem;
-}
-
-.analysis-item {
-    background: var(--gradient-surface);
-    border: 1px solid rgba(0, 217, 255, 0.1);
-    border-radius: 16px;
-    padding: 2rem;
-    font-family: var(--font-mono);
-    font-size: 1.1rem;
-    white-space: pre;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    animation: fadeInScale 0.6s cubic-bezier(0.4, 0, 0.2, 1) both;
-}
-
-.analysis-item:nth-child(1) { animation-delay: 0.1s; }
-.analysis-item:nth-child(2) { animation-delay: 0.2s; }
-.analysis-item:nth-child(3) { animation-delay: 0.3s; }
-.analysis-item:nth-child(4) { animation-delay: 0.4s; }
-
-@keyframes fadeInScale {
-    from {
-        opacity: 0;
-        transform: scale(0.9);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-.analysis-item:hover {
-    border-color: rgba(0, 217, 255, 0.3);
-    box-shadow: 0 8px 32px rgba(0, 217, 255, 0.15);
-    transform: translateY(-4px);
-}
-
-/* ================================
-   INFO PAGE SPECIFIC
-   ================================ */
-main {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 3rem 2rem;
-}
-
-.mark {
-    color: var(--primary);
-    font-weight: 600;
-}
-
-#link {
-    color: var(--primary);
-    text-decoration: none;
-    border-bottom: 2px solid transparent;
-    transition: all 0.3s ease;
-}
-
-#link:hover {
-    color: var(--primary-bright);
-    border-bottom-color: var(--primary-bright);
-}
-
-/* ================================
-   FILTER PAGE
-   ================================ */
-#container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 2rem;
+#result {
+	text-align: center;
 }
 
 .float {
     float: left;
-    padding: 2rem;
-}
-
-#left, #right {
-    width: 25%;
-    font-size: 0.95rem;
-    line-height: 1.8;
-    display: block;
-}
-
-#form {
-    width: 50%;
-    text-align: center;
-}
-
-form {
-    background: var(--gradient-surface);
-    border: 1px solid rgba(0, 217, 255, 0.1);
-    border-radius: 20px;
-    padding: 3rem;
-    margin: 2rem 0;
-}
-
-form label {
-    display: block;
-    margin: 1.5rem 0 0.5rem;
-    font-family: var(--font-mono);
-    font-weight: 600;
-    color: var(--primary-bright);
-}
-
-#infodiv {
-    text-align: right;
-    margin: 1rem 2rem;
+    overflow-wrap: break-word;
 }
 
 #info {
-    font-family: var(--font-mono);
-    font-size: 0.95rem;
-    padding: 0.7rem 1.5rem;
-    background: var(--gradient-primary);
-    color: var(--text-primary);
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
+	font-size: 1em;
+	border-radius: 20em;
+	padding: 5px;
+	outline: none;
+	border: none;
+	background-color: var(--sub-color);
+	color: var(--text);
+	cursor: pointer;
 }
 
 #info:hover {
-    box-shadow: var(--glow);
-    transform: translateY(-2px);
+	background-color: var(--hover-color)
 }
 
-#status, #result {
-    text-align: center;
-    font-family: var(--font-mono);
-    color: var(--text-secondary);
-    margin: 2rem 0;
-    padding: 2rem;
-    font-size: 1.1rem;
-    line-height: 2;
+#left {
+	width: 33%;
+	text-align:left;
+	display: none;
 }
 
-#result {
-    background: var(--gradient-surface);
-    border: 1px solid rgba(0, 217, 255, 0.1);
-    border-radius: 16px;
-    min-height: 200px;
-    white-space: pre-wrap;
+#right {
+	width: 33%;
+	text-align:left;
+	display: none;
 }
 
-/* ================================
-   TYPING SITES PAGE
-   ================================ */
-.filters-container {
-    text-align: center;
-    margin: 3rem auto;
-    max-width: 1200px;
-    padding: 0 2rem;
+#form {
+	width: 100%;
+	padding-left: 5%;
+	padding-right: 5%;
 }
 
-.filter-group {
-    margin-bottom: 2rem;
+
+#link {
+	color: var(--sub-color);
 }
 
-.filter-group-title {
-    font-family: var(--font-display);
-    color: var(--primary);
-    font-size: 1.5rem;
-    margin-bottom: 1.5rem;
-    font-weight: 700;
+#link:hover {
+	color: var(--hover-color);
 }
 
-.filter-btn {
-    font-family: var(--font-mono);
-    cursor: pointer;
-    padding: 0.8rem 1.8rem;
-    margin: 0.5rem;
-    border-radius: 10px;
-    background: var(--surface);
-    color: var(--text-secondary);
-    border: 2px solid rgba(0, 217, 255, 0.2);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    font-size: 0.95rem;
-    font-weight: 600;
-    display: inline-block;
+
+.mark {
+	color: var(--sub-color);
 }
 
-.filter-btn:hover {
-    background: var(--surface-elevated);
-    border-color: var(--primary);
-    color: var(--primary-bright);
-    transform: translateY(-2px);
+@media screen and (min-width: 900px) {
+	#left {
+		padding-left: 10%;
+		text-align: left;
+	}
+	#right {
+		padding-right: 10%;
+		text-align: left;
+	}
 }
 
-.filter-btn.active {
-    background: var(--gradient-primary);
-    border-color: transparent;
-    color: var(--text-primary);
-    box-shadow: var(--glow);
+@media screen and (max-width: 600px) {
+	.text {
+		width: 70px;
+	}
 }
 
-#results-count {
-    font-family: var(--font-mono);
-    text-align: center;
-    color: var(--primary);
-    margin-bottom: 2rem;
-    font-size: 1.2rem;
-}
-
-#site-list a {
-    background: var(--gradient-surface);
-    border: 1px solid rgba(0, 217, 255, 0.1);
-    border-radius: 16px;
-    padding: 2rem;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    text-decoration: none;
-}
-
-#site-list a:hover {
-    border-color: rgba(0, 217, 255, 0.3);
-    box-shadow: var(--glow);
-    transform: translateY(-4px);
-}
-
-#site-list a h2 {
-    font-family: var(--font-mono);
-    color: var(--text-primary);
-    font-size: 1.3rem;
-    margin: 0;
-    transition: color 0.3s ease;
-}
-
-#site-list a:hover h2 {
-    color: var(--primary-bright);
-}
-
-/* ================================
-   SCROLLBAR
-   ================================ */
-::-webkit-scrollbar {
-    width: 12px;
-}
-
-::-webkit-scrollbar-track {
-    background: var(--background);
-}
-
-::-webkit-scrollbar-thumb {
-    background: var(--primary-dim);
-    border-radius: 6px;
-    border: 2px solid var(--background);
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: var(--primary);
-}
-
-/* ================================
-   UTILITY CLASSES
-   ================================ */
-.noselect {
-    -webkit-touch-callout: none;
+/* Customize the label (the container) */
+.container {
+    position: relative;
+    padding-left: 26px;
+    margin-bottom: 12px;
+    font-size: 22px;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
-    user-select: none;
+	user-select: none;
+  }
+  
+  /* Hide the browser's default checkbox */
+  .container input {
+    position: absolute;
+    opacity: 0;
+    height: 0;
+    width: 0;
+  }
+  
+  /* Create a custom checkbox */
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+	background-color: #F5E6C8;
+	cursor: pointer;
+  }
+  
+  /* On mouse-over, add a grey background color */
+  .container:hover .checkmark {
+    background-color: #f3d496;
+  }
+  
+  /* When the checkbox is checked, add a blue background */
+  .container input:checked ~ .checkmark {
+    background-color: var(--sub-color);
+  }
+
+  .container input:checked ~ .checkmark:hover {
+    background-color: var(--hover-color);
+  }
+  
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  /* Show the checkmark when checked */
+  .container input:checked ~ .checkmark:after {
+    display: block;
+  }
+  
+  /* Style the checkmark/indicator */
+  .container .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid #F5E6C8;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+
+  ::-webkit-scrollbar {
+	  width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+	background: var(--background);
+  }
+  ::-webkit-scrollbar-thumb {
+	background: var(--sub-color);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+	background: var(--hover-color);
+  }
+
+ .linkbutton {
+	background-color: var(--sub-color);
+	color: var(--text);
+	border: none;
+	border-radius: 20em;
+	font-size: 3em;
+	padding: 10px;
+	margin: auto;
+	text-decoration: none;
+	cursor: pointer;
+	display: inline-block;
+	width: 170px;
+  }
+
+ .linkbutton:hover {
+	background-color: var(--hover-color);
 }
 
-/* ================================
-   RESPONSIVE
-   ================================ */
-@media screen and (max-width: 1200px) {
-    #left, #right {
-        display: none;
-    }
-    
-    #form {
-        width: 100%;
-    }
+#analysis-container {
+	position: relative;
+	top: 0px;
 }
 
-@media screen and (max-width: 768px) {
-    nav ul {
-        flex-wrap: wrap;
-    }
-    
-    nav li a {
-        padding: 1rem 1.5rem;
-        font-size: 0.85rem;
-    }
-    
-    #textdisplay {
-        font-size: 1.5rem;
-        padding: 2rem 1rem;
-    }
-    
-    #analysis-container {
-        grid-template-columns: 1fr;
-        padding: 0 1rem;
-    }
-    
-    .modes span, .toggleStats span {
-        padding: 0.7rem 1.5rem;
-        font-size: 1rem;
-    }
-    
-    input[type="button"],
-    .linkbutton {
-        font-size: 1rem;
-        padding: 0.9rem 2rem;
-    }
+#statsstatus {
+	text-align: center;
+	font-size: 2em;
 }
 
-@media screen and (max-width: 480px) {
-    h1 {
-        font-size: 2rem;
-    }
-    
-    #textdisplay {
-        font-size: 1.2rem;
-        line-height: 1.6;
-    }
-    
-    .modes span, .toggleStats span {
-        padding: 0.6rem 1.2rem;
-        font-size: 0.9rem;
-    }
+#analysis-container > * {
+	width: 25%;
+	text-align: center;
+	font-size: 2em;
+	white-space: pre;
+	float: left;
 }
+
+#statsOperators{
+	margin-top: 100px;
+	margin-bottom: 5px;
+	display: block;
+	text-align: center;
+}
+
+#minAmount {
+	display: block;
+	text-align: center;
+}
+
+#infodiv {
+	text-align: right;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+#main {
+	margin-top: 0px;
+}
+
+#modes, #toggleStats {
+	text-align: center;
+	margin: 50px 0;
+}
+
+.modes > *, .toggleStats > * {
+	cursor: pointer;
+	font-size: 2em;
+}
+
+.modes > *:hover, .toggleStats > *:hover {
+	color: var(--hover-color);
+}
+
+.noselect {
+	-webkit-touch-callout: none; /* iOS Safari */
+	  -webkit-user-select: none; /* Safari */
+	   -khtml-user-select: none; /* Konqueror HTML */
+		 -moz-user-select: none; /* Old versions of Firefox */
+		  -ms-user-select: none; /* Internet Explorer/Edge */
+			  user-select: none; /* Non-prefixed version, currently
+									supported by Chrome, Edge, Opera and Firefox */
+}
+
+#caret {
+	animation-name: caretFlash;
+	animation-iteration-count: infinite;
+	animation-duration: 1.06s;
+	animation-delay: 0.53s;
+}
+
+#rightcaret {
+	animation-name: rightCaretFlash;
+	animation-iteration-count: infinite;
+	animation-duration: 1.06s;
+	animation-delay: 0.53s;
+}
+
+@keyframes caretFlash {
+	0% {border-left-color: var(--caret-color)}
+	50% {border-left-color: var(--background)}
+	100% {border-left-color: var(--caret-color)}
+}
+
+@keyframes rightCaretFlash {
+	0% {border-right-color: var(--caret-color)}
+	50% {border-right-color: var(--background)}
+	100% {border-right-color: var(--caret-color)}
+}
+
+#typing-container {
+	margin-bottom: 50px;
+}
+
