@@ -103,84 +103,134 @@
   </div>
   
   <script>
-  let allSites = [];
-  let activeFilters = new Set();
+let allSites = [];
+let activeFilters = new Set();
+
+async function loadSites() {
+  const response = await fetch('sites.txt');
+  const text = await response.text();
+  const lines = text.split('\n').filter(line => line.trim() !== '');
   
-  async function loadSites() {
-    const response = await fetch('sites.txt');
-    const text = await response.text();
-    const lines = text.split('\n').filter(line => line.trim() !== '');
-    
-    allSites = lines.map(line => {
-      const parts = line.split('\t');
-      return {
-        name: parts[0],
-        url: parts[1],
-        learning: parts[2] === 'x',
-        bookTyping: parts[3] === 'x',
-        codeTyping: parts[4] === 'x',
-        lyricsTyping: parts[5] === 'x',
-        liveMultiplayer: parts[6] === 'x',
-        leaderboards: parts[7] === 'x'
-      };
-    });
-    
-    renderSites();
-  }
+  allSites = lines.map(line => {
+    const parts = line.split('\t');
+    return {
+      name: parts[0],
+      url: parts[1],
+      learning: parts[2] === 'x',
+      bookTyping: parts[3] === 'x',
+      codeTyping: parts[4] === 'x',
+      lyricsTyping: parts[5] === 'x',
+      liveMultiplayer: parts[6] === 'x',
+      leaderboards: parts[7] === 'x'
+    };
+  });
   
-  function renderSites() {
-    const container = document.getElementById("site-list");
-    const resultsCount = document.getElementById("results-count");
-    container.innerHTML = '';
-    
-    const filteredSites = allSites.filter(site => {
-      if (activeFilters.size === 0) return true;
-      
-      return Array.from(activeFilters).every(filter => {
-        switch(filter) {
-          case 'learning': return site.learning;
-          case 'book-typing': return site.bookTyping;
-          case 'code-typing': return site.codeTyping;
-          case 'lyrics-typing': return site.lyricsTyping;
-          case 'live-multiplayer': return site.liveMultiplayer;
-          case 'leaderboards': return site.leaderboards;
-          default: return true;
-        }
-      });
-    });
-    
-    resultsCount.textContent = `Showing ${filteredSites.length} of ${allSites.length} sites`;
-    
-    filteredSites.forEach(site => {
-      container.innerHTML += `
-        <a href="${site.url}" target="_blank" rel="noopener noreferrer"
-           class="block rounded-xl p-6 transition-all text-center group">
-          <h2 class="text-xl font-semibold text-white transition-colors">
-            ${site.name}
-          </h2>
-        </a>
-      `;
-    });
-  }
+  updateFilterButtons();
+  renderSites();
+}
+
+function checkFilterWouldHaveResults(filterToTest) {
+  const testFilters = new Set(activeFilters);
+  testFilters.add(filterToTest);
   
-  // Setup filter buttons
-  document.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-      const filter = this.getAttribute('data-filter');
-      
-      if (activeFilters.has(filter)) {
-        activeFilters.delete(filter);
-        this.classList.remove('active');
-      } else {
-        activeFilters.add(filter);
-        this.classList.add('active');
+  return allSites.some(site => {
+    return Array.from(testFilters).every(filter => {
+      switch(filter) {
+        case 'learning': return site.learning;
+        case 'book-typing': return site.bookTyping;
+        case 'code-typing': return site.codeTyping;
+        case 'lyrics-typing': return site.lyricsTyping;
+        case 'live-multiplayer': return site.liveMultiplayer;
+        case 'leaderboards': return site.leaderboards;
+        default: return true;
       }
+    });
+  });
+}
+
+function updateFilterButtons() {
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    const filter = btn.getAttribute('data-filter');
+    
+    // If this filter is already active, always keep it enabled
+    if (activeFilters.has(filter)) {
+      btn.disabled = false;
+      btn.style.opacity = '1';
+      btn.style.cursor = 'pointer';
+    } else {
+      // Check if adding this filter would result in 0 sites
+      const wouldHaveResults = checkFilterWouldHaveResults(filter);
       
-      renderSites();
+      if (wouldHaveResults) {
+        btn.disabled = false;
+        btn.style.opacity = '1';
+        btn.style.cursor = 'pointer';
+      } else {
+        btn.disabled = true;
+        btn.style.opacity = '0.3';
+        btn.style.cursor = 'not-allowed';
+      }
+    }
+  });
+}
+
+function renderSites() {
+  const container = document.getElementById("site-list");
+  const resultsCount = document.getElementById("results-count");
+  container.innerHTML = '';
+  
+  const filteredSites = allSites.filter(site => {
+    if (activeFilters.size === 0) return true;
+    
+    return Array.from(activeFilters).every(filter => {
+      switch(filter) {
+        case 'learning': return site.learning;
+        case 'book-typing': return site.bookTyping;
+        case 'code-typing': return site.codeTyping;
+        case 'lyrics-typing': return site.lyricsTyping;
+        case 'live-multiplayer': return site.liveMultiplayer;
+        case 'leaderboards': return site.leaderboards;
+        default: return true;
+      }
     });
   });
   
-  loadSites();
+  resultsCount.textContent = `Showing ${filteredSites.length} of ${allSites.length} sites`;
+  
+  filteredSites.forEach(site => {
+    container.innerHTML += `
+      <a href="${site.url}" target="_blank" rel="noopener noreferrer"
+         class="block rounded-xl p-6 transition-all text-center group">
+        <h2 class="text-xl font-semibold text-white transition-colors">
+          ${site.name}
+        </h2>
+      </a>
+    `;
+  });
+  
+  updateFilterButtons();
+}
+
+// Setup filter buttons
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    if (this.disabled) return;
+    
+    const filter = this.getAttribute('data-filter');
+    
+    if (activeFilters.has(filter)) {
+      activeFilters.delete(filter);
+      this.classList.remove('active');
+    } else {
+      activeFilters.add(filter);
+      this.classList.add('active');
+    }
+    
+    renderSites();
+  });
+});
+
+loadSites();
 </script>
  </body>
 </html>
