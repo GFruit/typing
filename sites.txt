@@ -17,7 +17,7 @@ Battle-typer	https://www.crazygames.com/game/battle-typer	o	o	o	o	o	o
 bayanbennett-faster-phalanges	https://www.bayanbennett.com/projects/faster-phalanges/	o	o	o	o	o	o
 bayanbennett-rnn-typing-practice	https://www.bayanbennett.com/projects/rnn-typing-practice/	o	o	o	o	o	o
 Bigbrownbear	https://www.bigbrownbear.co.uk/	o	o	o	o	o	o
-Blindtyping	https://blindtyping.com/	o	o	o	o	o	o
+Blindtyping	https://blindtyping.com/	x	o	o	o	o	o
 Blind-Typing-Tutor	https://blind-typing-tutor.wordmemo.net/en	o	o	o	o	o	o
 Boosttyping	https://boosttyping.com/	o	o	o	o	o	o
 Burst-Type-Pro	https://www.burst-type.pro/	o	o	o	o	o	o
