@@ -33,7 +33,6 @@ Cybertype	https://cybertype.io/	o	o	o	o	o	o
 Dailytype	https://dailytype.net/	o	o	o	o	o	o
 Dataentrytester	https://www.dataentrytester.com/	o	o	o	o	o	o
 Devtype	https://devtype.pankajk.tech/	o	o	x	o	o	o
-Ditchqwerty	https://www.ditchqwerty.com/	o	o	o	o	o	o
 Ducktype	https://ducktype.xyz/	o	o	o	o	o	o
 Dvorak.gruevy	http://dvorak.gruevy.com/	o	o	o	o	o	o
 Easytype	https://www.easytype.org/	o	o	o	o	o	o
@@ -67,10 +66,10 @@ Karaoketype	https://memetrolls.net/KaraokeType/	o	o	o	x	o	o
 Keebacy	https://madnight.github.io/keebacy/	o	o	o	o	o	o
 Keybara	https://keybara.io/	o	o	o	o	o	o
 Keyboard-racing	https://keyboard-racing.com/	o	o	o	o	o	o
-Keybr	https://www.keybr.com/	x	o	o	o	o	o
-Keyfight	https://keyfight.net/	o	o	o	o	o	o
+Keybr	https://www.keybr.com/	x	x	x	o	x	x
+Keyfight	https://keyfight.net/	o	o	o	o	x	o
 Keyhero	https://www.keyhero.com/	o	o	o	o	o	o
-Keymash	http://keymash.io/	o	o	o	o	x	o
+Keymash	http://keymash.io/	o	o	o	o	x	x
 Keystreaks	https://keystreaks.com/	o	o	o	o	o	o
 Keystroke Nitinjaswal	https://keystroke.nitinjaswal.me/type	o	o	o	o	o	o
 Keyzen-colemak	https://first20hours.github.io/keyzen-colemak/	o	o	o	o	o	o
