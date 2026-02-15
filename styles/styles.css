@@ -203,14 +203,11 @@ input[type="button"] {
 #site-list a {
 	background-color: var(--sub-color);
 }
-/*
-input[type="button"]:hover, #site-list a:hover {
-	background-color: var(--hover-color);
-}*/
 
 @media (hover: hover) and (pointer: fine) {
 	input[type="button"]:hover, #site-list a:hover {
-		background-color: var(--hover-color);
+		/*background-color: var(--hover-color);*/
+		background-color: red;
 	}
 }
 
