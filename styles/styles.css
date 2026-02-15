@@ -206,8 +206,7 @@ input[type="button"] {
 
 @media (hover: hover) and (pointer: fine) {
 	input[type="button"]:hover, #site-list a:hover {
-		/*background-color: var(--hover-color);*/
-		background-color: red;
+		background-color: var(--hover-color);
 	}
 }
 
