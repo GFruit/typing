@@ -1,7 +1,7 @@
 10fastfingers	https://10fastfingers.com/	o	o	o	o	x	x
 Abcya	https://www.abcya.com/games/category/typing	o	o	o	o	o	o
 Adazing	https://adazing.com/typing-speed-test/	o	o	o	o	o	o
-Advancedtypingtrainer	https://www.advancedtypingtrainer.com/	o	o	o	o	o	o
+Advancedtypingtrainer	https://www.advancedtypingtrainer.com/	x	o	o	o	o	o
 Agilefingers	https://agilefingers.com/	o	o	o	o	o	o
 Aitypingtutor	https://aitypingtutor.examyst.in/	o	o	o	o	o	o
 Alfatyping	https://www.alfatyping.com/	o	o	o	o	o	o
@@ -136,7 +136,7 @@ Sense-lang	https://sense-lang.org/	o	o	o	o	o	o
 Slimekids	https://www.slimekids.com/games/typing-games/	o	o	o	o	o	o
 Space-typer	https://azjgard.github.io/space-typer/	o	o	o	o	o	o
 Speedcoder	http://www.speedcoder.net/	o	o	x	o	o	o
-Speedtyper	https://speedtyper.dev/	o	o	x	o	o	o
+Speedtyper	https://speedtyper.dev/	o	o	x	o	x	x
 Speedtypeai	https://www.speedtype.ai/	o	o	o	o	o	o
 Speedtypingonline	https://www.speedtypingonline.com/home	o	o	o	o	o	o
 Starrune	https://www.starrune.net/	o	o	o	o	o	o
@@ -174,6 +174,7 @@ Typecraft	https://typecraft.replit.app/	o	o	o	o	o	o
 Typedojo	https://www.typedojo.com/	x	o	o	o	o	o
 Type-Dojo	https://typo-dojo.com/	o	o	o	o	o	o
 Typeduel	https://www.typeduel.fun/	o	o	o	o	o	o
+Typeduel	https://typeduel.io/	o	o	o	o	o	o
 Type-fu	https://type-fu.com/	o	o	o	o	o	o
 Typefast	https://typefast.io/	o	o	o	o	o	o
 Typefast.app	https://typefast.app/	o	o	o	o	o	o
@@ -255,7 +256,7 @@ Typingmania	https://v2.typingmania.net/	o	o	o	o	o	o
 Typingmaniac	https://wi-typingmaniac.netlify.app/	o	o	o	o	o	o
 Typingmaster	https://www.typingmaster.com/	o	o	o	o	o	o
 Typing-master	https://typing-master-one-tau.vercel.app/	o	o	o	o	o	o
-Typingmatch	https://typingmatch.com/	o	o	o	o	o	o
+Typingmatch	https://typingmatch.com/	o	o	o	o	x	o
 Typingme	http://www.typingme.com/touch-typing/typing-tutor.php	o	o	o	o	o	o
 Typingmentor	https://typingmentor.com/typing-test/	o	o	o	o	o	o
 Typingmonkey	https://www.typingmonkey.in/	o	o	o	o	o	o
@@ -275,7 +276,7 @@ Typingschool	https://typing-school.vercel.app/	o	o	o	o	o	o
 Typingstudy	https://www.typingstudy.com/	o	o	o	o	o	o
 Typingtest	https://www.typingtest.com/	o	o	o	o	o	o
 Typingtestfast	https://www.typingtestfast.com/	o	o	o	o	o	o
-Typingtestgo	https://typingtestgo.com/	o	o	o	o	o	o
+Typingtestgo	https://typingtestgo.com/	o	o	o	o	o	x
 Typingtestnow	https://typingtestnow.com/	o	o	o	o	o	o
 Typingtestonline	http://typingtestonline.org/	o	o	o	o	o	o
 Typingtestrounak	https://typing-test-rounak.netlify.app/	o	o	o	o	o	o
